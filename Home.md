@@ -1,1 +1,5 @@
 [ideas](https://github.com/HardenedBSD/hardenedBSD/wiki/idea---todo)
+[paxctl](https://github.com/HardenedBSD/hardenedBSD/wiki/paxctl-memo)
+[paxlog](https://github.com/HardenedBSD/hardenedBSD/wiki/paxlog)
+[segvguard](https://github.com/HardenedBSD/hardenedBSD/wiki/segvguard2-ideas---brainstorm)
+[settings](https://github.com/HardenedBSD/hardenedBSD/wiki/settings)
