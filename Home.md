@@ -1,1 +1,1 @@
-Welcome to the HardenedBSD wiki!
+[ideas](https://github.com/HardenedBSD/hardenedBSD/wiki/idea---todo)
