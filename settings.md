@@ -1,14 +1,13 @@
 # HardenedBSD settings
 
 ## build settings
-### build settings:
-PAX_ASLR
-
-PAX_ASLR_MAX_SEC
-
-PAX_MPROTECT
-
-PAX_SEGVGUARD
+### Kernel options:
+    PAX
+    PAX_ASLR
+    PAX_ASLR_MAX_SEC
+    PAX_NOEXEC
+    PAX_SEGVGUARD
+    PAX_SYSCTLS
 
 ## kernel settings
 ### tunables:
