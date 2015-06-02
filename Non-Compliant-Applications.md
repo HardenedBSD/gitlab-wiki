@@ -34,3 +34,73 @@ The following applications need special handling with respect to exploit mitigat
             pageexec: false,
         ]
     }
+
+## Java
+### Incompatibilities
+* PAGEEXEC
+* MPROTECT
+
+### secadm rules
+		{
+			"path": "/usr/local/openjdk7/bin/appletviewer",
+			"features": {
+				"mprotect": false,
+                "pageexec": false,
+			},
+		},
+		{
+			"path": "/usr/local/openjdk7/bin/java",
+			"features": {
+				"mprotect": false,
+                "pageexec": false,
+			},
+		},
+		{
+			"path": "/usr/local/openjdk7/bin/javac",
+			"features": {
+				"mprotect": false,
+                "pageexec": false,
+			},
+		},
+		{
+			"path": "/usr/local/openjdk8/bin/java",
+			"features": {
+				"mprotect": false,
+                "pageexec": false,
+			},
+		},
+		{
+			"path": "/usr/local/openjdk8/bin/javac",
+			"features": {
+				"mprotect": false,
+                "pageexec": false,
+			},
+		},
+		{
+			"path": "/usr/local/openjdk8/jre/bin/java",
+			"features": {
+				"mprotect": false,
+                "pageexec": false,
+			},
+		},
+		{
+			"path": "/usr/local/openjdk7/jre/bin/java",
+			"features": {
+				"mprotect": false,
+                "pageexec": false,
+			},
+		},
+		{
+			"path": "/usr/local/bin/mongo"
+			"features": {
+				"mprotect": false,
+                "pageexec": false,
+			},
+		},
+		{
+			"path": "/usr/local/bin/mongod"
+			"features": {
+				"mprotect": false,
+                "pageexec": false,
+			},
+		},
