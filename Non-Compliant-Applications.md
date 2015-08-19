@@ -7,6 +7,18 @@ The following applications need special handling with respect to exploit mitigat
         ]
     }
 
+## graphics/xpdf
+### Incompatibilities
+* SHLIBRANDOM
+
+### secadm rule
+    {
+        path: "/usr/local/bin/xpdf",
+        features: [
+            shlibrandom: false,
+        ]
+    }
+
 ## www/chromium
 ### Incompatibilities
 * PAGEEXEC
@@ -21,10 +33,24 @@ The following applications need special handling with respect to exploit mitigat
         ]
     }
 
+## www/firefox
+### Incompatibilities
+* PAGEEXEC
+* MPROTECT
+
+### secadm rule
+    {
+        path: "/usr/local/lib/firefox/firefox",
+        features: [
+            mprotect: false,
+            pageexec: false,
+        ]
+    }
+
 ## www/kdepim
 ### Incompatibilities
-* /usr/local/bin/kmail: PAGEEXEC
-* /usr/local/bin/kmail: MPROTECT
+* PAGEEXEC
+* MPROTECT
 
 ### secadm rule
     {
@@ -32,6 +58,19 @@ The following applications need special handling with respect to exploit mitigat
         features: [
             mprotect: false,
             pageexec: false,
+        ]
+    }
+
+
+## www/privoxy
+### Incompatibilities
+* SHLIBRANDOM
+
+### secadm rule
+    {
+        path: "/usr/local/sbin/privoxy",
+        features: [
+            shlibrandom: false,
         ]
     }
 
