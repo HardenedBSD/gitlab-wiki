@@ -14,9 +14,9 @@ The following applications need special handling with respect to exploit mitigat
 ### secadm rule
     {
         path: "/usr/local/bin/xpdf",
-        features: [
+        features: {
             shlibrandom: false,
-        ]
+        }
     }
 
 ## www/chromium
@@ -27,10 +27,10 @@ The following applications need special handling with respect to exploit mitigat
 ### secadm rule
     {
         path: "/usr/local/share/chromium/chrome",
-        features: [
+        features: {
             mprotect: false,
             pageexec: false,
-        ]
+        }
     }
 
 ## www/firefox
@@ -41,10 +41,10 @@ The following applications need special handling with respect to exploit mitigat
 ### secadm rule
     {
         path: "/usr/local/lib/firefox/firefox",
-        features: [
+        features: {
             mprotect: false,
             pageexec: false,
-        ]
+        }
     }
 
 ## www/kdepim
@@ -55,10 +55,10 @@ The following applications need special handling with respect to exploit mitigat
 ### secadm rule
     {
         path: "/usr/local/bin/kmail",
-        features: [
+        features: {
             mprotect: false,
             pageexec: false,
-        ]
+        }
     }
 
 
@@ -69,9 +69,9 @@ The following applications need special handling with respect to exploit mitigat
 ### secadm rule
     {
         path: "/usr/local/sbin/privoxy",
-        features: [
+        features: {
             shlibrandom: false,
-        ]
+        }
     }
 
 ## Java
