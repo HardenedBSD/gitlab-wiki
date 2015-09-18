@@ -7,3 +7,5 @@ Current branches:
   * Tracking FreeBSD HEAD. HardenedBSD code deemed fit for general testing.
 * hardened/10-stable/master
   * Tracking FreeBSD stable/10. HardenedBSD code backported to 10-STABLE.
+* hardened/10.2-releng/master
+  * Tracking FreeBSD releng/10.2. HardenedBSD code backported to 10.2-RELEASE. Sometimes lags after the hardened/10-stable/master branch.
