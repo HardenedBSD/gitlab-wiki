@@ -1,6 +1,6 @@
 ## Note
 
-This document is under active development. The topics and ideas presented here may change drastically without notice.
+This document is under active development. The topics and ideas presented here may change drastically without notice. The work on this binary update mechanism for HardenedBSD will be superseded and replaced by pkg base, whenever FreeBSD finishes that.
 
 ## Goals:
 
