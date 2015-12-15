@@ -38,3 +38,5 @@ In order to support third-party signatures along with certificate chaining, Hard
 By default, the trusted root store will be `/usr/share/keys/hbsd-update`. OpenSSL will be instructed to load the trusted root certificate and validate public keys based on the loaded root certificates.
 
 Upon downloading the update tarball, the tarball will be unpacked and the public cert extracted. Any file that ends in .sig will be validated with that public cert that matches against a certificate in the trusted root certificate store. If the public cert does not validate or if the signature doesn't validate, an error will be thrown and the user will be forced to diagnose.
+
+Distributing the public cert used for signing the artifacts along with the artifacts allows a distributor to immediately and efficiently update key material in case of private key compromise or expiration. Compromise or expiration of the trusted root certificate is a much more serious issue that should be resolved by human intervention.
