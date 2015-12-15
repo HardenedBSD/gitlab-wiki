@@ -40,3 +40,15 @@ By default, the trusted root store will be `/usr/share/keys/hbsd-update`. OpenSS
 Upon downloading the update tarball, the tarball will be unpacked and the public cert extracted. Any file that ends in .sig will be validated with that public cert that matches against a certificate in the trusted root certificate store. If the public cert does not validate or if the signature doesn't validate, an error will be thrown and the user will be forced to diagnose.
 
 Distributing the public cert used for signing the artifacts along with the artifacts allows a distributor to immediately and efficiently update key material in case of private key compromise or expiration. Compromise or expiration of the trusted root certificate is a much more serious issue that should be resolved by human intervention.
+
+### Goal 3 - Scalability
+
+This goal is relatively easy to achieve. Given that only a single tarball is produced, the tarball can be distributed across many nodes.
+
+DNS TXT records will be used to distribute version information. The TXT record will be pipe-delimited. Different TXT records will exist for -CURRENT, 10-STABLE, etc. Example TXT record names: amd64.current.updater.hardenedbsd.org, amd64.10stable.updater.hardenedbsd.org.
+
+Current TXT record fields:
+
+1. Timestamp
+1. Build version number
+1. Git object hash
