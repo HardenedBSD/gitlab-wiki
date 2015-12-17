@@ -70,7 +70,7 @@ Current TXT record fields:
 
 #### Option 2 - HTTP RESTful API
 
-The RESTful API would need to return the same information as the DNS TXT record, preferably in a machine-parseable format. This would cause a burden on mirrors and third-party update providers as they would need to support the same API. It could also cause bandwidth issues if clients check multiple times per day.
+The RESTful API would need to return the same information as the DNS TXT record, preferably in a machine-parseable format. This would cause a burden on mirrors and third-party update providers as they would need to support the same API. It could also cause bandwidth issues if clients check multiple times per day. However, it potentially solves the DoS issues in the DNS option if SSL is used.
 
 ### Goal 4 - Easy Maintenance
 
