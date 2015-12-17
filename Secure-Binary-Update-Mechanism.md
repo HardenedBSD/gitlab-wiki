@@ -54,15 +54,23 @@ Validation steps:
 
 ### Goal 3 - Scalability
 
-This goal is relatively easy to achieve. Given that only a single tarball is produced, the tarball can be distributed across many nodes.
+This goal is relatively easy to achieve. Given that only a single tarball is produced, the tarball can be distributed across many nodes. To distribute version information to users regarding updates, several options will be investigated: propigation through DNS TXT records, HTTP RESTful API. As of 17 Dec 2015 08:43 EST, a decision has not been made as to which option will be used.
 
-DNS TXT records will be used to distribute version information. The TXT record will be pipe-delimited. Different TXT records will exist for -CURRENT, 10-STABLE, etc. Example TXT record names: amd64.current.updater.hardenedbsd.org, amd64.10stable.updater.hardenedbsd.org.
+#### Option 1 - DNS
+
+DNS TXT records will be used to distribute version information. This allows for bandwidth relief by using existing massively-distributed systems. It also allows us to somewhat stagger updates due to DNS record caching. The drawback to this could be an attacker having control over DNS records preventing a user from applying updates. However, if an attacker can control a client's DNS results, the client has much bigger problems to solve.
+
+The TXT record will be pipe-delimited. Different TXT records will exist for -CURRENT, 10-STABLE, etc. Example TXT record names: amd64.current.updater.hardenedbsd.org, amd64.10stable.updater.hardenedbsd.org.
 
 Current TXT record fields:
 
 1. Timestamp
 1. Build version number
 1. Git object hash
+
+#### Option 2 - HTTP RESTful API
+
+The RESTful API would need to return the same information as the DNS TXT record, preferably in a machine-parseable format. This would cause a burden on mirrors and third-party update providers as they would need to support the same API. It could also cause bandwidth issues if clients check multiple times per day.
 
 ### Goal 4 - Easy Maintenance
 
