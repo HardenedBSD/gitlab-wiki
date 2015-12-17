@@ -24,8 +24,8 @@ Example tarball contents (in no particular order):
 * UPDATING-HardenedBSD.txt
 * base.txz.sig (Cryptographic signature for base.txz) (to be discussed later)
 * kernel-HARDENEDBSD.txz.sig (cryptographic signature for kernel-HARDENEDBSD.txz) (to be discussed later)
-* obsolete.txt.sig (Cryptographic signature for base.txz) (to be discussed later)
-* skip.txt.sig (Cryptographic signature for base.txz) (to be discussed later)
+* obsolete.txt.sig (Cryptographic signature for obsolete.txt) (to be discussed later)
+* skip.txt.sig (Cryptographic signature for skip.txt) (to be discussed later)
 * pubkey.asc (X.509 public key used to sign the artifacts) (to be discussed later)
 
 ### Goal 2 - Cryptographically sign binary updates
