@@ -42,6 +42,14 @@ Upon downloading the update tarball, the tarball will be unpacked and the public
 
 Distributing the public cert used for signing the artifacts along with the artifacts allows a distributor to immediately and efficiently update key material in case of private key compromise or expiration. Compromise or expiration of the trusted root certificate is a much more serious issue that should be resolved by human intervention.
 
+Validation steps:
+
+1. Extract main tarball
+1. Validate public cert against trusted root store
+ 1. If public cert does not belong to any root cert in the trust store, gracefully fail with an error message
+1. Validate each file that has a corresponding .sig file
+ 1. If signature doesn't match, gracefully fail with an error message
+
 ### Goal 3 - Scalability
 
 This goal is relatively easy to achieve. Given that only a single tarball is produced, the tarball can be distributed across many nodes.
