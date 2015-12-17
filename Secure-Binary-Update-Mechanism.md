@@ -28,6 +28,8 @@ Example tarball contents (in no particular order):
 * skip.txt.sig (Cryptographic signature for skip.txt) (to be discussed later)
 * pubkey.asc (X.509 public key used to sign the artifacts) (to be discussed later)
 
+Adding the kernel name to the kernel tarball also allows us to support multiple kernels in a given update package. A user can therefore choose which kernel to be installed.
+
 ### Goal 2 - Cryptographically sign binary updates
 
 In order to provide assurance of data integrity and authenticity, all artifacts that alter the filesystem need to be signed. The digital signatures will be detached from the files they pertain to. As OpenSSL is included in base, rely on that to perform the signature procedures.
