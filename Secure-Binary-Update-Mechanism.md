@@ -52,3 +52,7 @@ Current TXT record fields:
 1. Timestamp
 1. Build version number
 1. Git object hash
+
+### Goal 4 - Easy Maintenance
+
+There will be one script for building the update tarball along with its artifacts. It will only rely on /bin/sh, OpenSSL, and git. Everything will be automated with the exception of DNS updates. However, the tarball build script will provide output on stdout that will lend itself to DNS automation.
