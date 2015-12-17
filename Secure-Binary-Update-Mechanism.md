@@ -9,6 +9,7 @@ This document is under active development. The topics and ideas presented here m
 1. Support mirrors and a massively scalable design
 1. Easy maintenance
 1. Supports jails
+1. Support ZFS BEs
 
 ### Goal 1 - Provide binary updates for base and kernel
 
@@ -56,3 +57,11 @@ Current TXT record fields:
 ### Goal 4 - Easy Maintenance
 
 There will be one script for building the update tarball along with its artifacts. It will only rely on /bin/sh, OpenSSL, and git. Everything will be automated with the exception of DNS updates. However, the tarball build script will provide output on stdout that will lend itself to DNS automation.
+
+### Goal 5 - Jail support
+
+Follow the example of pkg(7) and support updating jails from the host.
+
+### Goal 6 - ZFS Boot Environment support
+
+Optionally install updates into a newly-created Boot Environment (BE). This feature will require the beadm tool, available in our package repo. Since this requires a third-party tool, make this feature optional via a command-line flag.
