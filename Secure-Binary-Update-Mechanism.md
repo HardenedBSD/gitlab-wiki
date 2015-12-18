@@ -13,7 +13,7 @@ This document is under active development. The topics and ideas presented here m
 
 ### Goal 1 - Provide binary updates for base and kernel
 
-This can be achieved with base.txz and kernel.txz. We would combine both of these tarballs into a new tarball that contains metadata about files to skip (like `/etc/master.passwd`), obsoleted files, etc.
+This can be achieved with base.txz and kernel.txz. We would combine both of these tarballs into a new tarball that contains metadata about files to skip (like `/etc/master.passwd`), obsoleted files, etc. Building the update archive will require `git`.
 
 Example tarball contents (in no particular order):
 * base.txz
