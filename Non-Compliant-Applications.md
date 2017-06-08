@@ -1,4 +1,4 @@
-The following applications need special handling with respect to exploit mitigation features in HardenedBSD.
+The following applications need special handling with respect to exploit mitigation features in HardenedBSD. Sample rules these applications, and more, can be found  [here](https://github.com/HardenedBSD/secadm-rules).
 
 | Port | Path | Incompatibility |
 | ---- | ---- | --------------- |
