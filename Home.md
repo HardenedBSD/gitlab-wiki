@@ -13,5 +13,4 @@ Welcome to HardenedBSD's wiki! We're actively working on this as a place for ini
 
 [stable to current](https://github.com/HardenedBSD/hardenedBSD/wiki/Stable-To-Current)
 
-[installation]
-(https://github.com/HardenedBSD/hardenedBSD/wiki/installation.md)
+[installation](https://github.com/HardenedBSD/hardenedBSD/wiki/installation)
