@@ -17,7 +17,7 @@ cd ${HOME}
 and then run 
 
 ```shell
-fetch https://raw.githubusercontent.com/HardenedBSD/hardenedBSD/hardened/current/master/etc/hbsd-update.conf
+fetch https://raw.githubusercontent.com/HardenedBSD/hardenedBSD/hardened/current/master/usr.sbin/hbsd-update/hbsd-update.conf
 ```
 
 This will pull down the hardened bsd update configuration file that we will use while leaving the config file in /etc untouched. 
