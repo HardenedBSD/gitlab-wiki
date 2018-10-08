@@ -299,3 +299,31 @@ form of W^X. Some applications may have issues with PAGEEXEC,
 MPROTECT, or both. When issues arise, secadm or hbsdcontrol can be
 used to disable PAGEEXEC, MPROTECT, or both for just that one
 application.
+
+## SafeStack
+
+SafeStack is an epxloit mitigation that creates two stacks: one for
+data that needs to be kep safe, such as return addresses and function
+pointers; and an unsafe stack for everything else. SafeStack promises
+a low performance penalty (typically around 0.1%).
+
+SafeStack requires both ASLR and W^X in order to be effective. With
+HardenedBSD satisfying both of those prerequsites, SafeStack was
+deemed to be an excellent candidate for default inclusion in
+HardenedBSD. Starting with HardenedBSD 11-STABLE, it is enabled by
+default for amd64. SafeStack can be disabled by setting
+`WITHOUT_SAFESTACK` in `src.conf(5)`.
+
+As of 08 Oct 2018, SafeStack only supports being applied to
+applications and not shared libraries. Multiple patches have been
+submitted to clang by third parties to add the missing shared library
+support. As such, SafeStack is still undergoing active development.
+
+SafeStack has been made available in the HardenedBSD ports tree as
+well. Unlike PIE and RELRO and BIND_NOW, it is not enabled globally
+for the ports tree. Some ports known to work well with SafeStack have
+it enabled by default. Users are able to toggle SafeStack by using the
+`config` make target. Additionally, the SafeStack option is only
+applicable to the amd64 architecture. Attempting to enable SafeStack
+for a non-amd64 port build will result in a NO-OP. SafeStack simply
+will not be applied.
