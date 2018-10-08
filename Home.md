@@ -119,4 +119,114 @@ when `PAX_HARDENING` is enabled in the kernel:
 | security.bsd.unprivileged_proc_debug  | Unprivileged processes may use process debugging and tracing facilities        | Integer | 1              | 0                                       |
 | security.bsd.unprivileged_read_msgbuf | Unprivileged processes may read the kernel message buffer                      | Integer | 1              | 0                                       |
 
+## Address Space Layout Randomization
 
+ASLR randomizes the layout of the virtual address space of a process
+through using randomized deltas. ASLR prevents attackers from knowing
+where vulnerabilities lie in memory. Without ASLR, attackers can
+easily craft and reuse exploits across all deployed systems. As is the
+case with all exploit mitigation technologies, ASLR is meant to help
+frustrate attackers, though ASLR alone is not sufficient to completely
+stop attacks. ASLR simply provides a solid foundation in which to
+implement further exploit mitigation technologies. A holistic approach
+to security (aka, defense-in-depth) is the best way to secure a
+system. Additionally, ASLR is intended and designed to help prevent
+successful remote attacks, not local.
+
+HardenedBSD's ASLR implementation is based off of PaX's design and
+documentation. PaX's documentation can be found
+[here](https://github.com/HardenedBSD/pax-docs-mirror/blob/master/aslr.txt).
+
+On 13 July 2015, HardenedBSD's ASLR implementation was completed with
+full stack and VDSO randomization. Since then, various improvements
+have been made, like implementation shared library load order
+randomization. HardenedBSD is the only BSD to support true stack
+randomization. Meaning, the top of the stack is randomized in addition
+to a random-sized gap between the top of the stack and the start of
+the user stack.
+
+ASLR is enabled by default in the `HARDENEDBSD` kernel configuration.
+ASLR has been tested and is known to work on amd64, i386, arm, arm64,
+and risc-v. The options for ASLR are:
+
+```
+options PAX
+options PAX_ASLR
+```
+
+If the kernel has been compiled with `options PAX_SYSCTLS`, then the
+sysctl node `hardening.pax.aslr.status` will be available. The
+following values will determin the enforcement of ASLR:
+
+1. 0 - Force disabled
+1. 1 - Disabled by default. User must opt applications in.
+1. 2 - Enabled by default. User must opt applications out (default.)
+1. 3 - Force enabled
+
+### Implementation
+
+HardenedBSD's ASLR uses a set of four deltas on 32-bit systems and
+five deltas on 64-bit systems. Additionally, on 64-bit systems, 32-bit
+compatibility is supported by a set of different deltas. The deltas
+are calculated at image activation (execve) time. The deltas are
+provided as a hint to the virtual memor-y subsystem, which may further
+modify the hint. Such may be the case if the application explicitly
+requests superpage support or other alignment constraints.
+
+The deltas are:
+
+1. PIE execution base
+1. mmap hint for non-fixed mappings
+1. Stack top and gap
+1. Virtual Dynamic Shared Object (VDSO)
+1. On 64-bit systems, mmap hint for `MAP_32BIT` mappings
+
+The calculation of each delta is controlled pby how many bits of
+entropy the user wants to introduce into the delta. The amount of
+entropy can be overridden in the kernel config and via boot-time
+(`loader.conf(5)`) tunables. By default, HardenedBSD uses the
+following amount of entropy:
+
+| Delta         | 32-bit  | 64-bit  | Compat  | Tunable                         | Compat Tunable                      | Kernel Option                   | Compat Kernel Option                |
+|---------------|---------|---------|---------|---------------------------------|-------------------------------------|---------------------------------|-------------------------------------|
+| mmap          | 14 bits | 30 bits | 14 bits | hardening.pax.aslr.mmap_len     | hardening.pax.aslr.compat.mmap_len  | PAX_ASLR_DELTA_MMAP_DEF_LEN     | PAX_ASLR_COMPAT_DELTA_MMAP_DEF_LEN  |
+| Stack         | 14 bits | 42 bits | 14 bits | hardening.pax.aslr.stack_len    | hardening.pax.aslr.compat.stack_len | PAX_ASLR_DELTA_STACK_DEF_LEN    | PAX_ASLR_COMPAT_DELTA_STACK_DEF_LEN |
+| PIE exec base | 14 bits | 30 bits | 14 bits | hardening.pax.aslr.exec_len     | hardening.pax.aslr.compat.exec_len  | PAX_ASLR_DELTA_EXEC_DEF_LEN     | PAX_ASLR_COMPAT_DELTA_EXEC_DEF_LEN  |
+| VDSO          | 8 bits  | 28 bits | 8 bits  | hardening.pax.aslr.vdso_len     | hardening.pax.aslr.compat.vdso_len  | PAX_ASLR_DELTA_VDSO_DEF_LEN     | PAX_ASLR_COMPAT_DELTA_VDSO_DEF_LEN  |
+| MAP_32BIT     | N/A     | 18 bits | N/A     | hardening.pax.aslr.map32bit_len | N/A                                 | PAX_ASLR_DELTA_MAP32BIT_DEF_LEN | N/A                                 |
+
+When a process forks, the child process inherits its parent's ASLR
+settings, including deltas. Only at image activation (execve) time
+does a process receive new deltas.
+
+### Position-Independent Executables (PIEs)
+
+In order to make full use of ASLR, applications must be compiled as
+Position-Independent Executables (PIEs). If an application is not
+compiled as a PIE, then ASLR will be applied to all but the execution
+base. All of base is compiled as PIEs, with the exception of a few
+applications that explicitly request to be statically compiled. Those
+applications are:
+
+1. All applications in /rescue
+1. /sbin/devd
+1. /sbin/init
+1. /usr/sbin/nologin
+
+Compiling all of base as PIEs can be turned off by setting
+`WITHOUT_PIE` in `src.conf(5)`.
+
+### Shared Library Load Order Randomization
+
+Breaking ASLR remotely requires chaining multiple vulnerabilities,
+including one or more information leakage vulnerabilities. Information
+leakage vulnerabilities expose data an attacker can use to determine
+the memory layout of the process. Code reuse attacks, like ROP and its
+variants, exist to bypass exploit mitigations like PAGEEXEC/NOEXEC.
+Over the years, a lot of tooling for automated ROP gadget generation
+has been developed. The tools generally rely on gadgets found via
+shared libraries and require that those sshared libraries by loaded in
+the same order. By randomizing the order in which shared librariers
+get load, ROP gadgets have a higher chance of failing. Shared library
+load order randomization is disabled by default, but can be opted in
+on a per-application basis using secadm or hbsdcontrol.
