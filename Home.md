@@ -327,3 +327,50 @@ it enabled by default. Users are able to toggle SafeStack by using the
 applicable to the amd64 architecture. Attempting to enable SafeStack
 for a non-amd64 port build will result in a NO-OP. SafeStack simply
 will not be applied.
+
+## Control-Flow Integrity (CFI)
+
+Control-Flow Integrity (CFI) is an exploit mitigation technique that
+prevents unwanted transfer of control from branch instructions to
+arbitrary valid memory locations. The CFI implementation from
+clang/llvm comes in two forms: Cross-DSO CFI and non-Cross-DSO CFI.
+HardenedBSD 12 enables non-Cross-DSO CFI by default on amd64 and arm64
+for base.
+
+CFI requires a linker that supports Link Time Optimization (LTO).
+Starting with 12, HardenedBSD ships with ld.lld as the default
+linker. ld.lld supports LTO.
+
+Non-Cross-DSO CFI adds checks both before and after every branch
+instruction in the application itself. If an application loads
+libraries via `dlopen(3)` and resolves functions via `dlsym(3)` and
+calls those functions, the application will abort. Some applications,
+like `bhyveload(8)` do this and thus have the cfi-icall scheme
+disabled, allowing it to call functions resolved via `dlsym(3)`. Thus,
+if a user finds that an application crashes in HardenedBSD 12, the
+user should file a bug report. The cfi-icall scheme can be disabled
+when building world by adding a CFI override in that application's
+Makefile.
+
+Note that Non-Cross-DSO CFI does not require ASLR and strict W^X.
+Given that Cross-DSO CFI keeps metadata and state information,
+Cross-DSO CFI does require ASLR and W^X in order to be effective.
+
+Non-Cross-DSO CFI support has been added to HardenedBSD's ports
+framework. However, it is not enabled by default. Support for CFI in
+ports is still very premature and is only available for those brave
+users who want to experiment.
+
+As of 20 May 2017, Cross-DSO CFI is being actively researched.
+However, support for Cross-DSO CFI is not available in HardenedBSD,
+yet. Cross-DSO CFI would allow functions resolved through
+`dlopen(3)`/`dlsym(3)` to work since CFI would be able to be applied
+between Dynamic Shared Object (DSO) boundaries. Significant progress
+has been made in the first half of 2018 with regards to Cross-DSO CFI.
+The base operating system can be fully compiled with Cross-DSO CFI. On
+16 Jul 2018, a pre-alpha
+[Call For
+Testing](https://hardenedbsd.org/article/shawn-webb/2018-07-16/preliminary-call-testing-cross-dso-cfi)
+was released for wider initial testing. The HardenedBSD core
+development team hopes to launch Cross-DSO CFI in base within the
+latter half of 2019.
