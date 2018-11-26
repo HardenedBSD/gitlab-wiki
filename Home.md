@@ -12,6 +12,22 @@ Some of HardenedBSD's features can be toggled on a per-application and
 per-jail basis using secadm or hbsdcontrol. Documentation for both
 tools will be covered later.
 
+This wiki has been ported from section 14 of the [HardenedBSD Handbook](https://hardenedbsd.org/content/hardenedbsd-handbook).
+
+## Table of Contents
+
+* [History](https://github.com/HardenedBSD/hardenedBSD/wiki#history)
+* [Features](https://github.com/HardenedBSD/hardenedBSD/wiki#features)
+* [Generic Kernel Options](https://github.com/HardenedBSD/hardenedBSD/wiki#generic-kernel-options)
+* [Generic System Hardening](https://github.com/HardenedBSD/hardenedBSD/wiki#generic-system-hardening)
+* [Address Space Layout Randomization (ASLR)](https://github.com/HardenedBSD/hardenedBSD/wiki#address-space-layout-randomization)
+* [PAGEEXEC and MPROTECT (aka, NOEXEC)](https://github.com/HardenedBSD/hardenedBSD/wiki#address-space-layout-randomization)
+* [SafeStack](https://github.com/HardenedBSD/hardenedBSD/wiki#safestack)
+* [Control-Flow Integrity (CFI)](https://github.com/HardenedBSD/hardenedBSD/wiki#control-flow-integrity-cfi)
+* [Security Administration (secadm)](https://github.com/HardenedBSD/hardenedBSD/wiki#security-administration-secadm)
+* [Contributing to HardenedBSD](https://github.com/HardenedBSD/hardenedBSD/wiki#contributing-to-hardenedbsd)
+* [Updating HardenedBSD](https://github.com/HardenedBSD/hardenedBSD/wiki#updating-hardenedbsd)
+
 ## History
 
 Work on HardenedBSD began in 2013 when Oliver Pinter and Shawn Webb
@@ -119,7 +135,7 @@ when `PAX_HARDENING` is enabled in the kernel:
 | security.bsd.unprivileged_proc_debug  | Unprivileged processes may use process debugging and tracing facilities        | Integer | 1              | 0                                       |
 | security.bsd.unprivileged_read_msgbuf | Unprivileged processes may read the kernel message buffer                      | Integer | 1              | 0                                       |
 
-## Address Space Layout Randomization
+## Address Space Layout Randomization (ASLR)
 
 ASLR randomizes the layout of the virtual address space of a process
 through using randomized deltas. ASLR prevents attackers from knowing
@@ -556,3 +572,5 @@ Thus, generating a diff between the two configuration files would result in:
 ```
 
 </h2>
+
+[back to top](https://github.com/HardenedBSD/hardenedBSD/wiki#)
