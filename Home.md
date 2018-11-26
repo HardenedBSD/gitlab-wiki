@@ -1,8 +1,5 @@
 # About HardenedBSD
 
-07 Oct 2018: Please note that this document is under active and heavy
-construction. Not all sections are complete.
-
 HardenedBSD is a fork of FreeBSD, founded in 2014, that implements
 exploit mitigations and security hardening technologies. The primary
 goal of HardenedBSD is to perform a clean-room re-implementation of
@@ -20,8 +17,8 @@ This wiki has been ported from section 14 of the [HardenedBSD Handbook](https://
 * [Features](https://github.com/HardenedBSD/hardenedBSD/wiki#features)
 * [Generic Kernel Options](https://github.com/HardenedBSD/hardenedBSD/wiki#generic-kernel-options)
 * [Generic System Hardening](https://github.com/HardenedBSD/hardenedBSD/wiki#generic-system-hardening)
-* [Address Space Layout Randomization (ASLR)](https://github.com/HardenedBSD/hardenedBSD/wiki#address-space-layout-randomization)
-* [PAGEEXEC and MPROTECT (aka, NOEXEC)](https://github.com/HardenedBSD/hardenedBSD/wiki#address-space-layout-randomization)
+* [Address Space Layout Randomization (ASLR)](https://github.com/HardenedBSD/hardenedBSD/wiki#address-space-layout-randomization-aslr)
+* [PAGEEXEC and MPROTECT (aka, NOEXEC)](https://github.com/HardenedBSD/hardenedBSD/wiki#pageexec-and-mprotect-aka-noexec)
 * [SafeStack](https://github.com/HardenedBSD/hardenedBSD/wiki#safestack)
 * [Control-Flow Integrity (CFI)](https://github.com/HardenedBSD/hardenedBSD/wiki#control-flow-integrity-cfi)
 * [Security Administration (secadm)](https://github.com/HardenedBSD/hardenedBSD/wiki#security-administration-secadm)
