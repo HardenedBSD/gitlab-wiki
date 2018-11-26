@@ -374,3 +374,185 @@ Testing](https://hardenedbsd.org/article/shawn-webb/2018-07-16/preliminary-call-
 was released for wider initial testing. The HardenedBSD core
 development team hopes to launch Cross-DSO CFI in base within the
 latter half of 2019.
+
+## Security Administration (secadm)
+
+secadm is a tool, distributed via ports, that allows users to toggle exploit mitigations on a per-application and per-jail basis. Users will typically use secadm to disable PAGEEXEC and/or MPROTECT restrictions.
+
+secadm also includes a feature known as Integriforce. Integriforce is an implementation of verified execution. It enforces hash-based signatures for binaries and their dependent shared objects. Integriforce can be set in whitelisting mode. When there is at least one Integriforce rule enabled, all desired applications and their dependent shared objects must also have rules. If an application and its shared objects are not included in the ruleset, execution of that application will be disallowed. This also affects shared objects loaded via [dlopen(3)](https://www.freebsd.org/cgi/man.cgi?query=dlopen&sektion=3&manpath=freebsd-release-ports).
+
+When a file is added to secadm's ruleset, secadm will disallow modifications to that file. This includes deleting, appending, truncating, or otherwise modifying the file. This is because secadm tracks files under its control by using the inode. Modifying the file might change the inode, or freeing it in case of deletion, thereby implicitly modifying the secadm ruleset. To protect the integrity of the loaded ruleset, secadm also protects the files it controls.
+
+Thus, when updating installed ports or packages, care must be taken. Flush the ruleset prior to installing updates. The ruleset can be reloaded after updating.
+
+### Downloading and Installing secadm
+
+secadm is not currently part of base, though that is planned in the near future. secadm can be installed either through the package repo:
+
+```
+# pkg install secadm-kmod secadm
+```
+
+or by using HardenedBSD's ports tree:
+
+```
+# cd /usr/ports/hardenedbsd/secadm
+# make install clean
+# cd /usr/ports/hardenedbsd/secadm-kmod
+# make install clean
+```
+
+### Configuring secadm
+
+By default, secadm looks for a config file at `/usr/local/etc/secadm.rules`. For purposes of this documentation, that file will be simply referenced as `secadm.rules`. secadm does not install or manage the `secadm.rules` file. It simply reads the file, if it exists, passing the parsed data to the kernel module. secadm can be configured either via the command-line or `secadm.rules`. Both secadm and `secadm.rules` contain manual pages. Once installed, users can look at the secadm manpage in section 8 and secadm.rules in section 5.
+
+`secadm.rules` should be in a format that libucl can parse as secadm uses libucl to parse `secadm.rules`.
+
+An example `secadm.rules` would look like this:
+
+```
+secadm {
+	pax {
+		path: "/usr/local/lib/firefox/firefox",
+		mprotect: false,
+	},
+	pax {
+		path: "/usr/local/lib/firefox/plugin-container",
+		mprotect: false,
+	},
+}
+```
+
+Once secadm is configured, it can be started via the [rc(8)](https://www.freebsd.org/cgi/man.cgi?query=rc&sektion=8&manpath=freebsd-release-ports) system:
+
+```
+# sysrc secadm_enable=YES
+# service secadm start
+```
+
+### All secadm configuration options
+
+These are the available pax options:
+
+| Option           	| Requirement	| Type		| Description									|
+|-----------------------|---------------|---------------|-------------------------------------------------------------------------------|
+| path			| Required	| String	| Fully-qualified path of the executable					|
+| aslr			| Optional	| Boolean	| Toggle ASLR									|
+| disallow_map32bit	| Optional	| Boolean	| Toggle the ability to use the MAP_32BIT [mmap(2)](https://www.freebsd.org/cgi/man.cgi?query=mmap&sektion=2&manpath=freebsd-release-ports) flag on 64-bit systems	|
+| mprotect		| Optional	| Boolean	| Toggle mprotect restrictions							|
+| pageexec		| Optional	| Boolean	| Toggle pageexec restrictions							|
+| segvguard		| Optional	| Boolean	| Toggle SEGVGUARD								|
+| shlibrandom		| Optional	| Boolean	| Toggle shared library load order randomization				|
+
+Example pax configuration:
+
+```
+secadm {
+	pax {
+		path: "/usr/local/lib/firefox/firefox",
+		mprotect: false,
+	},
+	pax {
+		path: "/usr/local/lib/firefox/plugin-container",
+		mprotect: false,
+	},
+}
+```
+
+These are the available integriforce options:
+
+| Option           	| Requirement	| Type		| Description									|
+|-----------------------|---------------|---------------|-------------------------------------------------------------------------------|
+| path			| Required	| String	| Fully-qualified path of the executable or shared library			|
+| hash			| Required	| String	| [sha1(1)](https://www.freebsd.org/cgi/man.cgi?query=sha1&sektion=1&manpath=freebsd-release-ports) or [sha256(1)](https://www.freebsd.org/cgi/man.cgi?query=sha256&sektion=1&manpath=freebsd-release-ports) hash of the file						|
+| type			| Required	| String	| Type of hash. Either "sha1" or "sha256".					|
+| mode			| Required	| String	| Either "soft" or "hard". In soft mode, if the hash doesn't match, a warning is printed in syslog and execution is allowed. In hard mode, if the hash doesn't match, an error is printed in syslog and execution is denied. |
+
+Example integriforce configuration:
+
+```
+secadm {
+	integriforce {
+		path: "/bin/ls",
+		hash: "7dee472b6138d05b3abcd5ea708ce33c8e85b3aac13df350e5d2b52382c20e77",
+		type: "sha256",
+		mode: "hard",
+	}
+}
+```
+
+## Contributing to HardenedBSD
+
+HardenedBSD uses GitHub for source control and bug reports. Users can submit bug reports for the HardenedBSD base source code [here](https://github.com/HardenedBSD/hardenedbsd/issues) and for ports [here](https://github.com/HardenedBSD/hardenedbsd-ports/issues). When submitting bug reports, please include the following information:
+
+* HardenedBSD version
+* Architecture
+* If the report concerns a kernel panic, the backtrace of the panic
+* Steps to reproduce the bug
+
+### HardenedBSD Development Process
+
+HardenedBSD uses three repositories during the development process:
+
+| Repository		| Purpose						|
+|-----------------------|-------------------------------------------------------|
+| [HardenedBSD](https://github.com/HardenedBSD/hardenedBSD)		| Main development repository				|
+| [HardenedBSD-STABLE](https://github.com/HardenedBSD/hardenedBSD-stable)	| Stable builds repository (read-only)			|
+| [HardenedBSD-Playground](https://github.com/HardenedBSD/hardenedBSD-playground)| Highly experimental and third-party code repository	|
+
+HardenedBSD development branches:
+
+| Branch           			| Repository		| Binary Updates| Purpose						|
+|---------------------------------------|-----------------------|---------------|-------------------------------------------------------|
+| hardened/current/master		| HardenedBSD		| amd64, arm64	| Main development branch (12-CURRENT)			|
+| hardened/11-stable/master		| HardenedBSD		| amd64		| 11-STABLE development					|
+| hardened/10-stable/master		| HardenedBSD		| amd64		| 10-STABLE development					|
+| hardened/current/drm-next		| HardenedBSD-Playground| amd64		| HardenedBSD 12-CURRENT with drm-next bits merged in	|
+| hardened/current/safestack-arm64	| HardenedBSD-Playground| arm64		| HardenedBSD 12-CURRENT with SafeStack ported to arm64	|
+| hardened/current/cross-dso-cfi	| HardenedBSD-Playground| N/A		| HardenedBSD 12-CURRENT with Cross-DSO-CFI support	|
+
+## Updating HardenedBSD
+
+HardenedBSD does not use [freebsd-update(8)](https://www.freebsd.org/cgi/man.cgi?query=freebsd-update&sektion=8&manpath=freebsd-release-ports). Instead, HardenedBSD uses an utility known as hbsd-update. hbsd-update does not use deltas for publishing updates, but rather distributes the base operating system as a whole. Not utilizing deltas incurs a bandwidth overhead, but is easier to maintain and mirror. hbsd-update relies on DNSSEC-signed TXT records for distributing version information.
+
+hbsd-update is configured via a config file placed at `/etc/hbsd-update.conf`. hbsd-update works on a branch level, meaning it tracks branches within HardenedBSD's source tree. Thus, updating from one major version to another requires changing the dnsrec and branch variables in `hbsd-update.conf`. For example, the `hbsd-update.conf` for the hardened/current/master branch in the HardenedBSD repo:
+
+```
+dnsrec="$(uname -m).master.current.hardened.hardenedbsd.updates.hardenedbsd.org"
+capath="/usr/share/keys/hbsd-update/trusted"
+branch="hardened/current/master"
+baseurl="http://updates.hardenedbsd.org/pub/HardenedBSD/updates/${branch}/$(uname -m)"
+```
+
+And as another example, the `hbsd-update.conf` for the hardened/11-stable/master branch in the HardenedBSD repo:
+
+```
+dnsrec="$(uname -m).master.11-stable.hardened.hardenedbsd.updates.hardenedbsd.org"
+capath="/usr/share/keys/hbsd-update/trusted"
+branch="hardened/11-stable/master"
+baseurl="http://updates.hardenedbsd.org/pub/HardenedBSD/updates/${branch}/$(uname -m)"
+```
+
+Thus, generating a diff between the two configuration files would result in:
+
+```
+--- hbsd-update_current.conf	2017-07-21 20:08:22.153616000 -0400
++++ hbsd-update_11-stable.conf	2017-07-21 20:08:38.003508000 -0400
+@@ -1,4 +1,4 @@
+-dnsrec="$(uname -m).master.current.hardened.hardenedbsd.updates.hardenedbsd.org"
++dnsrec="$(uname -m).master.11-stable.hardened.hardenedbsd.updates.hardenedbsd.org"
+ capath="/usr/share/keys/hbsd-update/trusted"
+-branch="hardened/current/master"
++branch="hardened/11-stable/master"
+ baseurl="http://updates.hardenedbsd.org/pub/HardenedBSD/updates/${branch}/$(uname -m)"
+```
+
+<h2>
+
+```diff
+- Warning: Official updates from HardenedBSD
+- come from the main development repository,
+- not from the stable builds repository.
+```
+
+</h2>
