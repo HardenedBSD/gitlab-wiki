@@ -417,6 +417,29 @@ was released for wider initial testing. The HardenedBSD core
 development team hopes to launch Cross-DSO CFI in base within the
 latter half of 2019.
 
+## hbsdcontrol
+
+`hbsdcontrol(8)` is a tool, included in base, that allows users to
+toggle exploit mitigations on a per-application basis. Users will
+typically use hbsdcontrol to disable PAGEEXEC and/or MPROTECT
+restrictions. hbsdcontrol is similar in scope as secadm and is
+preferred over secadm for filesystems that support extended
+attributes.
+
+Unlike secadm, hbsdcontrol does not use a configuration file. Instead,
+it stores metadata in the filesystem extended attributes. Both UFS
+and ZFS support extended attributes. Network-based filesystems, like
+NFS or SMB/CIFS do not. secadm is the preferred method for exploit
+mitigation toggling only in cases where extended attributes are not
+supported.
+
+Example usage of hbsdcontrol to disable MPROTECT for Firefox:
+
+```
+# hbsdcontrol pax disable mprotect /usr/local/lib/firefox/firefox
+# hbsdcontrol pax disable mprotect /usr/local/lib/firefox/plugin-container
+```
+
 ## Security Administration (secadm)
 
 secadm is a tool, distributed via ports, that allows users to toggle
