@@ -18,6 +18,7 @@ This wiki has been ported from section 14 of the [HardenedBSD Handbook](https://
 * [Generic Kernel Options](https://github.com/HardenedBSD/hardenedBSD/wiki#generic-kernel-options)
 * [Generic System Hardening](https://github.com/HardenedBSD/hardenedBSD/wiki#generic-system-hardening)
 * [Address Space Layout Randomization (ASLR)](https://github.com/HardenedBSD/hardenedBSD/wiki#address-space-layout-randomization-aslr)
+* [PaX SEGVGUARD](https://github.com/HardenedBSD/hardenedBSD/wiki#pax-segvguard)
 * [PAGEEXEC and MPROTECT (aka, NOEXEC)](https://github.com/HardenedBSD/hardenedBSD/wiki#pageexec-and-mprotect-aka-noexec)
 * [SafeStack](https://github.com/HardenedBSD/hardenedBSD/wiki#safestack)
 * [Control-Flow Integrity (CFI)](https://github.com/HardenedBSD/hardenedBSD/wiki#control-flow-integrity-cfi)
@@ -243,6 +244,33 @@ the same order. By randomizing the order in which shared librariers
 get load, ROP gadgets have a higher chance of failing. Shared library
 load order randomization is disabled by default, but can be opted in
 on a per-application basis using secadm or hbsdcontrol.
+
+## PaX SEGVGUARD
+
+ASLR has known weaknesses. If an information leak is present,
+attackers can use the leak to determine the memory layout and, given
+time, successfully exploit the application.
+
+Some applications, like daemons, can optionally be set to
+automatically restart after a crash. Automatically restarting
+applications can pose a security risk by allowing attackers to repeat
+failed attacks, modifying the attack until successful.
+
+PaX SEGVGUARD provides a mitigation for such cases. SEGVGUARD keeps
+track of how many times a given application has crashed within a
+configurable window and will suspend further execution of the
+application for a configurable time once the crash limit has been
+reached.
+
+The kernel option for PaX SEGVGUARD is:
+
+```
+options PAX_SEGVGUARD
+```
+
+Due to performance concerns, SEGVGUARD is set to opt-in by default.
+SEGVGUARD can be set to opt-out by setting the
+`hardening.pax.segvguard.status` sysctl node to 2.
 
 ## PAGEEXEC and MPROTECT (aka, NOEXEC)
 
