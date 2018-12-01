@@ -71,6 +71,7 @@ HardenedBSD has successfully implemented the following features:
 1. SafeStack available in ports
 1. Non-Cross-DSO CFI in base
 1. Non-Cross-DSO CFI available in ports
+1. Retpoline applied to base and ports
 
 ## Generic Kernel Options
 
