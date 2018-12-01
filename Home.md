@@ -580,12 +580,12 @@ HardenedBSD development branches:
 
 | Branch           			| Repository		| Binary Updates| Purpose						|
 |---------------------------------------|-----------------------|---------------|-------------------------------------------------------|
-| hardened/current/master		| HardenedBSD		| amd64, arm64	| Main development branch (12-CURRENT)			|
+| hardened/current/master		| HardenedBSD		| amd64, arm64	| Main development branch (13-CURRENT)			|
 | hardened/11-stable/master		| HardenedBSD		| amd64		| 11-STABLE development					|
 | hardened/10-stable/master		| HardenedBSD		| amd64		| 10-STABLE development					|
-| hardened/current/drm-next		| HardenedBSD-Playground| amd64		| HardenedBSD 12-CURRENT with drm-next bits merged in	|
-| hardened/current/safestack-arm64	| HardenedBSD-Playground| arm64		| HardenedBSD 12-CURRENT with SafeStack ported to arm64	|
-| hardened/current/cross-dso-cfi	| HardenedBSD-Playground| N/A		| HardenedBSD 12-CURRENT with Cross-DSO-CFI support	|
+| hardened/current/drm-next		| HardenedBSD-Playground| amd64		| HardenedBSD 13-CURRENT with drm-next bits merged in	|
+| hardened/current/safestack-arm64	| HardenedBSD-Playground| arm64		| HardenedBSD 13-CURRENT with SafeStack ported to arm64	|
+| hardened/current/cross-dso-cfi	| HardenedBSD-Playground| N/A		| HardenedBSD 13-CURRENT with Cross-DSO-CFI support	|
 
 ## Updating HardenedBSD
 
