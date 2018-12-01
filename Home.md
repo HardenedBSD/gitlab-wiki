@@ -568,6 +568,10 @@ base operating system as a whole. Not utilizing deltas incurs a
 bandwidth overhead, but is easier to maintain and mirror. hbsd-update
 relies on DNSSEC-signed TXT records for distributing version information.
 
+Updates for maintained stable branches (12-STABLE, 11-STABLE) come
+from the HardenedBSD-STABLE repo. Updates for CURRENT
+(hardened/current/master) come from the HardenedBSD repo.
+
 hbsd-update is configured via a config file placed at
 `/etc/hbsd-update.conf`. hbsd-update works on a branch level, meaning it
 tracks branches within HardenedBSD's source tree. Thus, updating from
@@ -605,15 +609,5 @@ Thus, generating a diff between the two configuration files would result in:
 +branch="hardened/11-stable/master"
  baseurl="http://updates.hardenedbsd.org/pub/HardenedBSD/updates/${branch}/$(uname -m)"
 ```
-
-<h2>
-
-```diff
-- Warning: Official updates from HardenedBSD
-- come from the main development repository,
-- not from the stable builds repository.
-```
-
-</h2>
 
 [back to top](https://github.com/HardenedBSD/hardenedBSD/wiki#)
