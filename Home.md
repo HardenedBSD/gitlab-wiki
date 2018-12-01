@@ -22,6 +22,7 @@ This wiki has been ported from section 14 of the [HardenedBSD Handbook](https://
 * [PAGEEXEC and MPROTECT (aka, NOEXEC)](https://github.com/HardenedBSD/hardenedBSD/wiki#pageexec-and-mprotect-aka-noexec)
 * [SafeStack](https://github.com/HardenedBSD/hardenedBSD/wiki#safestack)
 * [Control-Flow Integrity (CFI)](https://github.com/HardenedBSD/hardenedBSD/wiki#control-flow-integrity-cfi)
+* [hbsdcontrol](https://github.com/HardenedBSD/hardenedBSD/wiki#hbsdcontrol)
 * [Security Administration (secadm)](https://github.com/HardenedBSD/hardenedBSD/wiki#security-administration-secadm)
 * [Contributing to HardenedBSD](https://github.com/HardenedBSD/hardenedBSD/wiki#contributing-to-hardenedbsd)
 * [Updating HardenedBSD](https://github.com/HardenedBSD/hardenedBSD/wiki#updating-hardenedbsd)
