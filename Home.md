@@ -390,17 +390,36 @@ latter half of 2019.
 
 ## Security Administration (secadm)
 
-secadm is a tool, distributed via ports, that allows users to toggle exploit mitigations on a per-application and per-jail basis. Users will typically use secadm to disable PAGEEXEC and/or MPROTECT restrictions.
+secadm is a tool, distributed via ports, that allows users to toggle
+exploit mitigations on a per-application and per-jail basis. Users will
+typically use secadm to disable PAGEEXEC and/or MPROTECT restrictions.
 
-secadm also includes a feature known as Integriforce. Integriforce is an implementation of verified execution. It enforces hash-based signatures for binaries and their dependent shared objects. Integriforce can be set in whitelisting mode. When there is at least one Integriforce rule enabled, all desired applications and their dependent shared objects must also have rules. If an application and its shared objects are not included in the ruleset, execution of that application will be disallowed. This also affects shared objects loaded via [dlopen(3)](https://www.freebsd.org/cgi/man.cgi?query=dlopen&sektion=3&manpath=freebsd-release-ports).
+secadm also includes a feature known as Integriforce. Integriforce is
+an implementation of verified execution. It enforces hash-based
+signatures for binaries and their dependent shared objects.
+Integriforce can be set in whitelisting mode. When there is at least
+one Integriforce rule enabled, all desired applications and their
+dependent shared objects must also have rules. If an application and
+its shared objects are not included in the ruleset, execution of that
+application will be disallowed. This also affects shared objects loaded
+via [dlopen(3)](https://www.freebsd.org/cgi/man.cgi?query=dlopen&sektion=3&manpath=freebsd-release-ports).
 
-When a file is added to secadm's ruleset, secadm will disallow modifications to that file. This includes deleting, appending, truncating, or otherwise modifying the file. This is because secadm tracks files under its control by using the inode. Modifying the file might change the inode, or freeing it in case of deletion, thereby implicitly modifying the secadm ruleset. To protect the integrity of the loaded ruleset, secadm also protects the files it controls.
+When a file is added to secadm's ruleset, secadm will disallow
+modifications to that file. This includes deleting, appending,
+truncating, or otherwise modifying the file. This is because secadm
+tracks files under its control by using the inode. Modifying the file
+might change the inode, or freeing it in case of deletion, thereby
+implicitly modifying the secadm ruleset. To protect the integrity of
+the loaded ruleset, secadm also protects the files it controls.
 
-Thus, when updating installed ports or packages, care must be taken. Flush the ruleset prior to installing updates. The ruleset can be reloaded after updating.
+Thus, when updating installed ports or packages, care must be taken.
+Flush the ruleset prior to installing updates. The ruleset can be
+reloaded after updating.
 
 ### Downloading and Installing secadm
 
-secadm is not currently part of base, though that is planned in the near future. secadm can be installed either through the package repo:
+secadm is not currently part of base, though that is planned in the
+near future. secadm can be installed either through the package repo:
 
 ```
 # pkg install secadm-kmod secadm
@@ -417,9 +436,18 @@ or by using HardenedBSD's ports tree:
 
 ### Configuring secadm
 
-By default, secadm looks for a config file at `/usr/local/etc/secadm.rules`. For purposes of this documentation, that file will be simply referenced as `secadm.rules`. secadm does not install or manage the `secadm.rules` file. It simply reads the file, if it exists, passing the parsed data to the kernel module. secadm can be configured either via the command-line or `secadm.rules`. Both secadm and `secadm.rules` contain manual pages. Once installed, users can look at the secadm manpage in section 8 and secadm.rules in section 5.
+By default, secadm looks for a config file at
+`/usr/local/etc/secadm.rules`. For purposes of this documentation,
+that file will be simply referenced as `secadm.rules`. secadm does not
+install or manage the `secadm.rules` file. It simply reads the file,
+if it exists, passing the parsed data to the kernel module. secadm can
+be configured either via the command-line or `secadm.rules`. Both
+secadm and `secadm.rules` contain manual pages. Once installed, users
+can look at the secadm manpage in section 8 and secadm.rules in
+section 5.
 
-`secadm.rules` should be in a format that libucl can parse as secadm uses libucl to parse `secadm.rules`.
+`secadm.rules` should be in a format that libucl can parse as secadm
+uses libucl to parse `secadm.rules`.
 
 An example `secadm.rules` would look like this:
 
@@ -436,7 +464,9 @@ secadm {
 }
 ```
 
-Once secadm is configured, it can be started via the [rc(8)](https://www.freebsd.org/cgi/man.cgi?query=rc&sektion=8&manpath=freebsd-release-ports) system:
+Once secadm is configured, it can be started via the
+[rc(8)](https://www.freebsd.org/cgi/man.cgi?query=rc&sektion=8&manpath=freebsd-release-ports)
+system:
 
 ```
 # sysrc secadm_enable=YES
@@ -496,7 +526,11 @@ secadm {
 
 ## Contributing to HardenedBSD
 
-HardenedBSD uses GitHub for source control and bug reports. Users can submit bug reports for the HardenedBSD base source code [here](https://github.com/HardenedBSD/hardenedbsd/issues) and for ports [here](https://github.com/HardenedBSD/hardenedbsd-ports/issues). When submitting bug reports, please include the following information:
+HardenedBSD uses GitHub for source control and bug reports. Users can
+submit bug reports for the HardenedBSD base source code
+[here](https://github.com/HardenedBSD/hardenedbsd/issues) and for ports
+[here](https://github.com/HardenedBSD/hardenedbsd-ports/issues). When
+submitting bug reports, please include the following information:
 
 * HardenedBSD version
 * Architecture
@@ -526,9 +560,20 @@ HardenedBSD development branches:
 
 ## Updating HardenedBSD
 
-HardenedBSD does not use [freebsd-update(8)](https://www.freebsd.org/cgi/man.cgi?query=freebsd-update&sektion=8&manpath=freebsd-release-ports). Instead, HardenedBSD uses an utility known as hbsd-update. hbsd-update does not use deltas for publishing updates, but rather distributes the base operating system as a whole. Not utilizing deltas incurs a bandwidth overhead, but is easier to maintain and mirror. hbsd-update relies on DNSSEC-signed TXT records for distributing version information.
+HardenedBSD does not use
+[freebsd-update(8)](https://www.freebsd.org/cgi/man.cgi?query=freebsd-update&sektion=8&manpath=freebsd-release-ports).
+Instead, HardenedBSD uses an utility known as hbsd-update. hbsd-update
+does not use deltas for publishing updates, but rather distributes the
+base operating system as a whole. Not utilizing deltas incurs a
+bandwidth overhead, but is easier to maintain and mirror. hbsd-update
+relies on DNSSEC-signed TXT records for distributing version information.
 
-hbsd-update is configured via a config file placed at `/etc/hbsd-update.conf`. hbsd-update works on a branch level, meaning it tracks branches within HardenedBSD's source tree. Thus, updating from one major version to another requires changing the dnsrec and branch variables in `hbsd-update.conf`. For example, the `hbsd-update.conf` for the hardened/current/master branch in the HardenedBSD repo:
+hbsd-update is configured via a config file placed at
+`/etc/hbsd-update.conf`. hbsd-update works on a branch level, meaning it
+tracks branches within HardenedBSD's source tree. Thus, updating from
+one major version to another requires changing the dnsrec and branch
+variables in `hbsd-update.conf`. For example, the `hbsd-update.conf`
+for the hardened/current/master branch in the HardenedBSD repo:
 
 ```
 dnsrec="$(uname -m).master.current.hardened.hardenedbsd.updates.hardenedbsd.org"
@@ -537,7 +582,8 @@ branch="hardened/current/master"
 baseurl="http://updates.hardenedbsd.org/pub/HardenedBSD/updates/${branch}/$(uname -m)"
 ```
 
-And as another example, the `hbsd-update.conf` for the hardened/11-stable/master branch in the HardenedBSD repo:
+And as another example, the `hbsd-update.conf` for the
+hardened/11-stable/master branch in the HardenedBSD repo:
 
 ```
 dnsrec="$(uname -m).master.11-stable.hardened.hardenedbsd.updates.hardenedbsd.org"
