@@ -241,11 +241,12 @@ the memory layout of the process. Code reuse attacks, like ROP and its
 variants, exist to bypass exploit mitigations like PAGEEXEC/NOEXEC.
 Over the years, a lot of tooling for automated ROP gadget generation
 has been developed. The tools generally rely on gadgets found via
-shared libraries and require that those sshared libraries by loaded in
-the same order. By randomizing the order in which shared librariers
-get load, ROP gadgets have a higher chance of failing. Shared library
-load order randomization is disabled by default, but can be opted in
-on a per-application basis using secadm or hbsdcontrol.
+shared libraries and require that those shared libraries be loaded in
+the same deterministic order. By randomizing the order in which shared
+librariers get load, ROP gadgets have a higher chance of failing.
+Shared library load order randomization is disabled by default, but
+can be opted in on a per-application basis using secadm or
+hbsdcontrol.
 
 ## PaX SEGVGUARD
 
