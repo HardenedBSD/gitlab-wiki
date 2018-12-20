@@ -11,6 +11,10 @@ tools will be covered later.
 
 This wiki has been ported from section 14 of the [HardenedBSD Handbook](https://hardenedbsd.org/content/hardenedbsd-handbook).
 
+## Translations
+
+* [Espanol](https://github.com/HardenedBSD/hardenedBSD/wiki/Home_es)
+
 ## Table of Contents
 
 * [History](https://github.com/HardenedBSD/hardenedBSD/wiki#history)
