@@ -170,10 +170,8 @@ El 13 de Julio de 2015, la implementacíon ASLR de HardenedBSD se completó con 
 ASLR está habilitado por defecto en la configuración del kernel <code>HARDENEDBSD</code>.
 ASLR ha sido probado y se sabe que funciona en amd64, i386, arm, arm64, y risc-v. Las opciones para ASLR son:
 
-<code>
-options PAX
-options PAX_ASLR
-</code>
+<code>options PAX</code>
+<code>options PAX_ASLR</code>
 
 Si el kernel se ha compilado con <code>options PAX_SYSCTLS</code>, entonces el nodo sysctl <code>hardening.pax.aslr.status</code> estará disponible. Los siguientes valores determinarán el reforzamiento de ASLR:
 
