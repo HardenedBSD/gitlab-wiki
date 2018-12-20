@@ -338,9 +338,9 @@ A diferencia de secadm, hbsdcontrol no usa un archivo de configuración. En su l
 
 Ejemplo de uso de hbsdcontrol para deshabilitar MPROTECT para Firefox:
 
- <nowiki>
+<code>
 # hbsdcontrol pax disable mprotect /usr/local/lib/firefox/firefox
-# hbsdcontrol pax disable mprotect /usr/local/lib/firefox/plugin-container</nowiki>
+# hbsdcontrol pax disable mprotect /usr/local/lib/firefox/plugin-container</code>
 
 === Security Administration (secadm) ===
 
@@ -361,10 +361,11 @@ secadm no es actualmente parte de la base, aunque eso está planeado para el fut
 
 o usando el árbol de puertos de HardenedBSD:
 
- <nowiki># cd /usr/ports/hardenedbsd/secadm
+<code>
+# cd /usr/ports/hardenedbsd/secadm
 # make install clean
 # cd /usr/ports/hardenedbsd/secadm-kmod
-# make install clean</nowiki>
+# make install clean</code>
 
 ==== Configurando secadm ====
 
@@ -374,7 +375,8 @@ De forma predeterminada, secadm busca un archivo de configuración en <code>/usr
 
 Un ejemplo de <code>secadm.rules</code> se vería así:
 
- <nowiki>secadm {
+<code>
+secadm {
 	pax {
 		path: "/usr/local/lib/firefox/firefox",
 		mprotect: false,
@@ -383,12 +385,13 @@ Un ejemplo de <code>secadm.rules</code> se vería así:
 		path: "/usr/local/lib/firefox/plugin-container",
 		mprotect: false,
 	},
-}</nowiki>
+}</code>
 
 Una vez que secadm se ha configurado, puede ser iniciado mediante el sistema [https://www.freebsd.org/cgi/man.cgi?query=rc&sektion=8&manpath=freebsd-release-ports rc(8)]:
 
- <nowiki># sysrc secadm_enable=YES
-# service secadm start</nowiki>
+<code>
+# sysrc secadm_enable=YES
+# service secadm start</code>
 
 ==== Todas las opciones de configuración de secadm ====
 
@@ -438,7 +441,7 @@ Estas son las opciones pax disponibles:
 
 Ejemplo de configuración pax:
 
- <nowiki>
+<code>
 secadm {
 	pax {
 		path: "/usr/local/lib/firefox/firefox",
@@ -449,7 +452,7 @@ secadm {
 		mprotect: false,
 	},
 }
-</nowiki>
+</code>
 
 Estas son las opciones de integriforce disponibles:
 
@@ -482,7 +485,7 @@ Estas son las opciones de integriforce disponibles:
 
 Ejemplo de configuración de integriforce:
 
- <nowiki>
+<code>
 secadm {
 	integriforce {
 		path: "/bin/ls",
@@ -490,7 +493,7 @@ secadm {
 		type: "sha256",
 		mode: "hard",
 	}
-}</nowiki>
+}</code>
 
 === Contribuyendo a HardenedBSD ===
 
@@ -566,21 +569,21 @@ Las actualizaciones para las ramas estables mantenidas (12-STABLE, 11-STABLE) pr
 
 hbsd-update se configura a través de un archivo de configuración ubicado en <code>/etc/hbsd-update.conf</code>. hbsd-update funciona en un nivel de bifurcación, lo que significa que rastrea las ramas dentro del árbol de origen de HardenedBSD. Por lo tanto, la actualización de una versión principal a otra requiere cambiar las variables dnsrec y branch en <code>hbsd-update.conf</code>. Por ejemplo, el <code>hbsd-update.conf</code> para la rama hardened/current/master en el repositorio de HardenedBSD:
 
- <nowiki>
+<code>
 dnsrec="$(uname -m).master.current.hardened.hardenedbsd.updates.hardenedbsd.org"
 capath="/usr/share/keys/hbsd-update/trusted"
 branch="hardened/current/master"
 baseurl="http://updates.hardenedbsd.org/pub/HardenedBSD/updates/${branch}/$(uname -m)"
-</nowiki>
+</code>
 
 Y como otro ejemplo, el archivo <code>hbsd-update.conf</code> para la rama hardened/11-stable/master en el repositorio de HardenedBSD:
 
- <nowiki>
+<code>
 dnsrec="$(uname -m).master.11-stable.hardened.hardenedbsd.updates.hardenedbsd.org"
 capath="/usr/share/keys/hbsd-update/trusted"
 branch="hardened/11-stable/master"
 baseurl="http://updates.hardenedbsd.org/pub/HardenedBSD/updates/${branch}/$(uname -m)"
-</nowiki>
+</code>
 
 Entonces, generar un diff entre dos archivos de configuración dará como resultado:
 
