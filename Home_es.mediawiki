@@ -1,0 +1,597 @@
+= Acerca de HardenedBSD =
+
+HardenedBSD es un fork de FreeBSD, fundado en 2014, que implementa mitigación de exploits y tecnologías de hardening de seguridad. El principal objetivo de HardenedBSD es el de realzar una re-implementación desde cero del set de parches de grsecurity para Linux en HardenedBSD.
+
+Algunas de las características de HardenedBSD se pueden activar por aplicación o por jaula usando secadm o hbsdcontrol. La documentación para ambas herramientas se cubrirá más adelante.
+
+Este wiki ha sido portado desde la sección 14 del [https://hardenedbsd.org/content/hardenedbsd-handbook Manual de HardenedBSD].
+
+=== Historia ===
+
+Los trabajos con HardenedBSD comenzaron en 2013 cuando Oliver Pinter y Shawn Webb empezaron a trabajar en una implementación del Address Space Layout Randomization (ASLR), basado en la documentación disponible públicamente sobre PaX, para FreeBSD. En ese entonces, HardenedBSD se había concebido para ser zona de pruebas para el desarrollo experimental del parche de ASLR. Al pasar del tiempo, y de que el proceso de publicación de ASLR hacia FreeBSD se hacía más complicado, HardenedBSD se convirtió naturalmente en un fork.
+
+HardenedBSD completó su implementación de ASLR en 2015 con la más sólida forma de ASLR en cualquiera de los BSDs. Desde entonces, HardenedBSD ha seguido implementando otras tecnologías de mitigación de exploits y hardening. OPNsense, un cortafuegos open source basado en FreeBSD, incorporó la implementación ASLR de HardenedBSD en 2016.
+
+HardenedBSD existe hoy día como un fork de FreeBSD que sigue muy de cerca el código fuente de FreeBSD. HardenedBSD se sincroniza con FreeBSD cada seis horas. Algunas de las ramas, pero no todas, se listan a continuación:
+
+* HEAD -> hardened/current/master
+* stable/11 -> hardened/stable/11
+* releng/11.2 -> hardened/releng/11.2
+
+=== Características ===
+
+HardenedBSD ha implementado exitosamente las siguientes características:
+
+* ASLR inspirado en PaX
+* NOEXEC inspirado en PaX
+* SEGVGUARD inspirado en PaX
+* Base compilada como Position Independent Executables (PIEs)
+* Base compilada con full RELRO (RELRO + BIND_NOW)
+* Hardening de ciertos nodos sysctl sensitivos
+* Hardening de la pila de red
+* Reforzamiento de integridad de archivo ejecutable
+* Hardening del proceso de arranque
+* Hardening de procs/linprocfs
+* LibreSSL como librería de criptografía opcional en la base
+* Trusted Path Execution (TPE)
+* PIDs Randomizados
+* SafeStack en la base
+* SafeStack disponible en los ports
+* Non-Cross-DSO CFI en la base
+* Non-Cross-DSO CFI disponible en los ports
+* Retpoline applicado a la base y ports
+
+=== Opciones Genéricas del Kernel ===
+
+Todas las características del HardenedBSD que dependen de código del requieren la siguiente opción del kernel:
+
+<code>
+options	PAX
+</code>
+
+Adicionalmente, la siguiente opción del kernel no es requerida, pero expone nodos sysctl extra:
+
+<code>
+options PAX_SYSCTLS
+</code>
+
+Hardening del sistema genérico puede ser habilitado con la siguiente opción del kernel:
+
+<code>
+options	PAX_HARDENING
+</code>
+
+=== Hardening del Sistema Genérico ===
+
+HardenedBSD implementa hardening del sistema genérico con la opción del kernel <code>PAX_HARDENING</code>. Muchas de estas características de hardening tratan con la restricción de lo que los usuarios no-root pueden hacer. Cuando el kernel está compilado con el opción del kernel <code>PAX_HARDENING</code>, ciertos nodos <code>sysctl(8)</code> son modificados de sus valores predeterminados.
+
+<code>procfs(5)</code> y <code>linprocfs(5)</code> se modifican para prevenir escrituras arbitrarias a los registros de un proceso. Este comportamiento es controlado por el nodo <code>sysctl(8)</code> <code>hardening.procfs_harden</code>.
+
+Las llamadas al sistema relacionadas con <code>kld(4)</code> están restringidas a usuarios no enjaulados y solo-root. Al intentar listar los módulos del kernel usando <code>modfind(2)</code>, <code>kldfind(2)</code>, y otras llamadas al sistema relacionadas con KLD resultarán en permisos denegados si son usados por un usuario no-root o uno enjaulado.
+
+==== Nodos sysctl Modificados ====
+
+Estos son los nodos que están modificados de sus valores originales cuando <code>PAX_HARDENING</code> está habilitado en el kernel:
+
+{| class="wikitable"
+! Nodo 
+! Descripción
+! Tipo
+! Valor Original
+! Valor Hardened
+|-
+| kern.msgbuf_show_timestamp
+| Mostrar el timestamp en msgbuf
+| Entero
+| 0
+| 1
+|-
+| kern.randompid  
+| Modulo PID Randomizado
+| Entero
+| 0, lectura+escritura
+| Establecido aleatoriamente al arranque y hecho solo-lectura
+|-
+| net.inet.ip.random_id
+| Asigna valores ID aleatorios de IP
+| Entero
+| 0
+| 1 
+|-
+| net.inet6.ip6.use_deprecated 
+| Permite el uso de direcciones de las cuales sus tiempos de vida preferidos han expirado
+| Entero
+| 1
+| 0
+|-
+| net.inet6.ip6.use_tempaddr
+| Usa direcciones IPv6 temporales con SLAAC
+| Entero
+| 0 
+| 1
+|-
+| net.inet6.ip6.prefer_tempaddr
+| Prefiere direcciones IPv6 temporales generadas al final
+| Entero
+| 0
+| 1
+|-
+| security.bsd.see_other_gids
+| Procesos no privilegiados pueden ver sujetos/objetos con diferentes gid reales
+| Entero
+| 1
+| 0
+|-
+| security.bsd.see_other_uids 
+| Procesos no privilegiados pueden ver sujetos/objetos con diferentes uid reales
+| Entero
+| 1
+| 0 
+|-
+| security.bsd.hardlink_check_gid
+| Procesos no privilegiados no pueden crear hard links a archivos pertenecientes a otros grupos
+| Entero
+| 0
+| 1
+|-
+| security.bsd.hardlink_check_uid
+| Procesos no privilegiados no pueden crear hard links a archivos pertenecientes a otros usuarios
+| Entero
+| 0
+| 1
+|-
+| security.bsd.stack_guard_page
+| Insertar página stack guard adelante de segmentos crecientes
+| Entero
+| 0
+| 1
+|-
+| security.bsd.unprivileged_proc_debug
+| Procesos no privilegiados pueden usar debugging de procesos y servicios de tracing
+| Entero
+| 1
+| 0
+|-
+| security.bsd.unprivileged_read_msgbuf
+| Procesos no privilegiados pueden leer el buffer de mensajes del kernel
+| Entero
+| 1
+| 0
+|}
+
+=== Aleatoriedad en la disposición del espacio de direcciones (ASLR) ===
+
+ASLR añade aleatoriedad en la disposición del espacio de direcciones virtuales de un proceso mediante el uso de deltas aleatorias. ASLR previene que los atacantes conozcan en qué parte de la memoria se encuentran las vulnerabilidades. Sin ASLR, los atacantes pueden fácilmente desarrollar y reusar exploits a través de todos los sistemas implementados. Como es el caso con todas las tecnologías de mitigación de exploits, ASLR está pensado para ayudar a frustar a los atacantes, aunque ASLR por sí solo no es suficiente para detener completamente los ataques. ASLR simplemente proporciona una base sólida en la cual implementar futuras tecnologías de mitigación de exploits. Un enfoque holístico para la seguridad (denominado, defensa-a-fondo) es la mejor manera de asegurar un sistema. Adicionalmente, ASLR está dirigido y diseñado para ayudar a prevenir ataques remotos exitosos, no locales.
+
+La implementación ASLR de HardenedBSD está basada en el diseño y documentación de PaX. La documentación de PaX puede ser encontrada [https://github.com/HardenedBSD/pax-docs-mirror/blob/master/aslr.txt aquí].
+
+El 13 de Julio de 2015, la implementacíon ASLR de HardenedBSD se completó con full stack y randomización VDSO. Desde entonces, varias mejoras se han hecho, como la implementación de aleatoriedad en el orden de carga de las librerías compartidas. HardenedBSD es el único BSD que soporta aleatoriedad true stack. Queriendo decir, que la parte alta de la pila está randomizada además de un hueco de tamaño aleatorio entre la parte más alta de la pila y el inicio de la pila del usuario.
+
+ASLR está habilitado por defecto en la configuración del kernel <code>HARDENEDBSD</code>.
+ASLR ha sido probado y se sabe que funciona en amd64, i386, arm, arm64, y risc-v. Las opciones para ASLR son:
+
+ <nowiki>
+options PAX
+options PAX_ASLR
+</nowiki>
+
+Si el kernel se ha compilado con <code>options PAX_SYSCTLS</code>, entonces el nodo sysctl <code>hardening.pax.aslr.status</code> estará disponible. Los siguientes valores determinarán el reforzamiento de ASLR:
+
+* 0 - Reforzamiento deshabilitado
+* 1 - Deshabilitado por defecto. El usuario debe incluir las aplicaciones.
+* 2 - Habilitado por defecto. El usuario debe excluir las aplicaciones. (predeterminado)
+* 3 - Reforzamiento habilitado
+
+==== Implementación ====
+
+El ASLR de HardenedBSD usa un set de cuatro deltas en sistemas de 32-bits y cinco deltas en sistemas de 64-bits. Adicionalmente, en sistemas de 64-bits, la compatibilidad 32-bits está soportada por un set de deltas diferentes. Los deltas son calculados al momento de la activación de imágen (execve). Los deltas están proporcionados como un rastro para el subsistema de memoria virtual, el cual después podría modificar el rastro. Sería el caso cuando la aplicación explícitamente solicita soporte de superpágina u otras restricciones de alineamiento.
+
+Los deltas son:
+
+* Base de ejecución PIE
+* Rastro mmap para mappings no-fijos
+* Parte alta de la pila y hueco
+* Virtual Dynamic Shared Object (VDSO)
+* En sistemas de 64-bits, rastro mmap para mappings <code>MAP_32BIT</code>
+
+El cálculo de cada delta está controlado por cuántos bits de entropía el usuario quiere introducir en dicho delta. La cantidad de entropía se puede anular en la configuración del kernel y a través de las opciones al momento del arranque (<code>loader.conf(5)</code>). Por defecto, HardenedBSD usa la siguiente cantidad de entropía:
+
+{| class="wikitable"
+! Delta
+! 32-bits
+! 64-bits
+! Compatibilidad
+! Opción
+! Opción de Compatibilidad
+! Opción del Kernel
+! Opción de Compatibiliad del Kernel
+|-
+| mmap      
+| 14 bits
+| 30 bits
+| 14 bits
+| hardening.pax.aslr.mmap_len
+| hardening.pax.aslr.compat.mmap_len
+| PAX_ASLR_DELTA_MMAP_DEF_LEN  
+| PAX_ASLR_COMPAT_DELTA_MMAP_DEF_LEN 
+|-
+| Stack  
+| 14 bits
+| 42 bits
+| 14 bits
+| hardening.pax.aslr.stack_len
+| hardening.pax.aslr.compat.stack_len
+| PAX_ASLR_DELTA_STACK_DEF_LEN
+| PAX_ASLR_COMPAT_DELTA_STACK_DEF_LEN
+|-
+| PIE exec base
+| 14 bits
+| 30 bits
+| 14 bits
+| hardening.pax.aslr.exec_len
+| hardening.pax.aslr.compat.exec_len
+| PAX_ASLR_DELTA_EXEC_DEF_LEN
+| PAX_ASLR_COMPAT_DELTA_EXEC_DEF_LEN
+|-
+| VDSO
+| 8 bits
+| 28 bits
+| 8 bits
+| hardening.pax.aslr.vdso_len
+| hardening.pax.aslr.compat.vdso_len
+| PAX_ASLR_DELTA_VDSO_DEF_LEN
+| PAX_ASLR_COMPAT_DELTA_VDSO_DEF_LEN
+|-
+| MAP_32BIT
+| N/A
+| 18 bits
+| N/A
+| hardening.pax.aslr.map32bit_len
+| N/A
+| PAX_ASLR_DELTA_MAP32BIT_DEF_LEN
+| N/A
+|}
+
+Cuando un proceso se bifurca, el proceso hijo hereda las configuraciones ASLR del padre, incluyendo los deltas. Solo al momento de la activación de imágen (execve) el proceso reibe nuevos deltas.
+
+==== Position-Independent Executables (PIEs) ====
+
+Para hacer un uso completo de ASLR, las aplicaciones deben ser compiladas como Position-Independent Executables (PIEs). Si una aplicación no se compila como PIE, entonces ASLR será aplicado a todo menos la base de ejecución. Toda la base está compilada como PIE, con excepción de algunas aplicaciones que explícitamente requieren ser compiladas estáticamente. Esas aplicaciones son:
+
+* Todas las aplicaciones en /rescue
+* /sbin/devd
+* /sbin/init
+* /usr/sbin/nologin
+
+Compilar toda la base como PIE se puede deshabilitar poniendo <code>WITHOUT_PIE</code> en <code>src.conf(5)</code>.
+
+==== Aleatoriedad en el Orden de Carga de las Librerías Compartidas ====
+
+Romper ASLR de forma remota requiere encadenar multiples vulnerabilidades, incluyendo una o más vulnerabilidades de filtración de información. Las vulnerabilidades de filtración de información exponen datos que un atacante puede usar para determinar el diseño de la memoria de un proceso. Ataques de reuso de código, como ROP y sus variantes, existen para brincarse mitigaciones de exploits como PAGEEXEC/NOEXEC. A través de los años, muchas utilerías para generación de gadget ROP automatizados se han desarrollado. Las utilerías generalmente dependen de gadgets encontrados via librerías compartidas y requieren que esas librerías compartidas sean cargadas en el mismo orden. Randominzando el orden en el que las librerías compartidas se cargan, los gadgets ROP tienen una mayor probabilidad de fallar. La carga aleatoria de las librerías compartidas está deshabilitada por defecto, pero puede habilitarse por aplicación usando secadm o hbsdcontrol.
+
+=== PaX SEGVGUARD ===
+
+ASLR tiene debilidades conocidas. Si hay una fuga de información, los atacantes pueden usar la fuga para determinar el diseño de la memoria y, con el tiempo, explotar con éxito la aplicación.
+
+Algunas aplicaciones, como los demonios, pueden configurarse opcionalmente para reiniciarse automáticamente después de una falla. Reiniciar automáticamente las aplicaciones puede suponer un riesgo para la seguridad al permitir que los atacantes repitan los ataques fallidos, modificando el ataque hasta que tenga éxito.
+
+PaX SEGVGUARD proporciona una mitigación para tales casos. SEGVGUARD realiza un seguimiento de cuántas veces se ha bloqueado una aplicación determinada dentro de una ventana configurable y suspenderá la ejecución de la aplicación durante un tiempo configurable una vez que se haya alcanzado el límite de bloqueo.
+
+La opción del kernel para PaX SEGVGUARD es:
+
+<code>options PAX_SEGVGUARD</code>
+
+Debido a problemas de rendimiento, SEGVGUARD está configurado para habilitarse de forma predeterminada. SEGVGUARD se puede configurar para que se desactive configurando el nodo sysctl <code>hardening.pax.segvguard.status</code> a 2.
+
+=== PAGEEXEC and MPROTECT (alias, NOEXEC)===
+
+[https://github.com/HardenedBSD/pax-docs-mirror/blob/master/pageexec.txt PAGEEXEC] y [https://github.com/HardenedBSD/pax-docs-mirror/blob/master/mprotect.txt MPROTECT] componen lo que se conoce comúnmente como W^X (W xor X). EL diseño e implementación en HardenedBSD está inspirado por el de PaX. PAGEEXEC previene a las aplicaciones de crear mapeos de memoria que son a la vez de escritura (W) y ejecución (X) al momento de hacer <code>mmap(2)</code>. MPROTECT previene que las aplicaciones cambien los mapeos de memoria entre escritura y ejecución con <code>mprotect(2)</code>. Combinando los dos PAGEEXEC y MPROTECT se previene que los atacantes ejecuten inyecciones de código, forzando a los atacantes a utilizar técnicas de reuso de código como ROP y sus variantes. Las técnicas de reuso de código son muy difíciles para que sean efectivas, especialmente cuando se presentan y están activas múltiples tecnologías de mitigación de exploits.
+
+Las caracterísiticas de PAGEEXEC y MPROTECT pueden ser habilitadas con la opción del kernel <code>PAX_NOEXEC</code> y está habilitada por defecto en el kernel <code>HARDENEDBSD</code>. Si también está habilitada la opción </code>PAX_SYSCTLS</code>, dos nuevos nodos sysctl serán creados, y siguen la misma semántica que los sysctl <code>hardening.pax.aslr.status</code>:
+
+* <code>hardening.pax.pageexec.status</code> - Default 2
+* <code>hardening.pax.mprotect.status</code> - Default 2
+
+==== PAGEEXEC ====
+
+Si una aplicación requiere de un mapeo de memoria <code>mmap(2)</code>, y la aplicación requiere de <code>PROT_WRITE</code> and <code>PROT_EXEC</code>, entonces <code>PROT_EXEC</code> es eliminado. La aplicación será capaz de escribir al mapeo, pero no será capaz de ejecutar lo que fue escrito. Cuando una aplicación requiere mapeos W|X, la aplicación es más común que escriba al mapeo, pero no ejecutarlo. Ese es el caso con algunos scripts de Python: el desarrollador simplemente pide más permisos de los que realmente son necesarios.
+
+El kernel mantiene un concepto de protección pax. HardenedBSD elimina <code>PROT_EXEC</code> de la protección max cuando se pide <code>PROT_WRITE</code>. Cuando <code>PROT_EXEC</code> es requerido, se elimina <code>PROT_WRITE</code> de la protección max. Cuando las dos son requeridas, a <code>PROT_WRITE</code> se le da prioridad y se elimina <code>PROT_EXEC</code> de ambas protecciones, requerida y max.
+
+==== MPROTECT ====
+
+Si una aplicación solicita que se cambie una asignación de escritura a ejecutable a través de <code>mprotect (2)</code>, la solicitud fallará y establecerá <code>errno</code> en <code>EPERM</code>. Lo mismo se aplica a un mapeo ejecutable que se cambia a escritura a través de <code>mprotect (2)</code>. Aplicaciones y objetos compartidos que utilicen reubicaciones de texto (TEXTREL) tienen problemas con la característica MPROTECT. Los TEXTREL requieren que el código ejecutable se reubique a diferentes lugares en la memoria. Durante el proceso de relocación, la memoria recién asignada debe ser de escritura y ejecutable. Una vez que el proceso de relocación ha finalizado, la asignación se puede marcar como <code>PROT_READ | PROT_EXEC</code>.
+
+Algunas aplicaciones con un JIT, especialmente Firefox, optan por crear asignaciones de memoria que no son ejecutables, pero que actualizan el mapeo a ejecutable cuando es apropiado. Esto elimina el problema de tener asignaciones activas de memoria que sean de escritura y ejecución. Esto hace que aplicaciones como Firefox funcionen con PAGEEXEC, pero que todavía tienen problemas con MPROTECT.
+
+Al combinar PAGEEXEC y MPROTECT, HardenedBSD permite una forma estricta de W^X. Algunas aplicaciones pueden tener problemas con PAGEEXEC, MPROTECT, o ambos. Cuando surgen problemas, pueden utilizarse secadm o hbsdcontrol para deshabilitar PAGEEXEC, MPROTECT, o ambos solo para esa aplicación.
+
+=== SafeStack ===
+
+SafeStack es una mitigación de exploit que crea dos pilas: una para los datos que deben estar seguros, como las direcciones de retorno y punteros a la función y una pila insegura para todo lo demás. SafeStack promete una penalización de bajo rendimiento (normalmente alrededor del 0,1%).
+
+SafeStack requiere tanto de ASLR como de W^X para ser efectivo. Con HardenedBSD satisfaciendo ambos pre-requisitos, SafeStack fue considerado un excelente candidato para la inclusión por defecto en HardenedBSD. A partir de HardenedBSD 11-STABLE, está habilitado por defecto para amd64. SafeStack se puede desactivar configurando <code>WITHOUT_SAFESTACK</code> en <code>src.conf (5)</code>.
+
+A partir del 8 de octubre de 2018, SafeStack solo admite ser aplicado en aplicaciones y bibliotecas no compartidas. Múltiples parches han sido enviados a clang por terceros para agregar el soporte para la biblioteca compartida faltante. Como tal, SafeStack todavía está en desarrollo activo.
+
+SafeStack también se ha puesto a disposición en el árbol de puertos HardenedBSD. A diferencia de PIE, RELRO y BIND_NOW, no está habilitado globalmente para el árbol de puertos. Algunos puertos que se sabe que funcionan bien con SafeStack lo tienen habilitado por defecto. Los usuarios pueden alternar SafeStack usando el target <code>config</code> en make. Además, la opción SafeStack es aplicable solamente a la arquitectura amd64. Intentar habilitar SafeStack para una compilación de puerto no-amd64 resultará en un NO-OP. SafeStack simplemente no se aplicará.
+
+=== Control-Flow Integrity (CFI) ===
+
+La integridad de control-flujo (CFI) es una técnica de mitigación de exploit que evita la transferencia no deseada de control desde las instrucciones de la rama a ubicaciones de memoria válidas arbitrarias. La implementación de CFI de clang/llvm viene en dos formas: Cross-DSO CFI y non-Cross-DSO CFI. HardenedBSD 12 habilita non-Cross-DSO CFI de forma predeterminada en amd64 y arm64 para la base.
+
+CFI requiere un enlazador que admita la optimización de tiempo de enlace (LTO). A partir de 12, HardenedBSD viene con ld.lld como el enlazador predeterminado. ld.lld soporta LTO.
+
+El Non-Cross-DSO CFI agrega chequeos antes y después de cada instrucción de la rama en la propia aplicación. Si una aplicación carga bibliotecas a través de <code>dlopen (3)</code> y resuelve funciones a través de <code>dlsym (3)</code> y llama a esas funciones, la aplicación abortará. Algunas aplicaciones, como <code>bhyveload (8)</code> hacen esto y así tienen el esquema cfi-icall deshabilitado, lo que le permite llamar a funciones resueltas vía <code>dlsym (3)</code>. Así, si un usuario encuentra que una aplicación falla en HardenedBSD 12, el usuario debe presentar un informe de error. El esquema de cfi-icall puede ser deshabilitado al crear <code>world</code> agregando una anulación de CFI en el Makefile de esa aplicación.
+
+Tenga en cuenta que Non-Cross-DSO CFI no requiere ASLR y W^X estricto. Dado que Cross-DSO CFI mantiene metadatos e información de estado, Cross-DSO CFI requiere ASLR y W^X para ser efectivo.
+
+Se ha agregado soporte Non-Cross-DSO CFI a la infraestructura de puertos de HardenedBSD. Sin embargo, no está habilitado por defecto. Soporte para CFI en los puertos sigue siendo muy prematuros y solo está disponible para esos usuarios valientes que quieran experimentar.
+
+A partir del 20 de mayo de 2017, Cross-DSO CFI se está investigando activamente. Sin embargo, el soporte para Cross-DSO CFI no está disponible en HardenedBSD, todavía. Cross-DSO CFI permitiría funciones resueltas a través de <code>dlopen (3) / dlsym (3)</code> para trabajar ya que CFI podría aplicarse entre límites de objetos compartidos dinámicos (DSO). Progreso significativo se ha realizado en el primer semestre de 2018 con respecto a Cross-DSO CFI. El sistema operativo base puede compilarse completamente con Cross-DSO CFI. El 16 de julio de 2018, un [https://hardenedbsd.org/article/shawn-webb/2018-07-16/preliminary-call-testing-cross-dso-cfi Call For Testing] pre-alfa fue lanzado para una prueba inicial más amplia. El equipo de desarrollo de HardenedBSD espera lanzar Cross-DSO CFI en la base dentro de la segunda mitad de 2019.
+
+=== hbsdcontrol ===
+
+hbsdcontrol (8) es una herramienta, incluida en la base, que permite a los usuarios alternar las mitigaciones de exploits por aplicación. Los usuarios normalmente usarán hbsdcontrol para deshabilitar las restricciones de PAGEEXEC y/o MPROTECT. hbsdcontrol tiene un alcance similar al de secadm y se prefiere a secadm para sistemas de archivos que admiten atributos extendidos.
+
+A diferencia de secadm, hbsdcontrol no usa un archivo de configuración. En su lugar, almacena metadatos en los atributos extendidos del sistema de archivos. Tanto UFS como ZFS soportan atributos extendidos. Los sistemas de archivos basados en red, como NFS o SMB/CIFS no lo hacen. secadm es el método preferido para la mitigación de expliots que se activa solo en los casos en que no se admiten los atributos extendidos.
+
+Ejemplo de uso de hbsdcontrol para deshabilitar MPROTECT para Firefox:
+
+ <nowiki>
+# hbsdcontrol pax disable mprotect /usr/local/lib/firefox/firefox
+# hbsdcontrol pax disable mprotect /usr/local/lib/firefox/plugin-container</nowiki>
+
+=== Security Administration (secadm) ===
+
+Secadm es una herramienta, distribuida a través de los puertos, que permite a los usuarios alternar las mitigaciones de exploits por aplicación y por jaula. Los usuarios normalmente usan secadm para deshabilitar las restricciones PAGEEXEC y/o MPROTECT.
+
+secadm también incluye una característica conocida como Integriforce. Integriforce es una implementación de ejecución verificada. Refuerza las firmas basadas en hash para binarios y sus objetos compartidos dependientes. Integriforce se puede establecer en modo de whitelisting. Cuando hay al menos una regla de Integriforce habilitada, todas las aplicaciones 
+deseadas y sus objetos compartidos dependientes también deben tener reglas. Si una aplicación y sus objetos compartidos no están incluidos en el conjunto de reglas, se rechazará la ejecución de esa aplicación. Esto también afecta a los objetos compartidos cargados a través de [https://www.freebsd.org/cgi/man.cgi?query=dlopen&sektion=3&manpath=freebsd-release-ports dlopen (3)].
+
+Cuando se agrega un archivo al conjunto de reglas de secadm, secadm no permitirá modificaciones a ese archivo. Esto incluye eliminar, agregar, truncar o modificar el archivo. Esto se debe a que secadm realiza un seguimiento de los archivos bajo su control utilizando el inodo. La modificación del archivo puede cambiar el inodo, o liberarlo en caso de eliminación, por lo que se modifica implícitamente el conjunto de reglas de secadm. Para proteger la integridad del conjunto de reglas cargado, secadm también protege los archivos que controla.
+
+Por lo tanto, al actualizar los puertos o paquetes instalados, se debe tener cuidado. Limpie el conjunto de reglas antes de instalar actualizaciones. El conjunto de reglas se puede volver a cargar después de la actualización.
+
+==== Descargando e Instalando secadm ====
+
+secadm no es actualmente parte de la base, aunque eso está planeado para el futuro próximo. secadm puede ser instalado ya sea mediante el repositorio de paquetes:
+
+<code># pkg install secadm-kmod secadm</code>
+
+o usando el árbol de puertos de HardenedBSD:
+
+ <nowiki># cd /usr/ports/hardenedbsd/secadm
+# make install clean
+# cd /usr/ports/hardenedbsd/secadm-kmod
+# make install clean</nowiki>
+
+==== Configurando secadm ====
+
+De forma predeterminada, secadm busca un archivo de configuración en <code>/usr/local/etc/secadm.rules</code>. Para los propósitos de esta documentación, ese archivo simplemente será referenciado como <code>secadm.rules</code>. secadm no instala ni administra el archivo <code>secadm.rules</code>. Simplemente lee el archivo, si existe, pasando los datos analizados al módulo del kernel. secadm se puede configurar a través de la línea de comandos o <code>secadm.rules</code>. Tanto secadm como <code>secadm.rules</code> contienen páginas del manual. Una vez instalado, los usuarios pueden ver la página del manual de secadm en la sección 8 y secadm.rules en la sección 5.
+
+<code>secadm.rules</code> debe estar en un formato que libucl pueda analizar, ya que secadm usa libucl para analizar <code>secadm.rules</code>.
+
+Un ejemplo de <code>secadm.rules</code> se vería así:
+
+ <nowiki>secadm {
+	pax {
+		path: "/usr/local/lib/firefox/firefox",
+		mprotect: false,
+	},
+	pax {
+		path: "/usr/local/lib/firefox/plugin-container",
+		mprotect: false,
+	},
+}</nowiki>
+
+Una vez que secadm se ha configurado, puede ser iniciado mediante el sistema [https://www.freebsd.org/cgi/man.cgi?query=rc&sektion=8&manpath=freebsd-release-ports rc(8)]:
+
+ <nowiki># sysrc secadm_enable=YES
+# service secadm start</nowiki>
+
+==== Todas las opciones de configuración de secadm ====
+
+Estas son las opciones pax disponibles:
+
+{| class="wikitable"
+!Opción
+!Requerimiento
+!Tipo
+!Descripción
+|-
+| path
+| Requerido
+| String
+| Ruta completa del ejecutable
+|-
+| aslr		
+| Opcional
+| Boolean
+| Alternar ASLR
+|-
+| disallow_map32bit
+| Opcional
+| Boolean
+| Alternar la habilidad de usar la bandera MAP_32BIT [https://www.freebsd.org/cgi/man.cgi?query=mmap&sektion=2&manpath=freebsd-release-ports mmap(2)] en sistemas de 64-bit
+|-
+| mprotect
+| Opcional
+| Boolean
+| Alternar las restricciones mprotect
+|-
+| pageexec
+| Opcional
+| Boolean
+| Alternar las restricciones pageexec
+|-
+| segvguard
+| Opcional
+| Boolean
+| Alternar SEGVGUARD
+|-
+| shlibrandom
+| Opcional
+| Boolean
+| Alternar la aleatoriedad del órden de carga de la librería compartida
+|}
+
+Ejemplo de configuración pax:
+
+ <nowiki>
+secadm {
+	pax {
+		path: "/usr/local/lib/firefox/firefox",
+		mprotect: false,
+	},
+	pax {
+		path: "/usr/local/lib/firefox/plugin-container",
+		mprotect: false,
+	},
+}
+</nowiki>
+
+Estas son las opciones de integriforce disponibles:
+
+{| class="wikitable"
+! Opción
+! Requerimiento
+! Tipo
+! Descripción
+|-
+| path
+| Requerido
+| String
+| Ruta completa al ejecutable o a la librería compartida
+|-
+| hash
+| Requerido
+| String
+| Firma [https://www.freebsd.org/cgi/man.cgi?query=sha1&sektion=1&manpath=freebsd-release-ports sha1(1)] o [https://www.freebsd.org/cgi/man.cgi?query=sha256&sektion=1&manpath=freebsd-release-ports sha256(1)] del archivo
+|-
+| type
+| Requerido
+| String
+| Tipo de firma. Ya sea "sha1" o "sha256".
+|-
+| mode
+| Requerido
+| String
+| Ya sea "soft" o "hard". En modo soft, si la firma no coincide, una advertencia se escribe en syslog y se permite la ejecución. En modo hard, si la firma no coincide, un error se escribe en syslog y la ejecución se cancela. 
+|}
+
+Ejemplo de configuración de integriforce:
+
+ <nowiki>
+secadm {
+	integriforce {
+		path: "/bin/ls",
+		hash: "7dee472b6138d05b3abcd5ea708ce33c8e85b3aac13df350e5d2b52382c20e77",
+		type: "sha256",
+		mode: "hard",
+	}
+}</nowiki>
+
+=== Contribuyendo a HardenedBSD ===
+
+HardenedBSD usa GitHub para el control de las fuentes e informes de errores. Los usuarios pueden enviar informes de errores para el código fuente base de HardenedBSD [https://github.com/HardenedBSD/hardenedbsd/issues aquí] y para los puertos [https://github.com/HardenedBSD/hardenedbsd-ports/issues aquí]. Al enviar informes de errores, por favor incluya la siguiente información:
+
+* Versión de HardenedBSD
+* Arquitectura
+* Si el informe se refiere a un kernel panic, el backtrace del panic
+* Pasos para reproducir el error.
+
+==== Proceso de Desarrollo de HardenedBSD ====
+
+HardenedBSD usa tres repositorios durante el proceso de desarrollo:
+
+{| class="wikitable"
+!Repositorio
+!Propósito
+|-
+| [https://github.com/HardenedBSD/hardenedBSD HardenedBSD]
+| Repositorio Maestro de Desarrollo
+|-
+| [https://github.com/HardenedBSD/hardenedBSD-stable HardenedBSD-STABLE]
+| Repositorio Estable (solo-lectura)
+|-
+| [https://github.com/HardenedBSD/hardenedBSD-playground HardenedBSD-Playground]
+| Repositorio altamente experimental y de código de terceros
+|}
+
+Ramas de desarrollo de HardenedBSD:
+
+{| class="wikitable"
+!Rama
+!Repositorio
+!Actualizaciones Binarias
+!Propósito
+|-
+| hardened/current/master
+| HardenedBSD
+| amd64, arm64
+| Rama maestra de desarrollo (13-CURRENT)
+|-
+| hardened/11-stable/master
+| HardenedBSD
+| amd64
+| Desarrollo 11-STABLE
+|-
+| hardened/10-stable/master
+| HardenedBSD
+| amd64
+| Desarrollo 10-STABLE
+|-
+| hardened/current/drm-next
+| HardenedBSD-Playground
+| amd64
+| HardenedBSD 13-CURRENT con drm-next
+|-
+| hardened/current/safestack-arm64
+| HardenedBSD-Playground
+| arm64
+| HardenedBSD 13-CURRENT con SafeStack portado a arm64
+|-
+| hardened/current/cross-dso-cfi
+| HardenedBSD-Playground
+| N/A
+| HardenedBSD 13-CURRENT con soporte para Cross-DSO-CFI
+|}
+
+=== Actualizando HardenedBSD ===
+
+HardenedBSD no usa [https://www.freebsd.org/cgi/man.cgi?query=freebsd-update&sektion=8&manpath=freebsd-release-ports freebsd-update (8)]. En su lugar, HardenedBSD usa una utilidad conocida como hbsd-update. hbsd-update no usa deltas para publicar actualizaciones, sino que distribuye el sistema operativo base en su totalidad. El utilizar deltas implica una sobrecarga de ancho de banda, pero es más fácil de mantener y duplicar. hbsd-update se basa en registros TXT firmados por DNSSEC para distribuir información de versión.
+
+Las actualizaciones para las ramas estables mantenidas (12-STABLE, 11-STABLE) provienen del repositorio HardenedBSD-STABLE. Las actualizaciones para CURRENT (hardened/current/master) provienen del repositorio de HardenedBSD.
+
+hbsd-update se configura a través de un archivo de configuración ubicado en <code>/etc/hbsd-update.conf</code>. hbsd-update funciona en un nivel de bifurcación, lo que significa que rastrea las ramas dentro del árbol de origen de HardenedBSD. Por lo tanto, la actualización de una versión principal a otra requiere cambiar las variables dnsrec y branch en <code>hbsd-update.conf</code>. Por ejemplo, el <code>hbsd-update.conf</code> para la rama hardened/current/master en el repositorio de HardenedBSD:
+
+ <nowiki>
+dnsrec="$(uname -m).master.current.hardened.hardenedbsd.updates.hardenedbsd.org"
+capath="/usr/share/keys/hbsd-update/trusted"
+branch="hardened/current/master"
+baseurl="http://updates.hardenedbsd.org/pub/HardenedBSD/updates/${branch}/$(uname -m)"
+</nowiki>
+
+Y como otro ejemplo, el archivo <code>hbsd-update.conf</code> para la rama hardened/11-stable/master en el repositorio de HardenedBSD:
+
+ <nowiki>
+dnsrec="$(uname -m).master.11-stable.hardened.hardenedbsd.updates.hardenedbsd.org"
+capath="/usr/share/keys/hbsd-update/trusted"
+branch="hardened/11-stable/master"
+baseurl="http://updates.hardenedbsd.org/pub/HardenedBSD/updates/${branch}/$(uname -m)"
+</nowiki>
+
+Entonces, generar un diff entre dos archivos de configuración dará como resultado:
+
+ <nowiki>
+--- hbsd-update_current.conf	2017-07-21 20:08:22.153616000 -0400
++++ hbsd-update_11-stable.conf	2017-07-21 20:08:38.003508000 -0400
+@@ -1,4 +1,4 @@
+-dnsrec="$(uname -m).master.current.hardened.hardenedbsd.updates.hardenedbsd.org"
++dnsrec="$(uname -m).master.11-stable.hardened.hardenedbsd.updates.hardenedbsd.org"
+ capath="/usr/share/keys/hbsd-update/trusted"
+-branch="hardened/current/master"
++branch="hardened/11-stable/master"
+ baseurl="http://updates.hardenedbsd.org/pub/HardenedBSD/updates/${branch}/$(uname -m)"
+</nowiki>
