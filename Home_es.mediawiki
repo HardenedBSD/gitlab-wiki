@@ -384,9 +384,8 @@ Un ejemplo de <code>secadm.rules</code> se vería así:
 
 Una vez que secadm se ha configurado, puede ser iniciado mediante el sistema [https://www.freebsd.org/cgi/man.cgi?query=rc&sektion=8&manpath=freebsd-release-ports rc(8)]:
 
-<code>
-# sysrc secadm_enable=YES
-# service secadm start</code>
+<code># sysrc secadm_enable=YES</code><br>
+<code># service secadm start</code>
 
 ==== Todas las opciones de configuración de secadm ====
 
@@ -436,17 +435,16 @@ Estas son las opciones pax disponibles:
 
 Ejemplo de configuración pax:
 
-<code>
-secadm {
-	pax {
-		path: "/usr/local/lib/firefox/firefox",
-		mprotect: false,
-	},
-	pax {
-		path: "/usr/local/lib/firefox/plugin-container",
-		mprotect: false,
-	},
-}
+<code>secadm {</code><br>
+<code>	pax {</code><br>
+<code>		path: "/usr/local/lib/firefox/firefox",</code><br>
+<code>		mprotect: false,</code><br>
+<code>	},</code><br>
+<code>	pax {</code><br>
+<code>		path: "/usr/local/lib/firefox/plugin-container",</code><br>
+<code>		mprotect: false,</code><br>
+<code>	},</code><br>
+<code>}</code><br>
 </code>
 
 Estas son las opciones de integriforce disponibles:
@@ -480,15 +478,14 @@ Estas son las opciones de integriforce disponibles:
 
 Ejemplo de configuración de integriforce:
 
-<code>
-secadm {
-	integriforce {
-		path: "/bin/ls",
-		hash: "7dee472b6138d05b3abcd5ea708ce33c8e85b3aac13df350e5d2b52382c20e77",
-		type: "sha256",
-		mode: "hard",
-	}
-}</code>
+<code>secadm {</code><br>
+<code>	integriforce {</code><br>
+<code>		path: "/bin/ls",</code><br>
+<code>		hash: "7dee472b6138d05b3abcd5ea708ce33c8e85b3aac13df350e5d2b52382c20e77",</code><br>
+<code>		type: "sha256",</code><br>
+<code>		mode: "hard",</code><br>
+<code>	}</code><br>
+<code>}</code>
 
 === Contribuyendo a HardenedBSD ===
 
@@ -564,31 +561,28 @@ Las actualizaciones para las ramas estables mantenidas (12-STABLE, 11-STABLE) pr
 
 hbsd-update se configura a través de un archivo de configuración ubicado en <code>/etc/hbsd-update.conf</code>. hbsd-update funciona en un nivel de bifurcación, lo que significa que rastrea las ramas dentro del árbol de origen de HardenedBSD. Por lo tanto, la actualización de una versión principal a otra requiere cambiar las variables dnsrec y branch en <code>hbsd-update.conf</code>. Por ejemplo, el <code>hbsd-update.conf</code> para la rama hardened/current/master en el repositorio de HardenedBSD:
 
-<code>
-dnsrec="$(uname -m).master.current.hardened.hardenedbsd.updates.hardenedbsd.org"
-capath="/usr/share/keys/hbsd-update/trusted"
-branch="hardened/current/master"
-baseurl="http://updates.hardenedbsd.org/pub/HardenedBSD/updates/${branch}/$(uname -m)"
+<code>dnsrec="$(uname -m).master.current.hardened.hardenedbsd.updates.hardenedbsd.org"</code><br>
+<code>capath="/usr/share/keys/hbsd-update/trusted"</code><br>
+<code>branch="hardened/current/master"</code><br>
+<code>baseurl="http://updates.hardenedbsd.org/pub/HardenedBSD/updates/${branch}/$(uname -m)"</code><br>
 </code>
 
 Y como otro ejemplo, el archivo <code>hbsd-update.conf</code> para la rama hardened/11-stable/master en el repositorio de HardenedBSD:
 
-<code>
-dnsrec="$(uname -m).master.11-stable.hardened.hardenedbsd.updates.hardenedbsd.org"
-capath="/usr/share/keys/hbsd-update/trusted"
-branch="hardened/11-stable/master"
-baseurl="http://updates.hardenedbsd.org/pub/HardenedBSD/updates/${branch}/$(uname -m)"
+<code>dnsrec="$(uname -m).master.11-stable.hardened.hardenedbsd.updates.hardenedbsd.org"</code><br>
+<code>capath="/usr/share/keys/hbsd-update/trusted"</code><br>
+<code>branch="hardened/11-stable/master"</code><br>
+<code>baseurl="http://updates.hardenedbsd.org/pub/HardenedBSD/updates/${branch}/$(uname -m)"</code><br>
 </code>
 
 Entonces, generar un diff entre dos archivos de configuración dará como resultado:
 
-<code>
---- hbsd-update_current.conf	2017-07-21 20:08:22.153616000 -0400
-+++ hbsd-update_11-stable.conf	2017-07-21 20:08:38.003508000 -0400
-@@ -1,4 +1,4 @@
--dnsrec="$(uname -m).master.current.hardened.hardenedbsd.updates.hardenedbsd.org"
-+dnsrec="$(uname -m).master.11-stable.hardened.hardenedbsd.updates.hardenedbsd.org"
- capath="/usr/share/keys/hbsd-update/trusted"
--branch="hardened/current/master"
-+branch="hardened/11-stable/master"
- baseurl="http://updates.hardenedbsd.org/pub/HardenedBSD/updates/${branch}/$(uname -m)"</code>
+<code>--- hbsd-update_current.conf	2017-07-21 20:08:22.153616000 -0400</code><br>
+<code>+++ hbsd-update_11-stable.conf	2017-07-21 20:08:38.003508000 -0400</code><br>
+<code>@@ -1,4 +1,4 @@</code><br>
+<code>-dnsrec="$(uname -m).master.current.hardened.hardenedbsd.updates.hardenedbsd.org"</code><br>
+<code>+dnsrec="$(uname -m).master.11-stable.hardened.hardenedbsd.updates.hardenedbsd.org"</code><br>
+<code> capath="/usr/share/keys/hbsd-update/trusted"</code><br>
+<code>-branch="hardened/current/master"</code><br>
+<code>+branch="hardened/11-stable/master"</code><br>
+<code>baseurl="http://updates.hardenedbsd.org/pub/HardenedBSD/updates/${branch}/$(uname -m)"</code>
