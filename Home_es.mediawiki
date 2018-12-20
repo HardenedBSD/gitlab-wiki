@@ -584,7 +584,8 @@ baseurl="http://updates.hardenedbsd.org/pub/HardenedBSD/updates/${branch}/$(unam
 
 Entonces, generar un diff entre dos archivos de configuración dará como resultado:
 
- <nowiki>--- hbsd-update_current.conf	2017-07-21 20:08:22.153616000 -0400
+<code>
+--- hbsd-update_current.conf	2017-07-21 20:08:22.153616000 -0400
 +++ hbsd-update_11-stable.conf	2017-07-21 20:08:38.003508000 -0400
 @@ -1,4 +1,4 @@
 -dnsrec="$(uname -m).master.current.hardened.hardenedbsd.updates.hardenedbsd.org"
@@ -592,4 +593,4 @@ Entonces, generar un diff entre dos archivos de configuración dará como result
  capath="/usr/share/keys/hbsd-update/trusted"
 -branch="hardened/current/master"
 +branch="hardened/11-stable/master"
- baseurl="http://updates.hardenedbsd.org/pub/HardenedBSD/updates/${branch}/$(uname -m)"</nowiki>
+ baseurl="http://updates.hardenedbsd.org/pub/HardenedBSD/updates/${branch}/$(uname -m)"</code>
