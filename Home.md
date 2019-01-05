@@ -610,6 +610,7 @@ HardenedBSD development branches:
 | Branch           			| Repository		| Binary Updates| Purpose						|
 |---------------------------------------|-----------------------|---------------|-------------------------------------------------------|
 | hardened/current/master		| HardenedBSD		| amd64, arm64	| Main development branch (13-CURRENT)			|
+| hardened/12-stable/master		| HardenedBSD		| amd64		| 12-STABLE development					|
 | hardened/11-stable/master		| HardenedBSD		| amd64		| 11-STABLE development					|
 | hardened/10-stable/master		| HardenedBSD		| amd64		| 10-STABLE development					|
 | hardened/current/drm-next		| HardenedBSD-Playground| amd64		| HardenedBSD 13-CURRENT with drm-next bits merged in	|
