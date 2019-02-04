@@ -45,7 +45,8 @@ HardenedBSD completed its ASLR implementation in 2015 with the
 strongest form of ASLR in any of the BSDs. Since then, HardenedBSD has
 moved on to implementing other exploit mitigations and hardening
 technologies. OPNsense, an open source firewall based on FreeBSD,
-incorporated HardenedBSD's ASLR implementation in 2016.
+incorporated HardenedBSD's ASLR implementation in 2016. OPNsense
+completed their migration to HardenedBSD on 31 January 2019.
 
 HardenedBSD exists today as a fork of FreeBSD that closely follow's
 FreeBSD's source code. HardenedBSD syncs with FreeBSD every six hours.
