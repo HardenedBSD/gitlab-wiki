@@ -8,3 +8,4 @@ The following applications need special handling with respect to exploit mitigat
 | www/kdepim | /usr/local/bin/kmail | mprotect, pageexec |
 | java/openjdk7 | /usr/local/openjdk7/bin/* | mprotect, pageexec |
 | java/openjdk8 | /usr/local/openjdk8/bin/* | mprotect, pageexec |
+| php-fpm | /usr/local/sbin/php-fpm | mprotect, pageexec |
