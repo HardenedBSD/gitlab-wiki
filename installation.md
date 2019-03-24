@@ -1,4 +1,4 @@
-## Example from hardenedbsd-12-stable
+## Example for hardenedbsd-12-stable
 ### List installers
 https://installer.hardenedbsd.org/hardened_12_stable_master-LAST/
 
