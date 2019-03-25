@@ -12,7 +12,7 @@ https://installer.hardenedbsd.org/hardened_12_stable_master-LAST/
 
 `# pkg install pgpgpg`
 
-`$ gpg --keyserver hkp://pgpkeys.mit.edu --recv-key 6FFD188D`
+`$ gpg --keyserver hkps://zimmermann.mayfirst.org --recv-key 6FFD188D`
 
 `$ gpg --fingerprint 6FFD188D`
 
