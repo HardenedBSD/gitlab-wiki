@@ -3,6 +3,7 @@
 https://installer.hardenedbsd.org/hardened_12_stable_master-LAST/
 
 ### Install
+`# pkg install -y ca_root_nss`
 
 `$ fetch https://installer.hardenedbsd.org/hardened_12_stable_master-LAST/CHECKSUM.SHA512`
 
@@ -10,7 +11,7 @@ https://installer.hardenedbsd.org/hardened_12_stable_master-LAST/
 
 `$ fetch https://installer.hardenedbsd.org/hardened_12_stable_master-LAST/HardenedBSD-12-STABLE-v1200058.4-amd64-memstick.img`
 
-`# pkg install pgpgpg`
+`# pkg install -y pgpgpg`
 
 `$ gpg --keyserver hkps://zimmermann.mayfirst.org --recv-key 6FFD188D`
 
