@@ -24,9 +24,9 @@ https://installer.hardenedbsd.org/hardened_12_stable_master-LAST/
 
 
 ### After install
-`# pkg upgrade && pkg install git-lite beadm`
+`# pkg upgrade && pkg install -y git-lite beadm`
 
-``# hbsd-update -I -V -b `date "+%Y%m%d%H%M%S"` ``
+``# hbsd-update -V -b `date "+%Y%m%d%H%M%S"` ``
 
 ### Get ports
 `# git clone https://github.com/HardenedBSD/hardenedbsd-ports.git /usr/ports`
