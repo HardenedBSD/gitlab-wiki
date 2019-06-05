@@ -16,7 +16,7 @@ https://installer.hardenedbsd.org/hardened_12_stable_master-LAST/
 
 `$ gpg --fingerprint 6FFD188D`
 
-`$ gpg --verify CHECKSUM.SHA512.asc`
+`$ gpg --verify CHECKSUM.SHA512.asc CHECKSUM.SHA512`
 
 `$ if grep "^$(sha512 HardenedBSD-12-STABLE-v1200058.4-amd64-memstick.img)$" CHECKSUM.SHA512;then echo "OK"; else echo "WARNIG!!";fi`
 
