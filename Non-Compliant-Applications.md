@@ -11,3 +11,4 @@ The following applications need special handling with respect to exploit mitigat
 | php-fpm | /usr/local/sbin/php-fpm | mprotect, pageexec |
 | python36 | /usr/local/bin/python3.6| mprotect, pageexec |
 | sysutils/polkit | /usr/local/lib/polkit-1/polkitd | mprotect, pageexec |
+| editors/libreoffice | /usr/local/lib/libreoffice/program/soffice.bin | mprotect, pageexec |
