@@ -12,3 +12,23 @@ The following applications need special handling with respect to exploit mitigat
 | python36 | /usr/local/bin/python3.6| mprotect, pageexec |
 | sysutils/polkit | /usr/local/lib/polkit-1/polkitd | mprotect, pageexec |
 | editors/libreoffice | /usr/local/lib/libreoffice/program/soffice.bin | mprotect, pageexec |
+
+
+# Building Applications
+
+Lots of applications will not build very well under all the hardening, but might run OK.  HardenedBSD during builds of the ports tree, disables lots of hardening for build purposes.
+something like:
+
+```
+sysctl hardening.pax.pageexec.status=1 hardening.pax.mprotect.status=1 hardening.pax.disallow_map32bit.status=1 hardening.pax.aslr.status=1
+```
+
+This disables these hardening options globally, which you probably don't want in production, so best is to do it in a jail, you can see [here](https://gist.github.com/lattera/22e4f9d2c056b7fbf62adcdf82cd4a50) towards the end how to do that.  Otherwise be sure to re-enable the hardening when you are done:
+
+```
+sysctl hardening.pax.pageexec.status=2 hardening.pax.mprotect.status=2 hardening.pax.disallow_map32bit.status=2 hardening.pax.aslr.status=2
+```
+
+will put them back to their default settings.
+
+If you get stuck, reach out!
