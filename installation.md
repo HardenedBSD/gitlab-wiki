@@ -31,8 +31,13 @@ https://installer.hardenedbsd.org/hardened_12_stable_master-LAST/
 
 ### Get ports
 `# git clone https://github.com/HardenedBSD/hardenedbsd-ports.git /usr/ports`
+And to maintain alignment of your ports tree with github
+`# cd /usr/ports && git pull`
+
 ### Get src
 `# git clone --single-branch --branch hardened/12-stable/master https://github.com/hardenedbsd/hardenedbsd-stable/ /usr/src`
+similarly to maintain your /usr/src (analogous to `svnlite update /usr/src`)
+`# cd /usr/src && git pull`
 
 ### HardenedBSD Handbook
 https://hardenedbsd.org/~shawn/hbsd_handbook/book.html
