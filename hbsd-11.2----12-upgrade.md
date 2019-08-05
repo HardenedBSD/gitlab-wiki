@@ -9,9 +9,9 @@ make sure running latest 11.2 release:
 
 replace 11 with 12 (s/11/12/g)
 
-add ntpd user:
+FreeBSD has modified ntp to run without root privileges (a good thing), and requires a non-root UID.  FreeBSD and HardenedBSD use username ntpd with UID 123, so add the ntpd user:
 
-`adduser -D -L daemon`
+`adduser -u 123 -D -L daemon`
 
 upgrade:
 
