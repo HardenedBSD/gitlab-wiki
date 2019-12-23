@@ -1,5 +1,9 @@
 The following applications need special handling with respect to exploit mitigation features in HardenedBSD. Sample rules these applications, and more, can be found  [here](https://github.com/HardenedBSD/secadm-rules).
 
+`hbsdcontrol` is the easiest way to set the flags, which are done per binary.
+something like:
+```hbsdcontrol pax disable mprotect /usr/local/lib/firefox/firefox```
+
 | Port | Path | Incompatibility |
 | ---- | ---- | --------------- |
 | www/chromium | /usr/local/share/chromium/chrome | mprotect, pageexec |
@@ -12,6 +16,7 @@ The following applications need special handling with respect to exploit mitigat
 | python36 | /usr/local/bin/python3.6| mprotect, pageexec |
 | sysutils/polkit | /usr/local/lib/polkit-1/polkitd | mprotect, pageexec |
 | editors/libreoffice | /usr/local/lib/libreoffice/program/soffice.bin | mprotect, pageexec |
+| grub2-bhyve | | pageexec, mprotect, disable_map32bit |
 
 
 # Building Applications
