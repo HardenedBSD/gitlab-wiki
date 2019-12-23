@@ -13,23 +13,23 @@ This wiki has been ported from section 14 of the [HardenedBSD Handbook](https://
 
 ## Translations
 
-* [Espanol](https://github.com/HardenedBSD/hardenedBSD/wiki/Home_es)
+* [Espanol](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD/wiki/Home_es)
 
 ## Table of Contents
 
-* [History](https://github.com/HardenedBSD/hardenedBSD/wiki#history)
-* [Features](https://github.com/HardenedBSD/hardenedBSD/wiki#features)
-* [Generic Kernel Options](https://github.com/HardenedBSD/hardenedBSD/wiki#generic-kernel-options)
-* [Generic System Hardening](https://github.com/HardenedBSD/hardenedBSD/wiki#generic-system-hardening)
-* [Address Space Layout Randomization (ASLR)](https://github.com/HardenedBSD/hardenedBSD/wiki#address-space-layout-randomization-aslr)
-* [PaX SEGVGUARD](https://github.com/HardenedBSD/hardenedBSD/wiki#pax-segvguard)
-* [PAGEEXEC and MPROTECT (aka, NOEXEC)](https://github.com/HardenedBSD/hardenedBSD/wiki#pageexec-and-mprotect-aka-noexec)
-* [SafeStack](https://github.com/HardenedBSD/hardenedBSD/wiki#safestack)
-* [Control-Flow Integrity (CFI)](https://github.com/HardenedBSD/hardenedBSD/wiki#control-flow-integrity-cfi)
-* [hbsdcontrol](https://github.com/HardenedBSD/hardenedBSD/wiki#hbsdcontrol)
-* [Security Administration (secadm)](https://github.com/HardenedBSD/hardenedBSD/wiki#security-administration-secadm)
-* [Contributing to HardenedBSD](https://github.com/HardenedBSD/hardenedBSD/wiki#contributing-to-hardenedbsd)
-* [Updating HardenedBSD](https://github.com/HardenedBSD/hardenedBSD/wiki#updating-hardenedbsd)
+* [History](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD/wiki#history)
+* [Features](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD/wiki#features)
+* [Generic Kernel Options](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD/wiki#generic-kernel-options)
+* [Generic System Hardening](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD/wiki#generic-system-hardening)
+* [Address Space Layout Randomization (ASLR)](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD/wiki#address-space-layout-randomization-aslr)
+* [PaX SEGVGUARD](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD/wiki#pax-segvguard)
+* [PAGEEXEC and MPROTECT (aka, NOEXEC)](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD/wiki#pageexec-and-mprotect-aka-noexec)
+* [SafeStack](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD/wiki#safestack)
+* [Control-Flow Integrity (CFI)](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD/wiki#control-flow-integrity-cfi)
+* [hbsdcontrol](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD/wiki#hbsdcontrol)
+* [Security Administration (secadm)](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD/wiki#security-administration-secadm)
+* [Contributing to HardenedBSD](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD/wiki#contributing-to-hardenedbsd)
+* [Updating HardenedBSD](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD/wiki#updating-hardenedbsd)
 
 ## History
 
@@ -156,7 +156,7 @@ successful remote attacks, not local.
 
 HardenedBSD's ASLR implementation is based off of PaX's design and
 documentation. PaX's documentation can be found
-[here](https://github.com/HardenedBSD/pax-docs-mirror/blob/master/aslr.txt).
+[here](https://git-01.md.hardenedbsd.org/HardenedBSD/pax-docs-mirror/blob/master/aslr.txt).
 
 On 13 July 2015, HardenedBSD's ASLR implementation was completed with
 full stack and VDSO randomization. Since then, various improvements
@@ -282,9 +282,9 @@ SEGVGUARD can be set to opt-out by setting the
 
 ## PAGEEXEC and MPROTECT (aka, NOEXEC)
 
-[PAGEEXEC](https://github.com/HardenedBSD/pax-docs-mirror/blob/master/pageexec.txt)
+[PAGEEXEC](https://git-01.md.hardenedbsd.org/HardenedBSD/pax-docs-mirror/blob/master/pageexec.txt)
 and
-[MPROTECT](https://github.com/HardenedBSD/pax-docs-mirror/blob/master/mprotect.txt)
+[MPROTECT](https://git-01.md.hardenedbsd.org/HardenedBSD/pax-docs-mirror/blob/master/mprotect.txt)
 comprise what is more commonly called W^X (W xor X). The design and
 implementation in HardenedBSD is inspred by PaX's. PAGEEXEC prevents
 applications from creating memory mappings that are both Writable (W)
@@ -587,8 +587,8 @@ secadm {
 
 HardenedBSD uses GitHub for source control and bug reports. Users can
 submit bug reports for the HardenedBSD base source code
-[here](https://github.com/HardenedBSD/hardenedbsd/issues) and for ports
-[here](https://github.com/HardenedBSD/hardenedbsd-ports/issues). When
+[here](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD/issues) and for ports
+[here](https://git-01.md.hardenedbsd.org/HardenedBSD/hardenedbsd-ports/issues). When
 submitting bug reports, please include the following information:
 
 * HardenedBSD version
@@ -602,9 +602,8 @@ HardenedBSD uses three repositories during the development process:
 
 | Repository		| Purpose						|
 |-----------------------|-------------------------------------------------------|
-| [HardenedBSD](https://github.com/HardenedBSD/hardenedBSD)		| Main development repository				|
-| [HardenedBSD-STABLE](https://github.com/HardenedBSD/hardenedBSD-stable)	| Stable builds repository (read-only)			|
-| [HardenedBSD-Playground](https://github.com/HardenedBSD/hardenedBSD-playground)| Highly experimental and third-party code repository	|
+| [HardenedBSD](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD)		| Main development repository				|
+| [HardenedBSD-Playground](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD-Playground)| Highly experimental and third-party code repository	|
 
 HardenedBSD development branches:
 
@@ -613,7 +612,6 @@ HardenedBSD development branches:
 | hardened/current/master		| HardenedBSD		| amd64, arm64	| Main development branch (13-CURRENT)			|
 | hardened/12-stable/master		| HardenedBSD		| amd64		| 12-STABLE development					|
 | hardened/11-stable/master		| HardenedBSD		| amd64		| 11-STABLE development					|
-| hardened/10-stable/master		| HardenedBSD		| amd64		| 10-STABLE development					|
 | hardened/current/drm-next		| HardenedBSD-Playground| amd64		| HardenedBSD 13-CURRENT with drm-next bits merged in	|
 | hardened/current/safestack-arm64	| HardenedBSD-Playground| arm64		| HardenedBSD 13-CURRENT with SafeStack ported to arm64	|
 | hardened/current/cross-dso-cfi	| HardenedBSD-Playground| N/A		| HardenedBSD 13-CURRENT with Cross-DSO-CFI support	|
@@ -627,10 +625,6 @@ does not use deltas for publishing updates, but rather distributes the
 base operating system as a whole. Not utilizing deltas incurs a
 bandwidth overhead, but is easier to maintain and mirror. hbsd-update
 relies on DNSSEC-signed TXT records for distributing version information.
-
-Updates for maintained stable branches (12-STABLE, 11-STABLE) come
-from the HardenedBSD-STABLE repo. Updates for CURRENT
-(hardened/current/master) come from the HardenedBSD repo.
 
 hbsd-update is configured via a config file placed at
 `/etc/hbsd-update.conf`. hbsd-update works on a branch level, meaning it
@@ -670,4 +664,4 @@ Thus, generating a diff between the two configuration files would result in:
  baseurl="http://updates.hardenedbsd.org/pub/HardenedBSD/updates/${branch}/$(uname -m)"
 ```
 
-[back to top](https://github.com/HardenedBSD/hardenedBSD/wiki#)
+[back to top](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD/wiki#)
