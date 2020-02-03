@@ -2,10 +2,10 @@ The following applications need special handling with respect to exploit mitigat
 
 `hbsdcontrol` is the easiest way to set the flags, which are done per binary.
 something like:
-```hbsdcontrol pax disable mprotect /usr/local/lib/firefox/firefox```
+
 
 | Port | Path | Incompatibility |
-| ---- | ---- | --------------- |
+|------|------|-----------------|
 | www/chromium | /usr/local/share/chromium/chrome | mprotect, pageexec |
 | www/firefox | /usr/local/lib/firefox/firefox | mprotect |
 | www/firefox | /usr/local/lib/firefox/plugin-container | mprotect, pageexec |
