@@ -9,7 +9,7 @@ Some of HardenedBSD's features can be toggled on a per-application and
 per-jail basis using secadm or hbsdcontrol. Documentation for both
 tools will be covered later.
 
-This wiki has been ported from section 14 of the [HardenedBSD Handbook](https://hardenedbsd.org/content/hardenedbsd-handbook).
+This  wiki has been ported from section 14 of the [HardenedBSD Handbook](https://hardenedbsd.org/content/hardenedbsd-handbook).
 
 ## Translations
 
