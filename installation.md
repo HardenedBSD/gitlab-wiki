@@ -1,6 +1,7 @@
 ## Example for hardenedbsd-12-stable USB-stick
 ### List installers
-https://installer.hardenedbsd.org/hardened_12_stable_master-LAST/
+https://ci-01.nyi.hardenedbsd.org/pub/hardenedbsd/12-stable/
+
 
 ### Install
 `# pkg install -y ca_root_nss`

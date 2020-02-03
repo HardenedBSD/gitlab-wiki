@@ -9,7 +9,7 @@ Some of HardenedBSD's features can be toggled on a per-application and
 per-jail basis using secadm or hbsdcontrol. Documentation for both
 tools will be covered later.
 
-This  wiki has been ported from section 14 of the [HardenedBSD Handbook](https://hardenedbsd.org/content/hardenedbsd-handbook).
+This wiki has been ported from section 14 of the [HardenedBSD Handbook](https://hardenedbsd.org/content/hardenedbsd-handbook).
 
 ## Translations
 
@@ -53,8 +53,7 @@ FreeBSD's source code. HardenedBSD syncs with FreeBSD every six hours.
 Some of the branches, but not all, are listed below:
 
 1. HEAD -> hardened/current/master
-1. stable/11 -> hardened/stable/11
-1. releng/11.2 -> hardened/releng/11.2
+1. stable/12 -> hardened/12-stable/master
 
 ## Features
 
