@@ -49,32 +49,34 @@ Base System Source
 ------------------
 
 In our setup, we assume that the system has a fully populated
-```/usr/src```. We assume that ```make buildworld``` has been
+`/usr/src`. We assume that ```make buildworld``` has been
 performed previously and successfully.
 
-If not, then follow these steps if on 11-STABLE:
+If not, then follow these steps if on STABLE:
+
 
 ```
-# git clone https://github.com/HardenedBSD/hardenedBSD-stable.git /usr/src
+# git clone --branch hardened/12-stable/master https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD.git /usr/src
 # cd /usr/src
 # make -sj`sysctl -n hw.ncpu` buildworld
 ```
 
 Poudriere will use the artifacts generated from the source tree at
-```/usr/src```, so make sure that the source tree matches your target
+`/usr/src`, so make sure that the source tree matches your target
 deployment for base.
 
 If the poudriere jail already exists, destroy it with:
 
-```
-# poudriere jail -d -j 11-stable_amd64
-```
-
-Now create the HardenedBSD 11-STABLE/amd64 jail:
 
 ```
-# poudriere jail -c -v 11-STABLE -p local --m src=/usr/src \
-    -j 11-stable_amd64
+# poudriere jail -d -j stable_amd64
+```
+
+Now create the HardenedBSD STABLE/amd64 jail:
+
+```
+# poudriere jail -c -v STABLE -p local --m src=/usr/src \
+    -j stable_amd64
 ```
 
 Poudriere Configuration File
