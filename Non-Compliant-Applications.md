@@ -28,7 +28,7 @@ something like:
 sysctl hardening.pax.pageexec.status=1 hardening.pax.mprotect.status=1 hardening.pax.disallow_map32bit.status=1 hardening.pax.aslr.status=1
 ```
 
-This disables these hardening options globally, which you probably don't want in production, so best is to do it in a jail, you can see [here](https://gist.github.com/lattera/22e4f9d2c056b7fbf62adcdf82cd4a50) towards the end how to do that.  Otherwise be sure to re-enable the hardening when you are done:
+This disables these hardening options globally, which you probably don't want in production, so best is to do it in a jail, you can see [here](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD/wiki/BuildingPackages) towards the end how to do that.  Otherwise be sure to re-enable the hardening when you are done:
 
 ```
 sysctl hardening.pax.pageexec.status=2 hardening.pax.mprotect.status=2 hardening.pax.disallow_map32bit.status=2 hardening.pax.aslr.status=2
