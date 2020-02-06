@@ -45,6 +45,10 @@ PORTSTREE METHOD   TIMESTAMP PATH
 local     -                  /usr/ports
 ```
 
+If getting an error: ZPOOL variable is not set. 
+Make sure that your ZPOOL value is configured correctly on your poudriere.conf.
+
+
 Base System Source
 ------------------
 
@@ -75,8 +79,7 @@ If the poudriere jail already exists, destroy it with:
 Now create the HardenedBSD STABLE/amd64 jail:
 
 ```
-# poudriere jail -c -v STABLE -p local --m src=/usr/src \
-    -j stable_amd64
+# poudriere jail -c -v STABLE -p local -m src=/usr/src -j stable_amd64
 ```
 
 Poudriere Configuration File
@@ -243,7 +246,7 @@ MAX_EXECUTION_TIME=172800
 # be in a runaway state for having no output on stdout. Default: 7200
 NOHANG_TIME=57600
 
-URL_BASE=http://ci-04.md.hardenedbsd.org/
+URL_BASE=http:// <your custom domain here> /
 USE_COLORS=no
 
 JAIL_PARAMS="hardening.pax.aslr.status=1 hardening.pax.pageexec.status=1 hardening.pax.mprotect.status=1 hardening.pax.disallow_map32bit.status=1 hardening.pax.segvguard.status=1 allow.unprivileged_proc_debug=1"
