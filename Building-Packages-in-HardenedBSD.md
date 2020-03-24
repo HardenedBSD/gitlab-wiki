@@ -56,14 +56,47 @@ In our setup, we assume that the system has a fully populated
 `/usr/src`. We assume that ```make buildworld``` has been
 performed previously and successfully.
 
-If not, then follow these steps if on STABLE:
+If not, then follow these steps if on 12-STABLE:
 
+When running the 12-stable release the kernel ABI can change without extra notices.
+Building the world from the most recent commit will usually mean that your buildworld is ahead of your installed system. This will result in things breaking and kernel modules not loading, you don't want this.
+
+To make sure this doesn't happen we first check the commit version of the running system with
+```
+~ cat /var/db/hbsd-update/version 
+hbsd-v1200060-fb193275a276c540d1890a279e20e4515dd26aa2
+```
+So the git commit for this version is "fb193275a276c540d1890a279e20e4515dd26aa2"
+
+
+Now we use this commit to build our world. Now we download the HardenedBSD source from the Github repo (it's recommended to use Github for the initial sync as they the downloads are faster) which will take some time.
+After the download we checkout the same version as we are runnning.
+
+sidenote always try to avoid running programs as root while connecting to the Internet when you don't need to.
 
 ```
-# git clone --branch hardened/12-stable/master https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD.git /usr/src
-# cd /usr/src
+# mkdir /usr/src
+# chown <user>:wheel /usr/src
+~ git clone --branch hardened/12-stable/master https://github.com/HardenedBSD/hardenedBSD.git /usr/src
+~ cd /usr/src
+~ git checkout fb193275a276c540d1890a279e20e4515dd26aa2 .
+```
+
+for reference here is how to sync from the official HardenedBSD repo
+```
+~ git clone --branch hardened/12-stable/master https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD.git /usr/src
+
+```
+
+Now we buildworld with the same version as the installed system.
+This will take several minutes, depenging on how many cores and how fast they are.
+
+```
 # make -sj`sysctl -n hw.ncpu` buildworld
 ```
+
+
+
 
 Poudriere will use the artifacts generated from the source tree at
 `/usr/src`, so make sure that the source tree matches your target
