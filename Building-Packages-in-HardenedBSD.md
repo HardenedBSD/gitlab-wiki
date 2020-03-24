@@ -1,9 +1,10 @@
 Building Packages in HardenedBSD
 ================================
 
-This article will document how we at HardenedBSD have set up our
-package building system. Using Poudriere on HardenedBSD has some extra
-steps compared to setting it up on FreeBSD.
+This article will document how we at HardenedBSD have set up
+a local package building system for binary packages.
+Using Poudriere on HardenedBSD has some extra steps compared
+to setting it up on FreeBSD.
 
 Requirements
 ------------
@@ -102,8 +103,14 @@ Poudriere will use the artifacts generated from the source tree at
 `/usr/src`, so make sure that the source tree matches your target
 deployment for base.
 
-If the poudriere jail already exists, destroy it with:
+Check for existing poudriere jails:
 
+```
+# poudriere jail -l
+```
+
+
+If it is not needed it can be destroyd with:
 
 ```
 # poudriere jail -d -j stable_amd64
@@ -114,6 +121,18 @@ Now create the HardenedBSD STABLE/amd64 jail:
 ```
 # poudriere jail -c -v STABLE -p local -m src=/usr/src -j stable_amd64
 ```
+
+
+Now as a test try building the pkg package with poudriere.
+First create a file which lists ports that you want to compile and package.
+Then start poudriere in bulk mode.
+```
+# echo 'ports-mgmr/pkg' > /usr/local/etc/poudriere.d/port-list
+# poudriere bulk -j stable_amd64 -p local -f /usr/local/etc/poudriere.d/port-list
+```
+
+If you run into issues take a look at the reference poudriere.conf file below.
+
 
 Poudriere Configuration File
 ----------------------------
@@ -282,6 +301,7 @@ NOHANG_TIME=57600
 URL_BASE=http:// <your custom domain here> /
 USE_COLORS=no
 
+#This is the only HardenedBSD specific part when comparing to FreeBSD setups.
 JAIL_PARAMS="hardening.pax.aslr.status=1 hardening.pax.pageexec.status=1 hardening.pax.mprotect.status=1 hardening.pax.disallow_map32bit.status=1 hardening.pax.segvguard.status=1 allow.unprivileged_proc_debug=1"
 
 BUILD_AS_NON_ROOT=no
