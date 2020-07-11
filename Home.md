@@ -446,6 +446,28 @@ Example usage of hbsdcontrol to disable MPROTECT for Firefox:
 # hbsdcontrol pax disable mprotect /usr/local/lib/firefox/plugin-container
 ```
 
+As of 09 Jul 2020, various ports have exploit mitigations pre-toggled
+such that users do not have to worry about setting the togles
+themselves.
+
+| Port           	| Path					| Exploit Mitigation	|
+|-----------------------|---------------|-----------------------|-----------------------|
+| editors/libreoffice	| lib/libreoffice/program/soffice.bin	| PaX MPROTECT		|
+| editors/libreoffice	| lib/libreoffice/program/soffice.bin	| PaX PAGEEXEC		|
+| lang/python37		| bin/python3.7				| PaX MPROTECT		|
+| lang/python37		| bin/python3.7				| PaX PAGEEXEC		|
+| lang/python38		| bin/python3.8				| PaX MPROTECT		|
+| lang/python38		| bin/python3.8				| PaX PAGEEXEC		|
+| security/keepassxc	| bin/keepassxc				| PaX MPROTECT		|
+| security/keepassxc	| bin/keepassxc				| PaX MPROTECT		|
+| security/keepassxc	| bin/keepassxc				| PaX PAGEEXEC		|
+| sysutils/polkit	| lib/polkit-1/polkitd			| PaX MPROTECT		|
+| sysutils/polkit	| lib/polkit-1/polkitd			| PaX PAGEEXEC		|
+| www/chromium		| share/chromium/chrome			| PaX MPROTECT		|
+| www/chromium		| share/chromium/chrome			| PaX PAGEEXEC		|
+| www/firefox		| lib/firefox/firefox			| Pax MPROTECT		|
+| www/firefox		| lib/firefox/plugin-container		| PaX MPROTECT		|
+
 ## Security Administration (secadm)
 
 secadm is a tool, distributed via ports, that allows users to toggle
