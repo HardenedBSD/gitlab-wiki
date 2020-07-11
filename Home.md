@@ -451,7 +451,7 @@ such that users do not have to worry about setting the togles
 themselves.
 
 | Port           	| Path					| Exploit Mitigation	|
-|-----------------------|---------------|-----------------------|-----------------------|
+|-----------------------|---------------------------------------|-----------------------|
 | editors/libreoffice	| lib/libreoffice/program/soffice.bin	| PaX MPROTECT		|
 | editors/libreoffice	| lib/libreoffice/program/soffice.bin	| PaX PAGEEXEC		|
 | lang/python37		| bin/python3.7				| PaX MPROTECT		|
