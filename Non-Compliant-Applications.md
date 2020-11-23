@@ -17,6 +17,7 @@ something like:
 | sysutils/polkit | /usr/local/lib/polkit-1/polkitd | mprotect, pageexec |
 | editors/libreoffice | /usr/local/lib/libreoffice/program/soffice.bin | mprotect, pageexec |
 | grub2-bhyve | | pageexec, mprotect, disable_map32bit |
+| games/minetest | /usr/local/bin/minetest{,server} | mprotect, disable_map32bit |
 
 
 # Building Applications
