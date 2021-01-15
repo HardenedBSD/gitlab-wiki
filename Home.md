@@ -374,6 +374,26 @@ applicable to the amd64 architecture. Attempting to enable SafeStack
 for a non-amd64 port build will result in a NO-OP. SafeStack simply
 will not be applied.
 
+## Variable Auto-Initialization
+
+In HardenedBSD 13, we enabled a feature from llvm called (automatic
+variable initialization)[https://reviews.llvm.org/D54604]. Variables
+that would normally be uninitialized are zero-initialized. This helps
+prevent information leaks and abuse of code with undefined behavior.
+
+From llvm's documentation:
+
+This feature aims to make undefined behavior hurt less, which
+security-minded people will be very happy about. Notably, this means
+that there's no inadvertent information leak when:
+
+* The compiler re-uses stack slots, and a value is used uninitialized.
+* The compiler re-uses a register, and a value is used uninitialized.
+* Stack structs / arrays / unions with padding are copied.
+
+For more complete documentation, take a look at the link in the first
+paragraph in this section.
+
 ## Control-Flow Integrity (CFI)
 
 Control-Flow Integrity (CFI) is an exploit mitigation technique that
