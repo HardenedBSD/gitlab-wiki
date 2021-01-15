@@ -23,6 +23,7 @@ tools will be covered later.
 * [PaX SEGVGUARD](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD/wiki#pax-segvguard)
 * [PAGEEXEC and MPROTECT (aka, NOEXEC)](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD/wiki#pageexec-and-mprotect-aka-noexec)
 * [SafeStack](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD/wiki#safestack)
+* [Variable Auto-Initialization](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD/wiki#user-content-variable-auto-initialization)
 * [Control-Flow Integrity (CFI)](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD/wiki#control-flow-integrity-cfi)
 * [hbsdcontrol](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD/wiki#hbsdcontrol)
 * [Security Administration (secadm)](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD/wiki#security-administration-secadm)
