@@ -1,3 +1,5 @@
+[[_TOC__]]
+
 # About HardenedBSD
 
 HardenedBSD is a fork of FreeBSD, founded in 2014, that implements
@@ -9,28 +11,11 @@ Some of HardenedBSD's features can be toggled on a per-application and
 per-jail basis using secadm or hbsdcontrol. Documentation for both
 tools will be covered later.
 
-## Translations
+# Translations
 
-* [Espanol](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD/wiki/Home_es)
+* [Espanol](https://git.hardenedbsd.org/hardenedbsd/HardenedBSD/-/wikis/Home_es)
 
-## Table of Contents
-
-* [History](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD/wiki#history)
-* [Features](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD/wiki#features)
-* [Generic Kernel Options](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD/wiki#generic-kernel-options)
-* [Generic System Hardening](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD/wiki#generic-system-hardening)
-* [Address Space Layout Randomization (ASLR)](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD/wiki#address-space-layout-randomization-aslr)
-* [PaX SEGVGUARD](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD/wiki#pax-segvguard)
-* [PAGEEXEC and MPROTECT (aka, NOEXEC)](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD/wiki#pageexec-and-mprotect-aka-noexec)
-* [SafeStack](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD/wiki#safestack)
-* [Variable Auto-Initialization](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD/wiki#user-content-variable-auto-initialization)
-* [Control-Flow Integrity (CFI)](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD/wiki#control-flow-integrity-cfi)
-* [hbsdcontrol](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD/wiki#hbsdcontrol)
-* [Security Administration (secadm)](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD/wiki#security-administration-secadm)
-* [Contributing to HardenedBSD](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD/wiki#contributing-to-hardenedbsd)
-* [Updating HardenedBSD](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD/wiki#updating-hardenedbsd)
-
-## History
+# History
 
 Work on HardenedBSD began in 2013 when Oliver Pinter and Shawn Webb
 started working on an implementation of Address Space Layout
@@ -52,9 +37,10 @@ FreeBSD's source code. HardenedBSD syncs with FreeBSD every six hours.
 Some of the branches, but not all, are listed below:
 
 1. HEAD -> hardened/current/master
+1. stable/13 -> hardened/13-stable/master
 1. stable/12 -> hardened/12-stable/master
 
-## Features
+# Features
 
 HardenedBSD has successfully implemented the following features:
 
@@ -77,7 +63,7 @@ HardenedBSD has successfully implemented the following features:
 1. Non-Cross-DSO CFI available in ports
 1. Retpoline applied to base and ports
 
-## Generic Kernel Options
+# Generic Kernel Options
 
 All of HardenedBSD's features that rely on kernel code require the
 following kernel option:
@@ -100,7 +86,7 @@ option:
 options	PAX_HARDENING
 ```
 
-## Generic System Hardening
+# Generic System Hardening
 
 HardenedBSD implements generic system hardening with the
 `PAX_HARDENING` kernel option. Many of these hardening features deal
@@ -117,7 +103,7 @@ users. Attempting to list kernel modules using `modfind(2)`,
 `kldfind(2)`, and other KLD-related system calls will result in
 permission denied if used by a non-root or jailed user.
 
-### Modified sysctl Nodes
+## Modified sysctl Nodes
 
 These are the nodes that are modified from their original defaults
 when `PAX_HARDENING` is enabled in the kernel:
@@ -138,7 +124,7 @@ when `PAX_HARDENING` is enabled in the kernel:
 | security.bsd.unprivileged_proc_debug  | Unprivileged processes may use process debugging and tracing facilities        | Integer | 1              | 0                                       |
 | security.bsd.unprivileged_read_msgbuf | Unprivileged processes may read the kernel message buffer                      | Integer | 1              | 0                                       |
 
-## Address Space Layout Randomization (ASLR)
+# Address Space Layout Randomization (ASLR)
 
 ASLR randomizes the layout of the virtual address space of a process
 through using randomized deltas. ASLR prevents attackers from knowing
@@ -154,7 +140,7 @@ successful remote attacks, not local.
 
 HardenedBSD's ASLR implementation is based off of PaX's design and
 documentation. PaX's documentation can be found
-[here](https://git-01.md.hardenedbsd.org/HardenedBSD/pax-docs-mirror/blob/master/aslr.txt).
+[here](https://git.hardenedbsd.org/HardenedBSD/pax-docs-mirror/blob/master/aslr.txt).
 
 On 13 July 2015, HardenedBSD's ASLR implementation was completed with
 full stack and VDSO randomization. Since then, various improvements
@@ -182,7 +168,7 @@ following values will determin the enforcement of ASLR:
 1. 2 - Enabled by default. User must opt applications out (default.)
 1. 3 - Force enabled
 
-### Implementation
+## Implementation
 
 HardenedBSD's ASLR uses a set of four deltas on 32-bit systems and
 five deltas on 64-bit systems. Additionally, on 64-bit systems, 32-bit
@@ -218,7 +204,7 @@ When a process forks, the child process inherits its parent's ASLR
 settings, including deltas. Only at image activation (execve) time
 does a process receive new deltas.
 
-### Position-Independent Executables (PIEs)
+## Position-Independent Executables (PIEs)
 
 In order to make full use of ASLR, applications must be compiled as
 Position-Independent Executables (PIEs). If an application is not
@@ -235,7 +221,7 @@ applications are:
 Compiling all of base as PIEs can be turned off by setting
 `WITHOUT_PIE` in `src.conf(5)`.
 
-### Shared Library Load Order Randomization
+## Shared Library Load Order Randomization
 
 Breaking ASLR remotely requires chaining multiple vulnerabilities,
 including one or more information leakage vulnerabilities. Information
@@ -251,7 +237,7 @@ Shared library load order randomization is disabled by default, but
 can be opted in on a per-application basis using secadm or
 hbsdcontrol.
 
-## PaX SEGVGUARD
+# PaX SEGVGUARD
 
 ASLR has known weaknesses. If an information leak is present,
 attackers can use the leak to determine the memory layout and, given
@@ -278,11 +264,11 @@ Due to performance concerns, SEGVGUARD is set to opt-in by default.
 SEGVGUARD can be set to opt-out by setting the
 `hardening.pax.segvguard.status` sysctl node to 2.
 
-## PAGEEXEC and MPROTECT (aka, NOEXEC)
+# PAGEEXEC and MPROTECT (aka, NOEXEC)
 
-[PAGEEXEC](https://git-01.md.hardenedbsd.org/HardenedBSD/pax-docs-mirror/blob/master/pageexec.txt)
+[PAGEEXEC](https://git.hardenedbsd.org/HardenedBSD/pax-docs-mirror/blob/master/pageexec.txt)
 and
-[MPROTECT](https://git-01.md.hardenedbsd.org/HardenedBSD/pax-docs-mirror/blob/master/mprotect.txt)
+[MPROTECT](https://git.hardenedbsd.org/HardenedBSD/pax-docs-mirror/blob/master/mprotect.txt)
 comprise what is more commonly called W^X (W xor X). The design and
 implementation in HardenedBSD is inspred by PaX's. PAGEEXEC prevents
 applications from creating memory mappings that are both Writable (W)
@@ -303,7 +289,7 @@ the `hardening.pax.aslr.status` sysctl:
 1. `hardening.pax.pageexec.status` - Default 2
 1. `hardening.pax.mprotect.status` - Default 2
 
-### PAGEEXEC
+## PAGEEXEC
 
 If an application requests a memory mapping via `mmap(2)`, and the
 application requests `PROT_WRITE` and `PROT_EXEC`, then `PROT_EXEC` is
@@ -321,7 +307,7 @@ protection. When both are requested, `PROT_WRITE` is given priority
 and `PROT_EXEC` is dropped from both the request and the max
 protection.
 
-### MPROTECT
+## MPROTECT
 
 If an application requests that a writable mapping be changed to
 executable via `mprotect(2)`, the request will fail and set `errno` to
@@ -347,7 +333,7 @@ MPROTECT, or both. When issues arise, secadm or hbsdcontrol can be
 used to disable PAGEEXEC, MPROTECT, or both for just that one
 application.
 
-## SafeStack
+# SafeStack
 
 SafeStack is an epxloit mitigation that creates two stacks: one for
 data that needs to be kep safe, such as return addresses and function
@@ -375,7 +361,7 @@ applicable to the amd64 architecture. Attempting to enable SafeStack
 for a non-amd64 port build will result in a NO-OP. SafeStack simply
 will not be applied.
 
-## Variable Auto-Initialization
+# Variable Auto-Initialization
 
 In HardenedBSD 13, we enabled a feature from llvm called (automatic
 variable initialization)[https://reviews.llvm.org/D54604]. Variables
@@ -395,7 +381,7 @@ that there's no inadvertent information leak when:
 For more complete documentation, take a look at the link in the first
 paragraph in this section.
 
-## Control-Flow Integrity (CFI)
+# Control-Flow Integrity (CFI)
 
 Control-Flow Integrity (CFI) is an exploit mitigation technique that
 prevents unwanted transfer of control from branch instructions to
@@ -442,7 +428,7 @@ was released for wider initial testing. The HardenedBSD core
 development team hopes to launch Cross-DSO CFI in base within the
 latter half of 2019.
 
-## hbsdcontrol
+# hbsdcontrol
 
 `hbsdcontrol(8)` is a tool, included in base, that allows users to
 toggle exploit mitigations on a per-application basis. Users will
@@ -487,7 +473,7 @@ themselves.
 | www/firefox		| lib/firefox/firefox			| Pax MPROTECT		|
 | www/firefox		| lib/firefox/plugin-container		| PaX MPROTECT		|
 
-## Security Administration (secadm)
+# Security Administration (secadm)
 
 secadm is a tool, distributed via ports, that allows users to toggle
 exploit mitigations on a per-application and per-jail basis. Users will
@@ -515,7 +501,7 @@ Thus, when updating installed ports or packages, care must be taken.
 Flush the ruleset prior to installing updates. The ruleset can be
 reloaded after updating.
 
-### Downloading and Installing secadm
+## Downloading and Installing secadm
 
 secadm is not currently part of base, though that is planned in the
 near future. secadm can be installed either through the package repo:
@@ -533,7 +519,7 @@ or by using HardenedBSD's ports tree:
 # make install clean
 ```
 
-### Configuring secadm
+## Configuring secadm
 
 By default, secadm looks for a config file at
 `/usr/local/etc/secadm.rules`. For purposes of this documentation,
@@ -572,7 +558,7 @@ system:
 # service secadm start
 ```
 
-### All secadm configuration options
+## All secadm configuration options
 
 These are the available pax options:
 
@@ -623,12 +609,12 @@ secadm {
 }
 ```
 
-## Contributing to HardenedBSD
+# Contributing to HardenedBSD
 
 HardenedBSD uses GitHub for source control and bug reports. Users can
 submit bug reports for the HardenedBSD base source code
-[here](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD/issues) and for ports
-[here](https://git-01.md.hardenedbsd.org/HardenedBSD/hardenedbsd-ports/issues). When
+[here](https://git.hardenedbsd.org/HardenedBSD/HardenedBSD/issues) and for ports
+[here](https://git.hardenedbsd.org/HardenedBSD/hardenedbsd-ports/issues). When
 submitting bug reports, please include the following information:
 
 * HardenedBSD version
@@ -636,27 +622,23 @@ submitting bug reports, please include the following information:
 * If the report concerns a kernel panic, the backtrace of the panic
 * Steps to reproduce the bug
 
-### HardenedBSD Development Process
+## HardenedBSD Development Process
 
 HardenedBSD uses three repositories during the development process:
 
 | Repository		| Purpose						|
 |-----------------------|-------------------------------------------------------|
-| [HardenedBSD](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD)		| Main development repository				|
-| [HardenedBSD-Playground](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD-Playground)| Highly experimental and third-party code repository	|
+| [HardenedBSD](https://git.hardenedbsd.org/HardenedBSD/HardenedBSD)		| Main development repository				|
 
 HardenedBSD development branches:
 
 | Branch           			| Repository		| Binary Updates| Purpose						|
 |---------------------------------------|-----------------------|---------------|-------------------------------------------------------|
-| hardened/current/master		| HardenedBSD		| amd64, arm64	| Main development branch (13-CURRENT)			|
+| hardened/current/master		| HardenedBSD		| amd64, arm64	| Main development branch (14-CURRENT)			|
+| hardened/13-stable/master		| HardenedBSD		| amd64		| 13-STABLE development					|
 | hardened/12-stable/master		| HardenedBSD		| amd64		| 12-STABLE development					|
-| hardened/11-stable/master		| HardenedBSD		| amd64		| 11-STABLE development					|
-| hardened/current/drm-next		| HardenedBSD-Playground| amd64		| HardenedBSD 13-CURRENT with drm-next bits merged in	|
-| hardened/current/safestack-arm64	| HardenedBSD-Playground| arm64		| HardenedBSD 13-CURRENT with SafeStack ported to arm64	|
-| hardened/current/cross-dso-cfi	| HardenedBSD-Playground| N/A		| HardenedBSD 13-CURRENT with Cross-DSO-CFI support	|
 
-## Updating HardenedBSD
+# Updating HardenedBSD
 
 HardenedBSD does not use
 [freebsd-update(8)](https://www.freebsd.org/cgi/man.cgi?query=freebsd-update&sektion=8&manpath=freebsd-release-ports).
@@ -704,4 +686,4 @@ Thus, generating a diff between the two configuration files would result in:
  baseurl="http://updates.hardenedbsd.org/pub/HardenedBSD/updates/${branch}/$(uname -m)"
 ```
 
-[back to top](https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD/wiki#)
+[back to top](https://git.hardenedbsd.org/hardenedbsd/HardenedBSD/-/wikis/home#)
