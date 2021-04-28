@@ -1,3 +1,5 @@
+#### ⚠ This page is just for your information and inspiration.
+
 Grsecurity
 ----------
 
