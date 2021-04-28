@@ -14,6 +14,7 @@ tools will be covered later.
 # Translations
 
 * [Espanol](https://git.hardenedbsd.org/hardenedbsd/HardenedBSD/-/wikis/Home_es)
+* [Français](https://git.hardenedbsd.org/hardenedbsd/HardenedBSD/-/wikis/Home_fr)
 
 # History
 
