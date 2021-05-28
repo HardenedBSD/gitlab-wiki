@@ -1,0 +1,1 @@
+* Make Firefox compactible with MPROTECT.
