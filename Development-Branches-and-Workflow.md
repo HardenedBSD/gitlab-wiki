@@ -1,11 +1,9 @@
-HardenedBSD developers do their work in feature branches, generally based on 11-CURRENT (FreeBSD HEAD). When ready, the feature branch is merged into the hardened/current/unstable branch for wider testing. After a period of time which changes due to the nature of the feature, the feature branch will then be merged into the hardened/current/master branch and deemed stable for general use. If possible, the feature will be backported to the hardened/10-stable/master branch.
+HardenedBSD developers do their work in feature branches, generally based on CURRENT (FreeBSD HEAD). When ready, the feature branch is merged into the _hardened/current/master_ branch for wider testing. After a period of time which changes due to the nature of the feature and if possible, the feature will be backported to the stable branches.
 
 Current branches:
-* hardened/current/master
+* [hardened/current/master](https://git.hardenedbsd.org/hardenedbsd/HardenedBSD)
   * Tracking FreeBSD HEAD. HardenedBSD code deemed fit for general use.
-* hardened/current/unstable
-  * Tracking FreeBSD HEAD. HardenedBSD code deemed fit for general testing.
-* hardened/10-stable/master
-  * Tracking FreeBSD stable/10. HardenedBSD code backported to 10-STABLE.
-* hardened/10.2-releng/master
-  * Tracking FreeBSD releng/10.2. HardenedBSD code backported to 10.2-RELEASE. Sometimes lags after the hardened/10-stable/master branch.
+* [hardened/13-stable/master](https://git.hardenedbsd.org/hardenedbsd/HardenedBSD/-/tree/hardened/13-stable/master)
+  * Tracking FreeBSD stable/13. HardenedBSD code backported to 13-STABLE.
+* [hardened/12-stable/master](https://git.hardenedbsd.org/hardenedbsd/HardenedBSD/-/tree/hardened/12-stable/master)
+  * Tracking FreeBSD stable/12. HardenedBSD code backported to 13-STABLE.
