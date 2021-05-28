@@ -73,4 +73,4 @@ cd /usr/src
 git reset --hard `cut -f 3 -d '-' /var/db/hbsd-update/version`
 ```
 
-Once you run those four commands your /usr/src tree should be in sync with your current hardenedbsd version. 
+Once you run those four commands your /usr/src tree should be in sync with your current hardenedbsd version.
