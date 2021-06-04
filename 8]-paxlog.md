@@ -21,4 +21,4 @@ security.pax.log.floodtime
 
 security.pax.log.floodburst
 
-http://en.wikibooks.org/wiki/Grsecurity/Appendix/Grsecurity_and_PaX_Configuration_Options#Logging_Options
+https://git.hardenedbsd.org/hardenedbsd/HardenedBSD/-/wikis/9%5D-grsec_and_pax_options_linux5.4#logging-options
