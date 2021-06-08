@@ -63,6 +63,8 @@ HardenedBSD has successfully implemented the following features:
 1. Non-Cross-DSO CFI in base
 1. Non-Cross-DSO CFI available in ports
 1. Retpoline applied to base and ports
+1. Variable auto-init applied to base and ports
+1. Link-Time Optimizations (LTO) applied to both apps and libs
 
 # Generic Kernel Options
 
@@ -204,6 +206,11 @@ following amount of entropy:
 When a process forks, the child process inherits its parent's ASLR
 settings, including deltas. Only at image activation (execve) time
 does a process receive new deltas.
+
+To thwart heap spray attacks, HardenedBSD randomizes per-thread
+stacks. Effectively, every call to `mmap(MAP_STACK)` gets randomized.
+Per-thread stack randomization can be disabled on a per-process basis
+by toggling ASLR for that process.
 
 ## Position-Independent Executables (PIEs)
 
@@ -421,13 +428,12 @@ yet. Cross-DSO CFI would allow functions resolved through
 `dlopen(3)`/`dlsym(3)` to work since CFI would be able to be applied
 between Dynamic Shared Object (DSO) boundaries. Significant progress
 has been made in the first half of 2018 with regards to Cross-DSO CFI.
-The base operating system can be fully compiled with Cross-DSO CFI. On
-16 Jul 2018, a pre-alpha
-[Call For
-Testing](https://hardenedbsd.org/article/shawn-webb/2018-07-16/preliminary-call-testing-cross-dso-cfi)
-was released for wider initial testing. The HardenedBSD core
-development team hopes to launch Cross-DSO CFI in base within the
-latter half of 2019.
+
+The Cross-DSO CFI work was paused in 2019 and 2020. Work has resumed
+in 2021, starting with applying LTO to libraries (in addition to the
+LTO already applied to apps). When built with Cross-DSO CFI, some
+applications, like the ZFS tools, crash. Work is ongoing to determine
+the cause of the crashes and fix them.
 
 # hbsdcontrol
 
