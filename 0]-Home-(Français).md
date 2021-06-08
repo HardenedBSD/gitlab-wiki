@@ -70,6 +70,8 @@ HardenedBSD a mis en œuvre avec succès les caractéristiques suivantes :
 1. Non-Cross-DSO CFI de base
 1. Non-Cross-DSO CFI disponible dans les ports
 1. Retpoline appliqué à la base et aux ports
+1. Auto-initialisation des variables appliquée à la base et aux ports
+1. Link-Time Optimizations (LTO) appliqué à la fois aux applications et aux librairies
 
 ## Options génériques du noyau
 
@@ -200,6 +202,9 @@ Par défaut, HardenedBSD utilise la quantité d'entropie suivante :
 
 Lorsqu'un processus bifurque, le processus enfant hérite des paramètres ASLR de ses parents, y compris les deltas.
 Ce n'est qu'au moment de l'activation de l'image (execve) qu'un processus reçoit de nouveaux deltas.
+
+Pour contrecarrer les attaques de type "heap spray", HardenedBSD randomise les piles par thread. En fait, chaque appel à `mmap(MAP_STACK)` est randomisé.
+La randomisation de la pile par thread peut être désactivée sur une base par processus en basculant ASLR pour ce processus.
 
 ### Exécutable indépendant de la position (PIEs)
 
@@ -372,11 +377,7 @@ La Cross-DSO CFI permettrait aux fonctions résolues par l'intermédiaire de
 `dlopen(3)`/`dlsym(3)` pour fonctionner puisque la CFI pourrait être appliquée entre 
 les limites des objets partagés dynamiques (DSO). Des progrès significatifs ont été réalisés 
 au cours du premier semestre 2018 en ce qui concerne Cross-DSO CFI.
-Le système d'exploitation de base peut être entièrement compilé avec Cross DSO CFI. 
-Le 16 juillet 2018, une version pré-alpha du système d'exploitation de base a été lancée.
-[Appel aux tests](https://hardenedbsd.org/article/shawn-webb/2018-07-16/preliminary-call-testing-cross-dso-cfi)
-a été publié pour un test initial plus large. L'équipe de développement du noyau HardenedBSD espère 
-lancer Cross-DSO CFI en base au cours de la seconde moitié de 2019.
+Les travaux de Cross-DSO CFI ont été interrompus en 2019 et 2020. Les travaux ont repris en 2021, en commençant par appliquer LTO aux bibliothèques (en plus de LTO déjà appliqué aux apps). Lorsqu'elles sont construites avec Cross-DSO CFI, certaines applications, comme les outils ZFS, se bloquent. Des travaux sont en cours pour déterminer la cause de ces plantages et les corriger.
 
 ## hbsdcontrol
 
