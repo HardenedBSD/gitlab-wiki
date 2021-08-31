@@ -106,6 +106,15 @@ users. Attempting to list kernel modules using `modfind(2)`,
 `kldfind(2)`, and other KLD-related system calls will result in
 permission denied if used by a non-root or jailed user.
 
+`kenv(1)` has been hardened to only allow access from privileged,
+non-jailed processes.
+
+FreeBSD introduced the ability to dump non-dumpable mappings.
+HardenedBSD does not permit such behavior.
+
+jemalloc in HardenedBSD has been set to zero new allocations by
+default.
+
 ## Modified sysctl Nodes
 
 These are the nodes that are modified from their original defaults
@@ -115,6 +124,7 @@ when `PAX_HARDENING` is enabled in the kernel:
 |:-------------------------------------:|:------------------------------------------------------------------------------:|:-------:|:--------------:|:---------------------------------------:|
 | kern.msgbuf_show_timestamp            | Show timestamp in msgbuf                                                       | Integer | 0              | 1                                       |
 | kern.randompid                        | Random PID Modulus                                                             | Integer | 0, read+write  | Randomly set at boot and made read-only |
+| machdep.efi_map                       | Dump EFI physical-to-virtual mappings, infoleak as feature                     | String  | Available to all | Available only to unjailed privileged process |
 | net.inet.ip.random_id                 | Assign random IP ID values                                                     | Integer | 0              | 1                                       |
 | net.inet6.ip6.use_deprecated          | Allow the use of addresses whose preferred lifetimes have expired              | Integer | 1              |  0                                      |
 | net.inet6.ip6.use_tempaddr            | Use IPv6 temporary addresses with SLAAC                                        | Integer | 0              | 1                                       |
