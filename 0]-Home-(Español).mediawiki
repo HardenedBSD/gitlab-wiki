@@ -32,7 +32,6 @@ HardenedBSD ha implementado exitosamente las siguientes características:
 * Reforzamiento de integridad de archivo ejecutable
 * Hardening del proceso de arranque
 * Hardening de procs/linprocfs
-* LibreSSL como librería de criptografía opcional en la base
 * Trusted Path Execution (TPE)
 * PIDs Randomizados
 * SafeStack en la base
