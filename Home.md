@@ -277,9 +277,8 @@ The kernel option for PaX SEGVGUARD is:
 options PAX_SEGVGUARD
 ```
 
-Due to performance concerns, SEGVGUARD is set to opt-in by default.
-SEGVGUARD can be set to opt-out by setting the
-`hardening.pax.segvguard.status` sysctl node to 2.
+SEGVGUARD can be configured by modifying the `hardening.pax.segvguard`
+sysctl nodes.
 
 # PAGEEXEC and MPROTECT (aka, NOEXEC)
 
