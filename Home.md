@@ -125,10 +125,12 @@ when `PAX_HARDENING` is enabled in the kernel:
 | kern.randompid                        | Random PID Modulus                                                             | Integer | 0, read+write  | Randomly set at boot and made read-only |
 | machdep.efi_map                       | Dump EFI physical-to-virtual mappings, infoleak as feature                     | String  | Available to all | Available only to unjailed privileged process |
 | net.inet.ip.random_id                 | Assign random IP ID values                                                     | Integer | 0              | 1                                       |
-| net.inet6.ip6.use_deprecated          | Allow the use of addresses whose preferred lifetimes have expired              | Integer | 1              |  0                                      |
+| net.inet.tcp.blackhole                | Do not send RST on segments to closed ports                                    | Integer | 0              | 2                                       |
+| net.inet.udp.blackhole                | Do not send port unreachables for refused connects                             | Integer | 0              | 2                                       |
+| net.inet6.ip6.use_deprecated          | Allow the use of addresses whose preferred lifetimes have expired              | Integer | 1              | 0                                       |
 | net.inet6.ip6.use_tempaddr            | Use IPv6 temporary addresses with SLAAC                                        | Integer | 0              | 1                                       |
 | net.inet6.ip6.prefer_tempaddr         | Prefer IPv6 temporary address generated last                                   | Integer | 0              | 1                                       |
-| security.bsd.see_other_gids           | Unprivileged processes may see subjects/objects with different real gid        | Integer | 1              |  0                                      |
+| security.bsd.see_other_gids           | Unprivileged processes may see subjects/objects with different real gid        | Integer | 1              | 0                                       |
 | security.bsd.see_other_uids           | Unprivileged processes may see subjects/objects with different real uid        | Integer | 1              | 0                                       |
 | security.bsd.hardlink_check_gid       | Unprivileged processes cannot create hard links to files owned by other groups | Integer | 0              | 1                                       |
 | security.bsd.hardlink_check_uid       | Unprivileged processes cannot create hard links to files owned by other users  | Integer | 0              | 1                                       |
