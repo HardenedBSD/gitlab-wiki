@@ -324,7 +324,7 @@ performance (généralement autour de 0,1 %).
 
 Pour être efficace, SafeStack nécessite à la fois l'ASLR et le W^X. HardenedBSD satisfaisant
 à ces deux conditions préalables, SafeStack a été considéré comme un excellent candidat à
-l'inclusion par défaut dans HardenedBSD. A partir de HardenedBSD 12-STABLE, il est activé
+l'inclusion par défaut dans HardenedBSD. A partir de HardenedBSD 11-STABLE, il est activé
 par défaut pour amd64. SafeStack peut être désactivé en définissant
 `WITHOUT_SAFESTACK` dans `src.conf(5)`.
 
