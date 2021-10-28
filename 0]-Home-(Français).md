@@ -341,6 +341,21 @@ l'ont activé par défaut. Les utilisateurs sont en mesure de basculer le SafeSt
 Tenter d'activer l'option SafeStack pour une construction de port non amd64 aboutira à un NO-OP.
 L'option SafeStack ne sera tout simplement pas appliquée.
 
+# Auto-Initialization des Variables
+
+Dans HardenedBSD 13, nous avons activé une fonction de llvm appelée [automatic
+variable initialization](https://reviews.llvm.org/D54604). Variables that would normally be uninitialized are zero-initialized. This helps prevent information leaks and abuse of code with undefined behavior.
+
+Extrait de la documentation de llvm :
+
+Cette fonctionnalité a pour but de rendre les comportements non définis moins douloureux, ce qui les personnes soucieuses de sécurité en seront très heureuses. Notamment, cela signifie qu'il n'y a pas de fuite d'information par inadvertance lorsque :
+
+* Le compilateur réutilise les emplacements de pile, et une valeur est utilisée non initialisée.
+* Le compilateur réutilise un registre, et une valeur est utilisée non initialisée.
+* Les structures de pile / tableaux / unions avec padding sont copiés.
+
+Pour une documentation plus complète, consultez le lien du premier paragraphe de cette section.
+
 ## Le Control-Flow Integrity (CFI)
 
 L'intégrité des flux de contrôle (CFI) est une technique d'atténuation des exploits qui empêche 
@@ -601,8 +616,8 @@ baseurl="http://updates.hardenedbsd.org/pub/HardenedBSD/updates/${branch}/$(unam
 Ainsi, la génération d'une différence entre les deux fichiers de configuration en résulterait :
 
 ```
---- hbsd-update_current.conf	2017-07-21 20:08:22.153616000 -0400
-+++ hbsd-update_13-stable.conf	2017-07-21 20:08:38.003508000 -0400
+--- hbsd-update_current.conf
++++ hbsd-update_13-stable.conf
 @@ -1,4 +1,4 @@
 -dnsrec="$(uname -m).master.current.hardened.hardenedbsd.updates.hardenedbsd.org"
 +dnsrec="$(uname -m).master.13-stable.hardened.hardenedbsd.updates.hardenedbsd.org"
