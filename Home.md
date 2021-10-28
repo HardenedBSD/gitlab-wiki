@@ -628,7 +628,7 @@ secadm {
 
 # Contributing to HardenedBSD
 
-HardenedBSD uses GitHub for source control and bug reports. Users can
+HardenedBSD uses a self-hosted GitLab for source control and bug reports. Users can
 submit bug reports for the HardenedBSD base source code
 [here](https://git.hardenedbsd.org/HardenedBSD/HardenedBSD/issues) and for ports
 [here](https://git.hardenedbsd.org/HardenedBSD/hardenedbsd-ports/issues). When
