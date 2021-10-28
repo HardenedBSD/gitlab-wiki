@@ -381,8 +381,8 @@ will not be applied.
 
 # Variable Auto-Initialization
 
-In HardenedBSD 13, we enabled a feature from llvm called (automatic
-variable initialization)[https://reviews.llvm.org/D54604]. Variables
+In HardenedBSD 13, we enabled a feature from llvm called [automatic
+variable initialization](https://reviews.llvm.org/D54604). Variables
 that would normally be uninitialized are zero-initialized. This helps
 prevent information leaks and abuse of code with undefined behavior.
 
@@ -680,26 +680,26 @@ baseurl="http://updates.hardenedbsd.org/pub/HardenedBSD/updates/${branch}/$(unam
 ```
 
 And as another example, the `hbsd-update.conf` for the
-hardened/11-stable/master branch in the HardenedBSD repo:
+hardened/13-stable/master branch in the HardenedBSD repo:
 
 ```
-dnsrec="$(uname -m).master.11-stable.hardened.hardenedbsd.updates.hardenedbsd.org"
+dnsrec="$(uname -m).master.13-stable.hardened.hardenedbsd.updates.hardenedbsd.org"
 capath="/usr/share/keys/hbsd-update/trusted"
-branch="hardened/11-stable/master"
+branch="hardened/13-stable/master"
 baseurl="http://updates.hardenedbsd.org/pub/HardenedBSD/updates/${branch}/$(uname -m)"
 ```
 
 Thus, generating a diff between the two configuration files would result in:
 
 ```
---- hbsd-update_current.conf	2017-07-21 20:08:22.153616000 -0400
-+++ hbsd-update_11-stable.conf	2017-07-21 20:08:38.003508000 -0400
+--- hbsd-update_current.conf
++++ hbsd-update_13-stable.conf
 @@ -1,4 +1,4 @@
 -dnsrec="$(uname -m).master.current.hardened.hardenedbsd.updates.hardenedbsd.org"
-+dnsrec="$(uname -m).master.11-stable.hardened.hardenedbsd.updates.hardenedbsd.org"
++dnsrec="$(uname -m).master.13-stable.hardened.hardenedbsd.updates.hardenedbsd.org"
  capath="/usr/share/keys/hbsd-update/trusted"
 -branch="hardened/current/master"
-+branch="hardened/11-stable/master"
++branch="hardened/13-stable/master"
  baseurl="http://updates.hardenedbsd.org/pub/HardenedBSD/updates/${branch}/$(uname -m)"
 ```
 
