@@ -143,7 +143,7 @@ les attaquants, bien qu'elle ne suffise pas à elle seule à stopper complèteme
 La technologie ASLR fournit simplement une base solide pour la mise en œuvre de nouvelles technologies d'atténuation de l'exploitation. Une approche holistique de la sécurité (aussi appelée défense en profondeur) est la meilleure façon de sécuriser un système. En outre, l'ASLR est conçue pour aider à prévenir les attaques à distance, et non locales.
 
 L'implémentation de l'ASLR de HardenedBSD est basée sur la conception et la documentation de PaX.
-La documentation de PaX peut être trouvée [ici](https://github.com/HardenedBSD/pax-docs-mirror/blob/master/aslr.txt).
+La documentation de PaX peut être trouvée [ici](https://git.hardenedbsd.org/hardenedbsd/pax-docs-mirror/-/blob/master/aslr.txt).
 
 Le 13 juillet 2015, la mise en œuvre de l'ASLR de HardenedBSD a été achevée avec la pile complète
 et la randomisation VDSO. Depuis lors, diverses améliorations ont été apportées, comme l'implémentation
@@ -255,9 +255,9 @@ SEGVGUARD peut être réglé sur l'option refus en mettant la valeur sysctl `har
 
 ## PAGEEXEC et MPROTECT (alias, NOEXEC)
 
-[PAGEEXEC](https://github.com/HardenedBSD/pax-docs-mirror/blob/master/pageexec.txt)
+[PAGEEXEC](https://git.hardenedbsd.org/hardenedbsd/pax-docs-mirror/-/blob/master/pageexec.txt)
 et
-[MPROTECT](https://github.com/HardenedBSD/pax-docs-mirror/blob/master/mprotect.txt)
+[MPROTECT](https://git.hardenedbsd.org/hardenedbsd/pax-docs-mirror/-/blob/master/mprotect.txt)
 comprennent ce que l'on appelle plus communément W^X (W ou X). Sa conception et sa mise
 en œuvre dans HardenedBSD s'inspirent de PaX. PAGEEXEC empêche les applications de créer
 des mappages de mémoire qui sont à la fois inscriptibles (W)
@@ -533,10 +533,10 @@ secadm {
 
 ## Contribuer à HardenedBSD
 
-HardenedBSD utilise GitHub pour le contrôle des sources et les rapports de bogues. 
+HardenedBSD utilise GitLab en auto-hébergement pour le contrôle des sources et les rapports de bogues. 
 Les utilisateurs peuvent soumettre des rapports de bogue pour le code source de base d'HardenedBSD.
-[ici](https://github.com/HardenedBSD/hardenedbsd/issues) et pour les ports
-[ici](https://github.com/HardenedBSD/hardenedbsd-ports/issues). Lorsque 
+[ici](https://git.hardenedbsd.org/hardenedbsd/HardenedBSD/-/issues) et pour les ports
+[ici](https://git.hardenedbsd.org/hardenedbsd/ports/-/issues). Lorsque 
 vous soumettez un rapport de bogue, veuillez inclure les informations suivantes:
 
 * La version de HardenedBSD
@@ -550,21 +550,17 @@ HardenedBSD utilise trois dépôts pendant le processus de développement :
 
 | Dépôt		| Objectif						|
 |-----------------------|-------------------------------------------------------|
-| [HardenedBSD](https://github.com/HardenedBSD/hardenedBSD)		| Dépôt principal de développement				|
-| [HardenedBSD-STABLE](https://github.com/HardenedBSD/hardenedBSD-stable)	| Dépôt des constructions stables (en lecture seule)			|
-| [HardenedBSD-Playground](https://github.com/HardenedBSD/hardenedBSD-playground)| Dépôt de code tiers et hautement expérimental	|
+| [hardened/current/master](https://git.hardenedbsd.org/hardenedbsd/HardenedBSD/-/tree/hardened/current/master)		| Dépôt principal de développement				|
+| [hardened/13-stable/master](https://git.hardenedbsd.org/hardenedbsd/HardenedBSD/-/tree/hardened/13-stable/master)	| Dépôt pour la version stable 13 |
+| [hardened/12-stable/master](https://git.hardenedbsd.org/hardenedbsd/HardenedBSD/-/tree/hardened/12-stable/master)	| Dépôt pour la version stable 13 |
 
 Branches de développement HardenedBSD :
 
 | Branche           			| Dépôt		| Mises à jour binaires| Objectif						|
 |---------------------------------------|-----------------------|---------------|-------------------------------------------------------|
-| hardened/current/master		| HardenedBSD		| amd64, arm64	| Branche principale de développement (13-CURRENT)			|
-| hardened/12-stable/master		| HardenedBSD		| amd64		| développement 12-STABLE					|
-| hardened/11-stable/master		| HardenedBSD		| amd64		| développement 11-STABLE 					|
-| hardened/10-stable/master		| HardenedBSD		| amd64		| développement 10-STABLE					|
-| hardened/current/drm-next		| HardenedBSD-Playground| amd64		| HardenedBSD 13-CURRENT avec drm-next bits fusionné dans	|
-| hardened/current/safestack-arm64	| HardenedBSD-Playground| arm64		| HardenedBSD 13-CURRENT avec SafeStack porté pour arm64	|
-| hardened/current/cross-dso-cfi	| HardenedBSD-Playground| N/A		| HardenedBSD 13-CURRENT avec le support de Cross-DSO-CFI	|
+| hardened/current/master		| HardenedBSD		| amd64, arm64	| Branche principale de développement (14-CURRENT)			|
+| hardened/13-stable/master		| HardenedBSD		| amd64		| développement 13-STABLE					|
+| hardened/12-stable/master		| HardenedBSD		| amd64		| développement 12-STABLE 					|
 
 ## Mise à jour de HardenedBSD
 
