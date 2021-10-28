@@ -162,7 +162,7 @@ Estos son los nodos que están modificados de sus valores originales cuando <cod
 
 ASLR añade aleatoriedad en la disposición del espacio de direcciones virtuales de un proceso mediante el uso de deltas aleatorias. ASLR previene que los atacantes conozcan en qué parte de la memoria se encuentran las vulnerabilidades. Sin ASLR, los atacantes pueden fácilmente desarrollar y reusar exploits a través de todos los sistemas implementados. Como es el caso con todas las tecnologías de mitigación de exploits, ASLR está pensado para ayudar a frustar a los atacantes, aunque ASLR por sí solo no es suficiente para detener completamente los ataques. ASLR simplemente proporciona una base sólida en la cual implementar futuras tecnologías de mitigación de exploits. Un enfoque holístico para la seguridad (denominado, defensa-a-fondo) es la mejor manera de asegurar un sistema. Adicionalmente, ASLR está dirigido y diseñado para ayudar a prevenir ataques remotos exitosos, no locales.
 
-La implementación ASLR de HardenedBSD está basada en el diseño y documentación de PaX. La documentación de PaX puede ser encontrada [https://github.com/HardenedBSD/pax-docs-mirror/blob/master/aslr.txt aquí].
+La implementación ASLR de HardenedBSD está basada en el diseño y documentación de PaX. La documentación de PaX puede ser encontrada [https://git.hardenedbsd.org/hardenedbsd/pax-docs-mirror/-/blob/master/aslr.txt aquí].
 
 El 13 de Julio de 2015, la implementacíon ASLR de HardenedBSD se completó con full stack y randomización VDSO. Desde entonces, varias mejoras se han hecho, como la implementación de aleatoriedad en el orden de carga de las librerías compartidas. HardenedBSD es el único BSD que soporta aleatoriedad true stack. Queriendo decir, que la parte alta de la pila está randomizada además de un hueco de tamaño aleatorio entre la parte más alta de la pila y el inicio de la pila del usuario.
 
@@ -282,7 +282,7 @@ Debido a problemas de rendimiento, SEGVGUARD está configurado para habilitarse 
 
 === PAGEEXEC and MPROTECT (alias, NOEXEC)===
 
-[https://github.com/HardenedBSD/pax-docs-mirror/blob/master/pageexec.txt PAGEEXEC] y [https://github.com/HardenedBSD/pax-docs-mirror/blob/master/mprotect.txt MPROTECT] componen lo que se conoce comúnmente como W^X (W xor X). EL diseño e implementación en HardenedBSD está inspirado por el de PaX. PAGEEXEC previene a las aplicaciones de crear mapeos de memoria que son a la vez de escritura (W) y ejecución (X) al momento de hacer <code>mmap(2)</code>. MPROTECT previene que las aplicaciones cambien los mapeos de memoria entre escritura y ejecución con <code>mprotect(2)</code>. Combinando los dos PAGEEXEC y MPROTECT se previene que los atacantes ejecuten inyecciones de código, forzando a los atacantes a utilizar técnicas de reuso de código como ROP y sus variantes. Las técnicas de reuso de código son muy difíciles para que sean efectivas, especialmente cuando se presentan y están activas múltiples tecnologías de mitigación de exploits.
+[https://git.hardenedbsd.org/hardenedbsd/pax-docs-mirror/-/blob/master/pageexec.txt PAGEEXEC] y [https://git.hardenedbsd.org/hardenedbsd/pax-docs-mirror/-/blob/master/mprotect.txt MPROTECT] componen lo que se conoce comúnmente como W^X (W xor X). EL diseño e implementación en HardenedBSD está inspirado por el de PaX. PAGEEXEC previene a las aplicaciones de crear mapeos de memoria que son a la vez de escritura (W) y ejecución (X) al momento de hacer <code>mmap(2)</code>. MPROTECT previene que las aplicaciones cambien los mapeos de memoria entre escritura y ejecución con <code>mprotect(2)</code>. Combinando los dos PAGEEXEC y MPROTECT se previene que los atacantes ejecuten inyecciones de código, forzando a los atacantes a utilizar técnicas de reuso de código como ROP y sus variantes. Las técnicas de reuso de código son muy difíciles para que sean efectivas, especialmente cuando se presentan y están activas múltiples tecnologías de mitigación de exploits.
 
 Las caracterísiticas de PAGEEXEC y MPROTECT pueden ser habilitadas con la opción del kernel <code>PAX_NOEXEC</code> y está habilitada por defecto en el kernel <code>HARDENEDBSD</code>. Si también está habilitada la opción </code>PAX_SYSCTLS</code>, dos nuevos nodos sysctl serán creados, y siguen la misma semántica que los sysctl <code>hardening.pax.aslr.status</code>:
 
@@ -488,7 +488,7 @@ Ejemplo de configuración de integriforce:
 
 === Contribuyendo a HardenedBSD ===
 
-HardenedBSD usa GitHub para el control de las fuentes e informes de errores. Los usuarios pueden enviar informes de errores para el código fuente base de HardenedBSD [https://github.com/HardenedBSD/hardenedbsd/issues aquí] y para los puertos [https://github.com/HardenedBSD/hardenedbsd-ports/issues aquí]. Al enviar informes de errores, por favor incluya la siguiente información:
+HardenedBSD usa GitLab para el control de las fuentes e informes de errores. Los usuarios pueden enviar informes de errores para el código fuente base de HardenedBSD [https://git.hardenedbsd.org/hardenedbsd/HardenedBSD/-/issues aquí] y para los puertos [https://git.hardenedbsd.org/hardenedbsd/ports/-/issues aquí]. Al enviar informes de errores, por favor incluya la siguiente información:
 
 * Versión de HardenedBSD
 * Arquitectura
@@ -503,14 +503,11 @@ HardenedBSD usa tres repositorios durante el proceso de desarrollo:
 !Repositorio
 !Propósito
 |-
-| [https://github.com/HardenedBSD/hardenedBSD HardenedBSD]
+| [https://git.hardenedbsd.org/hardenedbsd/HardenedBSD hardened/current/master]
 | Repositorio Maestro de Desarrollo
 |-
-| [https://github.com/HardenedBSD/hardenedBSD-stable HardenedBSD-STABLE]
-| Repositorio Estable (solo-lectura)
-|-
-| [https://github.com/HardenedBSD/hardenedBSD-playground HardenedBSD-Playground]
-| Repositorio altamente experimental y de código de terceros
+| [https://git.hardenedbsd.org/hardenedbsd/HardenedBSD hardened/XX-stable/master]
+| Repositorio Estable
 |}
 
 Ramas de desarrollo de HardenedBSD:
