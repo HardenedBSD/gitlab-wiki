@@ -5,23 +5,22 @@ https://ci-01.nyi.hardenedbsd.org/pub/hardenedbsd/13-stable/amd64/amd64/BUILD-LA
 ### Install
 `# pkg install -y ca_root_nss`
 
-`$ fetch https://ci-01.nyi.hardenedbsd.org/pub/hardenedbsd/13-stable/amd64/amd64/BUILD-LATEST/CHECKSUMS.SHA512`
-
-`$ fetch https://ci-01.nyi.hardenedbsd.org/pub/hardenedbsd/13-stable/amd64/amd64/BUILD-LATEST/memstick.img.asc`
-
-`$ fetch https://ci-01.nyi.hardenedbsd.org/pub/hardenedbsd/13-stable/amd64/amd64/BUILD-LATEST/memstick.img`
+```
+$ fetch https://ci-01.nyi.hardenedbsd.org/pub/hardenedbsd/13-stable/amd64/amd64/BUILD-LATEST/CHECKSUMS.SHA512
+$ fetch https://ci-01.nyi.hardenedbsd.org/pub/hardenedbsd/13-stable/amd64/amd64/BUILD-LATEST/memstick.img.asc
+$ fetch https://ci-01.nyi.hardenedbsd.org/pub/hardenedbsd/13-stable/amd64/amd64/BUILD-LATEST/memstick.img
+```
 
 `# pkg install -y pgpgpg`
 
-`$ gpg --keyserver hkps://zimmermann.mayfirst.org --recv-key 6FFD188D`
+```
+$ gpg --keyserver hkps://zimmermann.mayfirst.org --recv-key 6FFD188D
+$ gpg --fingerprint 6FFD188D
+$ gpg --verify memstick.img.asc memstick.img
+$ if grep "^$(sha512 memstick.img)$" CHECKSUM.SHA512;then echo "OK"; else echo "WARNIG!!";fi
+```
 
-`$ gpg --fingerprint 6FFD188D`
-
-`$ gpg --verify memstick.img.asc memstick.img`
-
-`$ if grep "^$(sha512 memstick.img)$" CHECKSUM.SHA512;then echo "OK"; else echo "WARNIG!!";fi`
-
-`# dd if=memstick.img of=/dev/sda bs=64k`
+`# dd if=memstick.img of=/dev/sdX bs=64k`
 
 
 ### After install
@@ -30,14 +29,14 @@ https://ci-01.nyi.hardenedbsd.org/pub/hardenedbsd/13-stable/amd64/amd64/BUILD-LA
 ``# hbsd-update -V -b `date "+%Y%m%d%H%M%S"` ``
 
 ### Get ports
-`# git clone https://github.com/HardenedBSD/hardenedbsd-ports.git /usr/ports`
+`# git clone --single-branch --branch hardenedbsd/main https://git.hardenedbsd.org/hardenedbsd/ports.git /usr/ports/`
 
-And to maintain alignment of your ports tree with github
+And to maintain alignment of your ports tree
 
 `# cd /usr/ports && git pull`
 
 ### Get src
-`# git clone --single-branch --branch hardenedbsd/main https://git.hardenedbsd.org/hardenedbsd/ports.git /usr/ports/`
+`# git clone --single-branch --branch hardened/13-stable/master https://git.hardenedbsd.org/hardenedbsd/HardenedBSD.git /usr/src`
 
 similarly to maintain your /usr/src (analogous to `svnlite update /usr/src`)
 
