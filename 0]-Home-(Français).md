@@ -45,8 +45,8 @@ HardenedBSD se synchronise avec FreeBSD toutes les six heures.
 Certaines de ces branches, mais pas toutes, sont énumérées ci-dessous :
 
 1. HEAD -> hardened/current/master
-1. stable/11 -> hardened/stable/11
-1. releng/11.2 -> hardened/releng/11.2
+1. stable/13 -> hardened/stable/13
+1. stable/12 -> hardened/stable/12
 
 ## Fonctionnalités
 
@@ -323,7 +323,7 @@ performance (généralement autour de 0,1 %).
 
 Pour être efficace, SafeStack nécessite à la fois l'ASLR et le W^X. HardenedBSD satisfaisant
 à ces deux conditions préalables, SafeStack a été considéré comme un excellent candidat à
-l'inclusion par défaut dans HardenedBSD. A partir de HardenedBSD 11-STABLE, il est activé
+l'inclusion par défaut dans HardenedBSD. A partir de HardenedBSD 12-STABLE, il est activé
 par défaut pour amd64. SafeStack peut être désactivé en définissant
 `WITHOUT_SAFESTACK` dans `src.conf(5)`.
 
@@ -572,7 +572,7 @@ de base dans son ensemble. Ne pas utiliser de deltas entraîne une surcharge de 
 mais est plus facile à maintenir et à mettre en miroir. hbsd-update s'appuie sur des enregistrements TXT signés DNSSEC 
 pour distribuer les informations de version.
 
-Mises à jour pour les branches stables maintenues (12-STABLE, 11-STABLE) proviennent du 
+Mises à jour pour les branches stables maintenues (13-STABLE, 12-STABLE) proviennent du 
 dépôt HardenedBSD-STABLE. Mises à jour pour CURRENT
 (hardened/current/master) proviennent du dépôt HardenedBSD.
 
@@ -590,12 +590,12 @@ branch="hardened/current/master"
 baseurl="http://updates.hardenedbsd.org/pub/HardenedBSD/updates/${branch}/$(uname -m)"
 ```
 
-Et comme autre exemple, le `hbsd-update.conf` pour la branche hardened/11-stable/master du repo HardenedBSD :
+Et comme autre exemple, le `hbsd-update.conf` pour la branche hardened/13-stable/master du repo HardenedBSD :
 
 ```
-dnsrec="$(uname -m).master.11-stable.hardened.hardenedbsd.updates.hardenedbsd.org"
+dnsrec="$(uname -m).master.13-stable.hardened.hardenedbsd.updates.hardenedbsd.org"
 capath="/usr/share/keys/hbsd-update/trusted"
-branch="hardened/11-stable/master"
+branch="hardened/13-stable/master"
 baseurl="http://updates.hardenedbsd.org/pub/HardenedBSD/updates/${branch}/$(uname -m)"
 ```
 
@@ -603,13 +603,13 @@ Ainsi, la génération d'une différence entre les deux fichiers de configuratio
 
 ```
 --- hbsd-update_current.conf	2017-07-21 20:08:22.153616000 -0400
-+++ hbsd-update_11-stable.conf	2017-07-21 20:08:38.003508000 -0400
++++ hbsd-update_13-stable.conf	2017-07-21 20:08:38.003508000 -0400
 @@ -1,4 +1,4 @@
 -dnsrec="$(uname -m).master.current.hardened.hardenedbsd.updates.hardenedbsd.org"
-+dnsrec="$(uname -m).master.11-stable.hardened.hardenedbsd.updates.hardenedbsd.org"
++dnsrec="$(uname -m).master.13-stable.hardened.hardenedbsd.updates.hardenedbsd.org"
  capath="/usr/share/keys/hbsd-update/trusted"
 -branch="hardened/current/master"
-+branch="hardened/11-stable/master"
++branch="hardened/13-stable/master"
  baseurl="http://updates.hardenedbsd.org/pub/HardenedBSD/updates/${branch}/$(uname -m)"
 ```
 
