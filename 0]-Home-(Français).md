@@ -45,8 +45,8 @@ HardenedBSD se synchronise avec FreeBSD toutes les six heures.
 Certaines de ces branches, mais pas toutes, sont énumérées ci-dessous :
 
 1. HEAD -> hardened/current/master
-1. stable/13 -> hardened/stable/13
-1. stable/12 -> hardened/stable/12
+1. stable/13 -> hardened/13-stable/master
+1. stable/12 -> hardened/12-stable/master
 
 ## Fonctionnalités
 
@@ -121,6 +121,8 @@ lorsque `PAX_HARDENING` est activé dans le noyau :
 | kern.msgbuf_show_timestamp            | Afficher l'horodatage dans msgbuf                                              | Entier | 0              | 1                                       |
 | kern.randompid                        | PID aléatoire                                                                  | Entier | 0, lecture+écriture  | Aléa au démarrage et en lecture seule   |
 | net.inet.ip.random_id                 | Attribuer des valeurs ID IP aléatoires                                         | Entier | 0              | 1                                       |
+| net.inet.tcp.blackhole                | Ne pas envoyer de RST sur des segments vers des ports fermés                                    | Integer | 0              | 2                                       |
+| net.inet.udp.blackhole                | Ne pas envoyer de port unreachable pour les connexions refusées                             | Integer | 0              | 2                                       |
 | net.inet6.ip6.use_deprecated          | Permettre l'utilisation d'adresses dont la durée de vie préférée a expiré      | Entier | 1              |  0                                      |
 | net.inet6.ip6.use_tempaddr            | Utiliser les adresses IPv6 temporaires avec SLAAC                              | Entier | 0              | 1                                       |
 | net.inet6.ip6.prefer_tempaddr         | Préfère l'adresse IPv6 temporaire générée en dernier                           | Entier | 0              | 1                                       |
@@ -250,8 +252,7 @@ L'option de noyau pour PaX SEGVGUARD est:
 options PAX_SEGVGUARD
 ```
 
-Pour des raisons de performance, SEGVGUARD est réglé par défaut sur l'option d'acceptation.
-SEGVGUARD peut être réglé sur l'option refus en mettant la valeur sysctl `hardening.pax.segvguard.status` à 2.
+SEGVGUARD peut être configuré en modifiant la valeur `hardening.pax.segvguard` via sysctl.
 
 ## PAGEEXEC et MPROTECT (alias, NOEXEC)
 
@@ -551,16 +552,14 @@ HardenedBSD utilise trois dépôts pendant le processus de développement :
 | Dépôt		| Objectif						|
 |-----------------------|-------------------------------------------------------|
 | [hardened/current/master](https://git.hardenedbsd.org/hardenedbsd/HardenedBSD/-/tree/hardened/current/master)		| Dépôt principal de développement				|
-| [hardened/13-stable/master](https://git.hardenedbsd.org/hardenedbsd/HardenedBSD/-/tree/hardened/13-stable/master)	| Dépôt pour la version stable 13 |
-| [hardened/12-stable/master](https://git.hardenedbsd.org/hardenedbsd/HardenedBSD/-/tree/hardened/12-stable/master)	| Dépôt pour la version stable 13 |
 
 Branches de développement HardenedBSD :
 
 | Branche           			| Dépôt		| Mises à jour binaires| Objectif						|
 |---------------------------------------|-----------------------|---------------|-------------------------------------------------------|
 | hardened/current/master		| HardenedBSD		| amd64, arm64	| Branche principale de développement (14-CURRENT)			|
-| hardened/13-stable/master		| HardenedBSD		| amd64		| développement 13-STABLE					|
-| hardened/12-stable/master		| HardenedBSD		| amd64		| développement 12-STABLE 					|
+| hardened/13-stable/master		| HardenedBSD		| amd64		| développement pour 13-STABLE					|
+| hardened/12-stable/master		| HardenedBSD		| amd64		| développement pour 12-STABLE 					|
 
 ## Mise à jour de HardenedBSD
 
