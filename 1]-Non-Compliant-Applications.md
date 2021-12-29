@@ -6,6 +6,7 @@ something like:
 
 | Port | Path | Incompatibility |
 |------|------|-----------------|
+| security/snort3 | /opt/snort/bin/snort | disable_map32bit |
 | www/chromium | /usr/local/share/chromium/chrome | mprotect, pageexec |
 | www/firefox | /usr/local/lib/firefox/firefox | mprotect |
 | www/firefox | /usr/local/lib/firefox/plugin-container | mprotect, pageexec |
