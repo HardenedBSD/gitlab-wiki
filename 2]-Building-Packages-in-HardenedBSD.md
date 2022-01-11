@@ -34,7 +34,7 @@ reference our ports tree.
     /usr/ports
 # mkdir -p /usr/local/etc/poudriere.d/ports/local
 # echo > /usr/local/etc/poudriere.d/ports/local/method
-# echo /usr/ports > /usr/local/etc/poudreire.d/ports/local/mnt
+# echo /usr/ports > /usr/local/etc/poudriere.d/ports/local/mnt
 ```
 
 Once this is done, you should be able to run ```poudriere ports -l```
@@ -57,9 +57,9 @@ In our setup, we assume that the system has a fully populated
 `/usr/src`. We assume that ```make buildworld``` has been
 performed previously and successfully.
 
-If not, then follow these steps if on 12-STABLE:
+If not, then follow these steps if on 13-STABLE:
 
-When running the 12-stable release the kernel ABI can change without extra notices.
+When running the 13-stable release the kernel ABI can change without extra notices.
 Building the world from the most recent commit will usually mean that your buildworld is ahead of your installed system. This will result in things breaking and kernel modules not loading, you don't want this.
 
 To make sure this doesn't happen we first check the commit version of the running system with
@@ -78,14 +78,14 @@ sidenote always try to avoid running programs as root while connecting to the In
 ```
 # mkdir /usr/src
 # chown <user>:wheel /usr/src
-~ git clone --branch hardened/12-stable/master https://github.com/HardenedBSD/hardenedBSD.git /usr/src
+~ git clone --branch hardened/13-stable/master https://github.com/HardenedBSD/hardenedBSD.git /usr/src
 ~ cd /usr/src
-~ git checkout fb193275a276c540d1890a279e20e4515dd26aa2 .
+~ git checkout fb193275a276c540d1890a279e20e4515dd26aa2
 ```
 
 for reference here is how to sync from the official HardenedBSD repo
 ```
-~ git clone --branch hardened/12-stable/master https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD.git /usr/src
+~ git clone --branch hardened/13-stable/master https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD.git /usr/src
 
 ```
 
@@ -129,6 +129,11 @@ Then start poudriere in bulk mode.
 ```
 # echo 'ports-mgmr/pkg' > /usr/local/etc/poudriere.d/port-list
 # poudriere bulk -j stable_amd64 -p local -f /usr/local/etc/poudriere.d/port-list
+```
+
+If you get an error "Error: DISTFILES_CACHE directory does not exist." you should probably adapt this:
+```
+zfs create -o compression=off -o exec=off -o setuid=off zroot/usr/ports/distfiles
 ```
 
 If you run into issues take a look at the reference poudriere.conf file below.
