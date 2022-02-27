@@ -194,7 +194,7 @@ il doit être égal à "soft" ou "hard". Le mode doux signifie que
 l'exécution est autorisée si les hachages ne correspondent pas, mais
 un message d'avertissement est imprimé. Le mode dur affiche un
 message d'erreur et interdit l'exécution.
-1. files (tableau d'objets) : Chaque objet doit contenir les
+1. fichiers (tableau d'objets) : Chaque objet doit contenir les
 champs suivants :
    1. path (chaîne) : Le chemin vers l'exécutable.
    1. hash (chaîne) : Le hachage (sha1 ou sha256) de l'exécutable.
