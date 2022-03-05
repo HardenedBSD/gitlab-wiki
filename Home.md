@@ -673,6 +673,22 @@ You can follow the building of the packages from the following links:
 * [14-CURRENT/amd64 package builder](http://ci-08.md.hardenedbsd.org/)
 * [14-CURRENT/arm64 package builder](http://tx-01.md.hardenedbsd.org/)
 
+Another detail, HardenedBSD has some ports that FreeBSD does not have, here is the list:
+- hardenedbsd/hardenedbsd-meta
+- hardenedbsd/hbsdmon
+- hardenedbsd/liblattutil
+- hardenedbsd/secadm
+- hardenedbsd/secadm-kmod
+- hardenedbsd/testmprotect
+- hardenedbsd/testpie
+- net/libpushover
+- security/gibson
+- security/paxtest
+- sysutils/cbsd-plugin-wsqueue
+- sysutils/clonos-ws
+- www/clonos
+- x11/station-tweak
+
 # Updating HardenedBSD
 
 HardenedBSD does not use
