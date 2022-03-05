@@ -611,6 +611,40 @@ Branches de développement HardenedBSD :
 | hardened/13-stable/master		| HardenedBSD		| amd64		| développement pour 13-STABLE					|
 | hardened/12-stable/master		| HardenedBSD		| amd64		| développement pour 12-STABLE 					|
 
+# Collection de ports et de paquets
+
+Les Ports et Paquets HardenedBSD offrent un moyen simple d'installer des applications.
+
+Le catalogue des logiciels portés vit en dehors du contexte de l'OS de base.
+Nous synchronisons automatiquement toutes les six heures avec FreeBSD.
+Pour 12-stable, 13-stable et 14-current il n'y a qu'une seule branche git dédiée aux ports, à savoir : "[hardenedbsd/main](https://git.hardenedbsd.org/hardenedbsd/ports/-/tree/hardenedbsd/main)"
+
+Nous ne soutenons pas [les branches trimestrielles des ports de FreeBSD](https://wiki.freebsd.org/Ports/QuarterlyBranch) parce que nous n'avons pas une équipe de portage spécifiquement chargée de suivre les correctifs de sécurité de backporting pour tous les ports de l'arbre.
+
+Les dépôts de paquets sont construits à partir du dépôt de ports.
+Les ports sont généralement plus à jour que les paquets en raison du temps de construction nécessaire pour produire les paquets. 
+Vous pouvez suivre la construction des paquets à partir des liens suivants :
+* [constructeur de paquets 12-STABLE/amd64](http://ci-04.md.hardenedbsd.org/)
+* [constructeur de paquets 13-STABLE/amd64](http://ci-03.md.hardenedbsd.org/)
+* [constructeur de paquets 14-CURRENT/amd64](http://ci-08.md.hardenedbsd.org/)
+* [constructeur de paquets 14-CURRENT/arm64](http://tx-01.md.hardenedbsd.org/)
+
+Un autre détail, HardenedBSD a quelques ports que FreeBSD n'a pas, voici la liste :
+- hardenedbsd/hardenedbsd-meta
+- hardenedbsd/hbsdmon
+- hardenedbsd/liblattutil
+- hardenedbsd/secadm
+- hardenedbsd/secadm-kmod
+- hardenedbsd/testmprotect
+- hardenedbsd/testpie
+- net/libpushover
+- security/gibson
+- security/paxtest
+- sysutils/cbsd-plugin-wsqueue
+- sysutils/clonos-ws
+- www/clonos
+- x11/station-tweak
+
 # Mise à jour de HardenedBSD
 
 HardenedBSD n'utilise pas
