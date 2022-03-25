@@ -19,7 +19,7 @@ The Ports Tree
 
 HardenedBSD maintains its own ports repository. We've added a special
 hardening framework, which is easy to extend. The ports tree is on
-[Gitea](https://git-01.md.hardenedbsd.org/HardenedBSD/hardenedbsd-ports). The ports
+[Gitlab](https://git.hardenedbsd.org/hardenedbsd/ports). The ports
 tree is synced every six hours with FreeBSD's. We resolve the
 occasional merge conflicts usually within a twenty-four to forty-eight
 hour period.
@@ -30,8 +30,7 @@ ourselves. We've configured Poudriere to use the name ```local``` to
 reference our ports tree.
 
 ```
-# git clone https://git-01.md.hardenedbsd.org/HardenedBSD/hardenedbsd-ports.git \
-    /usr/ports
+# git clone https://git.hardenedbsd.org/hardenedbsd/ports.git /usr/ports
 # mkdir -p /usr/local/etc/poudriere.d/ports/local
 # echo > /usr/local/etc/poudriere.d/ports/local/method
 # echo /usr/ports > /usr/local/etc/poudriere.d/ports/local/mnt
@@ -85,7 +84,7 @@ sidenote always try to avoid running programs as root while connecting to the In
 
 for reference here is how to sync from the official HardenedBSD repo
 ```
-~ git clone --branch hardened/13-stable/master https://git-01.md.hardenedbsd.org/HardenedBSD/HardenedBSD.git /usr/src
+~ git clone --branch hardened/13-stable/master https://git.hardenedbsd.org/hardenedbsd/HardenedBSD.git /usr/src
 
 ```
 
@@ -131,9 +130,9 @@ Then start poudriere in bulk mode.
 # poudriere bulk -j stable_amd64 -p local -f /usr/local/etc/poudriere.d/port-list
 ```
 
-If you get an error "Error: DISTFILES_CACHE directory does not exist." you should probably adapt this:
+If you get an error "Error: DISTFILES_CACHE directory does not exist.":
 ```
-zfs create -o compression=off -o exec=off -o setuid=off zroot/usr/ports/distfiles
+mkdir -p /usr/ports/distfiles
 ```
 
 If you run into issues take a look at the reference poudriere.conf file below.
