@@ -126,7 +126,7 @@ Now as a test try building the pkg package with poudriere.
 First create a file which lists ports that you want to compile and package.
 Then start poudriere in bulk mode.
 ```
-# echo 'ports-mgmr/pkg' > /usr/local/etc/poudriere.d/port-list
+# echo 'ports-mgmt/pkg' > /usr/local/etc/poudriere.d/port-list
 # poudriere bulk -j stable_amd64 -p local -f /usr/local/etc/poudriere.d/port-list
 ```
 
