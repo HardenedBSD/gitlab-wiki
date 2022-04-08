@@ -138,6 +138,22 @@ when `PAX_HARDENING` is enabled in the kernel:
 | security.bsd.unprivileged_proc_debug  | Unprivileged processes may use process debugging and tracing facilities        | Integer | 1              | 0                                       |
 | security.bsd.unprivileged_read_msgbuf | Unprivileged processes may read the kernel message buffer                      | Integer | 1              | 0                                       |
 
+## Untrusted/Insecure Kernel Modules
+
+HardenedBSD marks certain kernel modules as untrustworthy. In order to load a kernel module deemed untrustworthy, the `hardening.insecure_kmod` sysctl node needs to be set to `1`. When the `PAX_HARDENING` kernel option is set, the sysctl node is set to `0` by default (meaning: prohibit loading of untrusted kernel modules). Otherwise, it's set to `1`.
+
+If an untrusted kernel module is loaded via `loader.conf(5)`, the kernel module is still loaded. Users are encouraged to use the `kld_list` option in `rc.conf(5)` to load optional kernel modules rather than `loader.conf(5)`. Kernel modules marked as untrusted can still be compiled directly into the kernel.
+
+Kernel modules currently marked as untrusted:
+
+1. accf_dns
+1. accf_http
+1. lindebugfs
+1. linux
+1. linux64
+1. linux_common
+1. smbfs
+
 # Address Space Layout Randomization (ASLR)
 
 ASLR randomizes the layout of the virtual address space of a process
