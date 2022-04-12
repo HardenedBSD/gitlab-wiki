@@ -148,6 +148,7 @@ Kernel modules currently marked as untrusted:
 
 1. accf_dns
 1. accf_http
+1. fusefs
 1. lindebugfs
 1. linux
 1. linux64
