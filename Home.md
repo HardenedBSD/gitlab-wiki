@@ -670,7 +670,6 @@ HardenedBSD development branches:
 |---------------------------------------|-----------------------|---------------|-------------------------------------------------------|
 | hardened/current/master		| HardenedBSD		| amd64, arm64	| Main development branch (14-CURRENT)			|
 | hardened/13-stable/master		| HardenedBSD		| amd64		| 13-STABLE development					|
-| hardened/12-stable/master		| HardenedBSD		| amd64		| 12-STABLE development					|
 
 # Ports and Packages Collection
 
@@ -685,7 +684,6 @@ We don't support [FreeBSD's quarterly ports branches](https://wiki.freebsd.org/P
 The package repos are built from the ports repo.
 Ports are generally more up to date than packages due to the build time required to produce the packages. 
 You can follow the building of the packages from the following links:
-* [12-STABLE/amd64 package builder](http://ci-04.md.hardenedbsd.org/)
 * [13-STABLE/amd64 package builder](http://ci-03.md.hardenedbsd.org/)
 * [14-CURRENT/amd64 package builder](http://ci-08.md.hardenedbsd.org/)
 * [14-CURRENT/arm64 package builder](http://tx-01.md.hardenedbsd.org/)
