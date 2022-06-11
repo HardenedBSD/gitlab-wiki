@@ -64,6 +64,7 @@ HardenedBSD has successfully implemented the following features:
 1. Retpoline applied to base and ports
 1. Variable auto-init applied to base and ports
 1. Link-Time Optimizations (LTO) applied to both apps and libs
+1. Hardening of the runtime linker (RTLD)
 
 # Generic Kernel Options
 
@@ -154,6 +155,30 @@ Kernel modules currently marked as untrusted:
 1. linux64
 1. linux_common
 1. smbfs
+
+## RTLD Hardening
+
+When the `hardening.harden_rtld` sysctl tunable is set, the behavior
+of the runtime linker is modified:
+
+1. `LD_PRELOAD` is disabled.
+1. Sensitive environment variables that control the behavior of the
+   RTLD are scrubbed.
+   * `LD_PRELOAD`
+   * `LD_LIBMAP`
+   * `LD_LIBRARY_PATH`
+   * `LD_LIBRARY_PATH_FDS`
+   * `LD_LIBMAP_DISABLE`
+   * `LD_BIND_NOT`
+   * `LD_DEBUG`
+   * `LD_ELF_HINTS_PATH`
+   * `LD_LOADFLTR`
+   * `LD_LIBRARY_PATH_RPATH`
+   * `LD_PRELOAD_FDS`
+   * `LD_DYNAMIC_WEAK`
+1. The RTLD cannot directly execute dynamically-linked executables.
+1. Tracing loaded objects is prohibited. This directly impacts
+   `ldd(1)`, which will provide no output.
 
 # Address Space Layout Randomization (ASLR)
 
