@@ -716,6 +716,7 @@ You can follow the building of the packages from the following links:
 Another detail, HardenedBSD has some ports that FreeBSD does not have, here is the list:
 - hardenedbsd/hardenedbsd-meta
 - hardenedbsd/hbsdmon
+- hardenedbsd/kernel-nodebug
 - hardenedbsd/liblattutil
 - hardenedbsd/secadm
 - hardenedbsd/secadm-kmod
@@ -726,6 +727,7 @@ Another detail, HardenedBSD has some ports that FreeBSD does not have, here is t
 - security/paxtest
 - sysutils/cbsd-plugin-wsqueue
 - sysutils/clonos-ws
+- sysutils/pc-sysinstall
 - www/clonos
 - x11/station-tweak
 
