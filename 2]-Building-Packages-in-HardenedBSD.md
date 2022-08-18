@@ -127,6 +127,7 @@ First create a file which lists ports that you want to compile and package.
 Then start poudriere in bulk mode.
 ```
 # echo 'ports-mgmt/pkg' > /usr/local/etc/poudriere.d/port-list
+# sysctl hardening.harden_rtld=0
 # poudriere bulk -j stable_amd64 -p local -f /usr/local/etc/poudriere.d/port-list
 ```
 
@@ -306,7 +307,7 @@ URL_BASE=http:// <your custom domain here> /
 USE_COLORS=no
 
 #This is the only HardenedBSD specific part when comparing to FreeBSD setups.
-JAIL_PARAMS="hardening.pax.aslr.status=1 hardening.pax.pageexec.status=1 hardening.pax.mprotect.status=1 hardening.pax.disallow_map32bit.status=1 hardening.pax.segvguard.status=1 allow.unprivileged_proc_debug=1"
+JAIL_PARAMS="hardening.pax.aslr.status=1 hardening.pax.pageexec.status=1 hardening.pax.mprotect.status=1 hardening.pax.disallow_map32bit.status=1 hardening.pax.segvguard.status=1 allow.unprivileged_proc_debug=1 hardening.harden_rtld=0"
 
 BUILD_AS_NON_ROOT=no
 
