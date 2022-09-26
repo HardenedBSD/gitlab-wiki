@@ -714,6 +714,7 @@ You can follow the building of the packages from the following links:
 * [14-CURRENT/arm64 package builder](http://tx-01.md.hardenedbsd.org/)
 
 Another detail, HardenedBSD has some ports that FreeBSD does not have, here is the list:
+- games/scratch
 - hardenedbsd/hardenedbsd-meta
 - hardenedbsd/hbsdmon
 - hardenedbsd/kernel-nodebug
