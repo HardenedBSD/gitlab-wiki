@@ -106,6 +106,10 @@ users. Attempting to list kernel modules using `modfind(2)`,
 `kldfind(2)`, and other KLD-related system calls will result in
 permission denied if used by a non-root or jailed user.
 
+When the `hardening.pax.kmod_load_disable` sysctl tunable is set to a value
+greater than 0, loading kernel modules is prohibited. A reboot is required to
+set `hardening.pax.kmod_load_disable` back to 0.
+
 `kenv(1)` has been hardened to only allow access from privileged,
 non-jailed processes.
 
