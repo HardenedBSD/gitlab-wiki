@@ -126,6 +126,7 @@ when `PAX_HARDENING` is enabled in the kernel:
 
 |                  Node                 |                                   Description                                  |   Type  | Original Value |              Hardened Value             |
 |:-------------------------------------:|:------------------------------------------------------------------------------:|:-------:|:--------------:|:---------------------------------------:|
+| kern.coredump                         | Enable/Disable coredumps                                                       | Integer | 1              | 0                                       |
 | kern.msgbuf_show_timestamp            | Show timestamp in msgbuf                                                       | Integer | 0              | 1                                       |
 | kern.randompid                        | Random PID Modulus                                                             | Integer | 0, read+write  | Randomly set at boot and made read-only |
 | machdep.efi_map                       | Dump EFI physical-to-virtual mappings, infoleak as feature                     | String  | Available to all | Available only to unjailed privileged process |
