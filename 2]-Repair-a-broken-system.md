@@ -21,7 +21,7 @@ This presents a way to repair a damaged HardenedBSD system with the installation
 1. Repair HardenedBSD ([hash link for hbsd-update](http://updates.hardenedbsd.org/pub/HardenedBSD/updates/hardened/)):
 ```
 chroot /tmp/root /bin/sh
-hbsd-update -d -V -v UPDATE-HASH
+hbsd-update -d -V -U -v hbsd-v1x0000x-UPDATE-HASH
 exit
 ```
 
