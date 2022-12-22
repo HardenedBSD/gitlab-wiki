@@ -96,7 +96,7 @@ Here's the config file I use for my home infrastructure:
 ```
 dnsrec=""
 capath="/usr/share/keys/hbsd-update/trusted"
-baseurl="http://hbsd-build-02.ip6.home.lan/updates/current"
+baseurl="http://hbsd-build-02.ip6.home.lan/updates"
 dnssec="no"
 unsigned=1
 ```
