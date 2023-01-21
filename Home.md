@@ -190,6 +190,11 @@ of the runtime linker is modified:
 1. Tracing loaded objects is prohibited. This directly impacts
    `ldd(1)`, which will provide no output.
 
+RTLD hardening can cause issues when building applications/libraries. During the
+build process, it is recommended to disable RTLD hardening in case of failure.
+When using Poudriere, adding `hardening.harden_rtld=0` to the `JAIL_PARAMS`
+configuration variable is sufficient.
+
 # Address Space Layout Randomization (ASLR)
 
 ASLR randomizes the layout of the virtual address space of a process
