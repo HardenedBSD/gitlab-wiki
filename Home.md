@@ -65,6 +65,7 @@ HardenedBSD has successfully implemented the following features:
 1. Variable auto-init applied to base and ports
 1. Link-Time Optimizations (LTO) applied to both apps and libs
 1. Hardening of the runtime linker (RTLD)
+1. Kernel malloc hardening
 
 # Generic Kernel Options
 
@@ -112,6 +113,10 @@ set `hardening.pax.kmod_load_disable` back to 0.
 
 `kenv(1)` has been hardened to only allow access from privileged,
 non-jailed processes.
+
+The `hardening.kmalloc_zero` sysctl tunable, when set to a non-zero value,
+causes all kernel heap allocations created by `malloc(9)` to be zeroed.
+Additionally, the `PAX_HARDEN_KMALLOC` kernel option enables this by default.
 
 FreeBSD introduced the ability to dump non-dumpable mappings.
 HardenedBSD does not permit such behavior.
