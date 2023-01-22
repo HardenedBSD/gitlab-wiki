@@ -124,6 +124,15 @@ HardenedBSD does not permit such behavior.
 jemalloc in HardenedBSD has been set to zero new allocations by
 default.
 
+Process tracing (`ptrace`) is hardened:
+
+* Process tracing facility itself is disabled by default
+  (`security.bsd.allow_ptrace=0`).
+* Unpriviledged process debugging is prohibited by default
+  (`security.bsd.unprivileged_proc_debug=0`).
+* Remote syscall functionality (`ptrace(PT_SC_REMOTE)`) is prohibited by
+  default.
+
 ## Modified sysctl Nodes
 
 These are the nodes that are modified from their original defaults
