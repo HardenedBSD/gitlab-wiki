@@ -31,7 +31,8 @@ strongest form of ASLR in any of the BSDs. Since then, HardenedBSD has
 moved on to implementing other exploit mitigations and hardening
 technologies. OPNsense, an open source firewall based on FreeBSD,
 incorporated HardenedBSD's ASLR implementation in 2016. OPNsense
-completed their migration to HardenedBSD on 31 January 2019.
+completed their migration to HardenedBSD on 31 January 2019. In April 2021,
+OPNsense switched back to FreeBSD.
 
 HardenedBSD exists today as a fork of FreeBSD that closely follow's
 FreeBSD's source code. HardenedBSD syncs with FreeBSD every six hours.
@@ -115,8 +116,9 @@ set `hardening.pax.kmod_load_disable` back to 0.
 non-jailed processes.
 
 The `hardening.kmalloc_zero` sysctl tunable, when set to a non-zero value,
-causes all kernel heap allocations created by `malloc(9)` to be zeroed.
-Additionally, the `PAX_HARDEN_KMALLOC` kernel option enables this by default.
+causes all kernel heap allocations created and freed by `malloc(9)` to be
+zeroed.  Additionally, the `PAX_HARDEN_KMALLOC` kernel option enables this by
+default.
 
 FreeBSD introduced the ability to dump non-dumpable mappings.
 HardenedBSD does not permit such behavior.
