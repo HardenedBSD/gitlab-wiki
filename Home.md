@@ -135,6 +135,8 @@ Process tracing (`ptrace`) is hardened:
 * Remote syscall functionality (`ptrace(PT_SC_REMOTE)`) is prohibited by
   default.
 
+`uuidgen(1)` defaults to generating UUIDv4 identifiers.
+
 ## Modified sysctl Nodes
 
 These are the nodes that are modified from their original defaults
