@@ -40,7 +40,6 @@ Some of the branches, but not all, are listed below:
 
 1. HEAD -> hardened/current/master
 1. stable/13 -> hardened/13-stable/master
-1. stable/12 -> hardened/12-stable/master
 
 # Features
 
@@ -151,6 +150,7 @@ when `PAX_HARDENING` is enabled in the kernel:
 | net.inet.ip.random_id                 | Assign random IP ID values                                                     | Integer | 0              | 1                                       |
 | net.inet.tcp.blackhole                | Do not send RST on segments to closed ports                                    | Integer | 0              | 2                                       |
 | net.inet.udp.blackhole                | Do not send port unreachables for refused connects                             | Integer | 0              | 2                                       |
+| net.inet6.icmp6.nodeinfo              | Mask of enabled RFC4620 node information query types                           | Integer | 3              | 0                                       |
 | net.inet6.ip6.use_deprecated          | Allow the use of addresses whose preferred lifetimes have expired              | Integer | 1              | 0                                       |
 | net.inet6.ip6.use_tempaddr            | Use IPv6 temporary addresses with SLAAC                                        | Integer | 0              | 1                                       |
 | net.inet6.ip6.prefer_tempaddr         | Prefer IPv6 temporary address generated last                                   | Integer | 0              | 1                                       |
@@ -207,6 +207,10 @@ RTLD hardening can cause issues when building applications/libraries. During the
 build process, it is recommended to disable RTLD hardening in case of failure.
 When using Poudriere, adding `hardening.harden_rtld=0` to the `JAIL_PARAMS`
 configuration variable is sufficient.
+
+Some applications, like LibreOffice, (ab)use `LD_LIBRARY_PATH`. Applications
+needing to make use scrubbed environment variables require that the
+`hardening.harden_rtld` sysctl node be set to `0`.
 
 # Address Space Layout Randomization (ASLR)
 
@@ -730,16 +734,14 @@ The HardenedBSD Ports and Packages offers a simple way to install applications.
 
 The Ports Collection lives outside the context of the base OS.
 We automatically sync every six hours with FreeBSD.
-For 12-stable, 13-stable and 14-current there is only one git branch dedicated to ports, namely: "[hardenedbsd/main](https://git.hardenedbsd.org/hardenedbsd/ports/-/tree/hardenedbsd/main)"
+For 13-stable and 14-current there is only one git branch dedicated to ports, namely: "[hardenedbsd/main](https://git.hardenedbsd.org/hardenedbsd/ports/-/tree/hardenedbsd/main)"
 
 We don't support [FreeBSD's quarterly ports branches](https://wiki.freebsd.org/Ports/QuarterlyBranch) because we don't have a ports team specifically to track backporting security fixes for all the ports in the tree.
 
 The package repos are built from the ports repo.
 Ports are generally more up to date than packages due to the build time required to produce the packages. 
 You can follow the building of the packages from the following links:
-* [13-STABLE/amd64 package builder](http://ci-03.md.hardenedbsd.org/)
-* [14-CURRENT/amd64 package builder](http://ci-08.md.hardenedbsd.org/)
-* [14-CURRENT/arm64 package builder](http://tx-01.md.hardenedbsd.org/)
+* [13-STABLE/amd64 package builder](https://hbsd-pkg-13-stable-01.hardenedbsd.org/)
 
 Another detail, HardenedBSD has some ports that FreeBSD does not have, here is the list:
 - games/scratch
