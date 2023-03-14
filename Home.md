@@ -136,6 +136,9 @@ Process tracing (`ptrace`) is hardened:
 
 `uuidgen(1)` defaults to generating UUIDv4 identifiers.
 
+TTY pushback vulnerabilities are mitigated by virtue of a new
+`harden.harden_tty` sysctl node, defaulted to `1` (enabled).
+
 ## Modified sysctl Nodes
 
 These are the nodes that are modified from their original defaults
