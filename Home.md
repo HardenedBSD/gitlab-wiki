@@ -139,6 +139,9 @@ Process tracing (`ptrace`) is hardened:
 TTY pushback vulnerabilities are mitigated by virtue of a new
 `harden.harden_tty` sysctl node, defaulted to `1` (enabled).
 
+Default packet TTL values are randomly generated at boot time to prevent
+information disclosure and fingerprinting attacks.
+
 ## Modified sysctl Nodes
 
 These are the nodes that are modified from their original defaults
@@ -164,6 +167,7 @@ when `PAX_HARDENING` is enabled in the kernel:
 | security.bsd.stack_guard_page         | Insert stack guard page ahead of the growable segments                         | Integer | 0              | 1                                       |
 | security.bsd.unprivileged_proc_debug  | Unprivileged processes may use process debugging and tracing facilities        | Integer | 1              | 0                                       |
 | security.bsd.unprivileged_read_msgbuf | Unprivileged processes may read the kernel message buffer                      | Integer | 1              | 0                                       |
+| net.inet.ip.ttl                       | Maximum TTL on IP packets                                                      | Integer | 64             | Randomly set at boot                    |
 
 ## Untrusted/Insecure Kernel Modules
 
