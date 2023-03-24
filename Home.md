@@ -140,7 +140,8 @@ TTY pushback vulnerabilities are mitigated by virtue of a new
 `harden.harden_tty` sysctl node, defaulted to `1` (enabled).
 
 Default packet TTL values are randomly generated at boot time to prevent
-information disclosure and fingerprinting attacks.
+information disclosure and fingerprinting attacks. The random value will be
+between 33 and 255, inclusive.
 
 ## Modified sysctl Nodes
 
