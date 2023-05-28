@@ -66,6 +66,7 @@ HardenedBSD has successfully implemented the following features:
 1. Link-Time Optimizations (LTO) applied to both apps and libs
 1. Hardening of the runtime linker (RTLD)
 1. Kernel malloc hardening
+1. Shared memory hardening
 
 # Generic Kernel Options
 
@@ -142,6 +143,21 @@ TTY pushback vulnerabilities are mitigated by virtue of a new
 Default packet TTL values are randomly generated at boot time to prevent
 information disclosure and fingerprinting attacks. The random value will be
 between 33 and 255, inclusive.
+
+## Shared Memory (SHM) Hardening
+
+Shared memory (SHM) hardening places restrictions on what can be done with the
+shared memory subsystem (see `shm_open(2)`.) Use of
+`shm_open(2)/__sys_shm_open2` system calls is prohibited when:
+
+1. The `hardening.harden_shm` sysctl tunable is enabled;
+2. The process has not opted out of the feature;
+3. The process has entered into capability mode
+
+A post-exploitation technique becoming more commonplace is to abuse
+`memfd_create(2)` to create memory-backed file descriptors. These file
+descriptors can be used with `fdlopen(3)` to load and execute a shared object
+file using anonymous memory mappings, making forensics more difficult.
 
 ## Modified sysctl Nodes
 
