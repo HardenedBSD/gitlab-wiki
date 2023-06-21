@@ -134,6 +134,8 @@ Process tracing (`ptrace`) is hardened:
   (`security.bsd.unprivileged_proc_debug=0`).
 * Remote syscall functionality (`ptrace(PT_SC_REMOTE)`) is prohibited by
   default.
+* Capability mode-enabled processes are prohibited targets by default
+  (`hardening.prohibit_ptrace_capsicum=2`).
 
 `uuidgen(1)` defaults to generating UUIDv4 identifiers.
 
